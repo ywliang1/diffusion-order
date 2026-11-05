@@ -3,12 +3,12 @@ import re
 
 
 def pool(tokenizer, mask_id, minimum=200):
-    candidates=[]
+    candidates=[]; seen=set()
     for token_id in range(len(tokenizer)):
         if token_id == mask_id: continue
         word=tokenizer.decode([token_id],skip_special_tokens=False)
-        if re.fullmatch(r'[a-z]{3,9}',word) and word not in candidates:
-            candidates.append(word)
+        if re.fullmatch(r'[a-z]{3,9}',word) and len(tokenizer.encode(' '+word,add_special_tokens=False))==1 and word not in seen:
+            candidates.append(word);seen.add(word)
     if len(candidates)<minimum: raise ValueError(f'only {len(candidates)} plain alphabetic single tokens')
     return candidates
 

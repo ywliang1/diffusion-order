@@ -17,7 +17,7 @@ def load_model(name,gpu):
 
 def instruction(source,condition=None,copy=False):
     if copy:
-        return f'Return only the JSON object with fields a and b; no explanation. Copy the values.\nInput: a={source["A"]}; b={source["B"]}'
+        return CFG['copy_prompt_template'].format(A=source['A'],B=source['B']).strip()
     t=tables(source,condition,CFG['seed'])
     return CFG['prompt_template'].format(tables=t,target=source['rows'][source['target']]['q'])
 

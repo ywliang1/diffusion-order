@@ -21,3 +21,6 @@ prompt_template: |
   Target key: {target}
   Return only the JSON object with fields a and b; no explanation.
 output_template: '{"a":"<MASK>","b":"<MASK>"}'
+copy_prompt_template: |
+  Return only the JSON object with fields a and b; no explanation. Copy the values.
+  Input: a={A}; b={B}
