@@ -1,10 +1,10 @@
 # Phase 1 state
 
-Current step: LLaDA G1 passed after Exp 1; Dream final G0 recovery check running. Next: commit the pre-Exp-2 code and launch detached supervisors.
+Current step: Exp 2 and Exp 3 on both models. Code and config are frozen except documented bug fixes.
 
 | Model | Status | Last check | Next action |
 |---|---|---|---|
-| LLaDA-8B-Instruct | Exp 1 complete | G0 pass; G1 pass (20/20 A and B under every order) | Exp 2 then Exp 3 |
-| Dream-v0-Instruct-7B | running G0 | G0 passed after Dream-specific logit shift; final one-mask recovery check running | If G0 passes, Exp 1 and G1 |
+| LLaDA-8B-Instruct | Exp 1 complete | G0 pass; G1 pass (20/20 A and B under every order) | Supervisor runs Exp 2 and Exp 3 |
+| Dream-v0-Instruct-7B | Exp 1 complete | G0 pass; G1 pass (at least 19/20 per field/order) | Supervisor runs Exp 2 and Exp 3 |
 
-Logs: `results/phase1/logs/`; traces: `results/phase1/traces/`. Final statuses require Exp 1–3, gates, analysis, independent rescoring, and stopped jobs.
+Detached supervisors: `phase1-supervisor-llada` on GPU 0, `phase1-supervisor-dream` on GPU 1. Logs and trace counts are in `results/phase1/`. After both finish, run analysis, independent rescoring, reproducibility check, and verify GPUs free.

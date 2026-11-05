@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "accuracies": {
+    "A-first-A": 0.95,
+    "A-first-B": 0.95,
+    "B-first-A": 1.0,
+    "B-first-B": 0.95,
+    "CF-A": 1.0,
+    "CF-B": 0.95
+  }
+}
