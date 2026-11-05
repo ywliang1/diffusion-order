@@ -30,6 +30,17 @@ def paired_gap(left,right,metric):
     fake=[dict(table_size=k[0],source_id=k[1],v=float(metric(l[k]))-float(metric(r[k]))) for k in keys]
     return ci_by_source(fake,lambda x:x['v'])
 
+def interaction(rows,cond1,cond2,metric,left,right):
+    d={(r['table_size'],r['source_id'],r['condition'],r['order_or_branch']):r for r in rows}
+    keys=sorted({(r['table_size'],r['source_id']) for r in rows})
+    vals=[]
+    for n,sid in keys:
+        need=[(n,sid,c,o) for c in [cond1,cond2] for o in [left,right]]
+        if not all(k in d for k in need):continue
+        v=(float(metric(d[n,sid,cond1,left]))-float(metric(d[n,sid,cond1,right])))-(float(metric(d[n,sid,cond2,left]))-float(metric(d[n,sid,cond2,right])))
+        vals.append(dict(table_size=n,source_id=sid,v=v))
+    return ci_by_source(vals,lambda r:r['v'])
+
 def analyze(name):
     e1,e2,e3=(read(name,i) for i in (1,2,3)); lines=[f'# Phase 1 pilot: {name}','']
     g0=BASE/f'G0-{name}.json'; g0data=json.loads(g0.read_text()) if g0.exists() else {}
@@ -66,13 +77,20 @@ def analyze(name):
       gaps={}
       for cond in ['Shared-path','Separate-path']:
         a=[r for r in e2 if r['table_size']==n and r['condition']==cond and r['order_or_branch']=='A-first']; b=[r for r in e2 if r['table_size']==n and r['condition']==cond and r['order_or_branch']=='B-first']; gaps[cond]=paired_gap(a,b,lambda r:r['B_correct'])
-      lines += [f'| {n} | {fmt(gaps["Shared-path"])} | {fmt(gaps["Separate-path"])} | {100*(gaps["Shared-path"][0]-gaps["Separate-path"][0]):.1f} pp |']
+      lines += [f'| {n} | {fmt(gaps["Shared-path"])} | {fmt(gaps["Separate-path"])} | {fmt(interaction([r for r in e2 if r["table_size"]==n],"Shared-path","Separate-path",lambda r:r["B_correct"],"A-first","B-first"))} |']
     lines += ['','## Exp 3 prefilled A intervention','', '| Size | Condition | Gold minus Masked | Predicted minus Masked | Wrong minus Masked | Wrong B matches alternative |','|---:|---|---:|---:|---:|---:|']
     for n in CFG['sizes']:
       for cond in ['Shared-path','Separate-path']:
         d={o:[r for r in e3 if r['table_size']==n and r['condition']==cond and r['order_or_branch']==o] for o in ['Masked','Gold','Predicted','Wrong']}
         gaps=[paired_gap(d[o],d['Masked'],lambda r:r['B_correct']) for o in ['Gold','Predicted','Wrong']]
         lines += [f'| {n} | {cond} | {fmt(gaps[0])} | {fmt(gaps[1])} | {fmt(gaps[2])} | {fmt(ci_by_source(d["Wrong"],lambda r:r["B_matches_alternative"]))} |']
+    lines += ['','### Shared-path minus Separate-path Exp 3 gaps','', '| Size | Gold gap interaction | Predicted gap interaction | Wrong gap interaction | Wrong alternative match difference |','|---:|---:|---:|---:|---:|']
+    for n in CFG['sizes']:
+      sub=[r for r in e3 if r['table_size']==n]
+      vals=[fmt(interaction(sub,'Shared-path','Separate-path',lambda r:r['B_correct'],branch,'Masked')) for branch in ['Gold','Predicted','Wrong']]
+      w=[r for r in sub if r['order_or_branch']=='Wrong']; sh=[r for r in w if r['condition']=='Shared-path']; se=[r for r in w if r['condition']=='Separate-path']
+      prop=paired_gap(sh,se,lambda r:r['B_matches_alternative'])
+      lines += [f'| {n} | {vals[0]} | {vals[1]} | {vals[2]} | {fmt(prop)} |']
     lines += ['','## Step-0 confidence and CF choice','', '| Size | Condition | Mean A top-1 | Mean B top-1 | CF first A |','|---:|---|---:|---:|---:|']
     for n in CFG['sizes']:
       for cond in ['Direct','Shared-path','Separate-path']:
@@ -81,12 +99,15 @@ def analyze(name):
         ac=np.mean([r['step0']['A']['top5_probs'][0] for r in sub]); bc=np.mean([r['step0']['B']['top5_probs'][0] for r in sub]); fa=np.mean([r['first_field']=='A' for r in sub]); lines += [f'| {n} | {cond} | {ac:.3f} | {bc:.3f} | {fa:.3f} |']
     lines += ['','## G2','']
     for n in CFG['sizes']:
-      direct=[r for r in e2 if r['table_size']==n and r['condition']=='Direct' and r['order_or_branch']=='A-first']
-      path=[r for r in e2 if r['table_size']==n and r['condition']!='Direct' and r['order_or_branch']=='A-first']
-      dr=np.mean([r['B_correct'] for r in direct]) if direct else float('nan'); pa=np.mean([r['B_correct'] for r in path]) if path else float('nan')
-      discord=[x[2] for x in g2parts if x[0]==n]
-      passes=dr>=.9 and pa>1/n and pa<.9 and all(x>=20 for x in discord)
-      lines += [f'- Size {n}: {"pass" if passes else "fail"}; Direct B {dr:.3f}, path B {pa:.3f}, discordant pairs {discord}.']
+      direct_by_order={o:[r for r in e2 if r['table_size']==n and r['condition']=='Direct' and r['order_or_branch']==o] for o in ['A-first','B-first','CF']}
+      dacc={o:ci_by_source(sub,lambda r:r['B_correct'])[0] for o,sub in direct_by_order.items()}
+      path={}
+      for cond in ['Shared-path','Separate-path']:
+        sub=[r for r in e2 if r['table_size']==n and r['condition']==cond]
+        path[cond]=ci_by_source(sub,lambda r:r['B_correct'])
+      discord={x[1]:x[2] for x in g2parts if x[0]==n}
+      passes=all(v>=CFG['g2_direct_min_accuracy'] for v in dacc.values()) and all(v[1]>1/n and v[0]<CFG['g2_path_max_approx_accuracy'] for v in path.values()) and all(v>=CFG['g2_min_discordant_pairs'] for v in discord.values())
+      lines += [f'- Size {n}: {"pass" if passes else "fail"}; Direct B by order {dacc}; path B with intervals {path}; discordant pairs {discord}.']
     lines += ['','## Interpretation limits','', '- A stays left of B throughout Phase 1, so CF preference cannot yet be separated from position. Exp 4 tests that.','- Gold beating Wrong does not show that the correct value helps; Masked is the relevant baseline.','- Exp 3 measures conditional response in a fixed context, not an equal-compute method comparison.','- Results are pilot evidence; these sources must stay out of any final test set.','', '## Exp 4 recommendation','', 'Awaiting human review. Lock a configuration only if G2 and the paired effects support it; otherwise revise the pilot before Exp 4.','']
     return '\n'.join(lines)
 
