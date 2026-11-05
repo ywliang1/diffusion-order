@@ -1,0 +1,7 @@
+# Phase 1 preregistration
+
+Prepared before Exp 1. Config: `phase1/config.yaml`, seed 1729 for tasks and ties, bootstrap seed 7331 with 10,000 source-cluster resamples. Pinned model revisions are in the config. Prompt template is exact in the config; model chat templates wrap its instruction, and output uses two masked positions in a JSON object with A left of B. Candidate values are tokenized in the full filled template context for each model, and predictions use the full vocabulary excluding only the mask token.
+
+Exp 1: 20 copy instances, three orders. G1 requires each field accuracy at least 95% per order. Exp 2: 200 sources at sizes 4, 8, 16; Direct, Shared-path, Separate-path; A-first, B-first, CF. G2 requires Direct B accuracy at least 90%, a path B accuracy clearly above 1/n and below approximately 90%, and at least 20 discordant A-first/B-first pairs per condition. G2 failure does not stop Exp 3. Exp 3: reuse path sources, decode B with A Masked, Gold, Predicted, or Wrong. Wrong A comes from a seeded non-target row.
+
+Planned outcomes: A/B/both accuracy, paired correctness counts and exact McNemar tests, CF choice on discordant cases, A-first minus B-first interaction, Exp 3 branch gaps and interactions, wrong-branch alternative B matching, and step-0 confidence. Report 95% source-cluster bootstrap intervals. All instances remain in all analyses, regardless of correctness.

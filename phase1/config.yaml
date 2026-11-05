@@ -1,0 +1,22 @@
+seed: 1729
+bootstrap_seed: 7331
+bootstrap_resamples: 10000
+model_revisions:
+  llada:
+    repo: GSAI-ML/LLaDA-8B-Instruct
+    revision: 08b83a6feb34df1a6011b80c3c00c7563e963b07
+  dream:
+    repo: Dream-org/Dream-v0-Instruct-7B
+    revision: 05334cb9faaf763692dcf9d8737c642be2b2a6ae
+sizes: [4, 8, 16]
+sources_per_cell: 200
+copy_instances: 20
+g1_min_accuracy: 0.95
+g2_direct_min_accuracy: 0.90
+g2_path_max_approx_accuracy: 0.90
+g2_min_discordant_pairs: 20
+prompt_template: |
+  Read the tables and return only the JSON object. No explanation.
+  {tables}
+  Target key: {target}
+  Output: {"a":"<MASK>","b":"<MASK>"}
