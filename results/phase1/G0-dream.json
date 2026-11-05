@@ -1,0 +1,21 @@
+{
+  "model": "dream",
+  "model_revision": "05334cb9faaf763692dcf9d8737c642be2b2a6ae",
+  "status": "pass",
+  "pool_size": 6393,
+  "aligned_pool_size": 6393,
+  "determinism": true,
+  "immutability": true,
+  "batching": true,
+  "slot_alignment": true,
+  "task_integrity": true,
+  "seconds_per_two_pass_run": 0.06685233116149902,
+  "two_pass_seconds_by_size": {
+    "4": 0.06685233116149902,
+    "8": 0.09345674514770508,
+    "16": 0.09447479248046875
+  },
+  "projected_hours_at_200_sources": 0.19927943680021498,
+  "peak_vram_GB": 15.572475904,
+  "total_seconds": 27.69934320449829
+}

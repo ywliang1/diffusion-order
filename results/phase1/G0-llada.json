@@ -9,13 +9,13 @@
   "batching": true,
   "slot_alignment": true,
   "task_integrity": true,
-  "seconds_per_two_pass_run": 0.7442421913146973,
+  "seconds_per_two_pass_run": 0.06622767448425293,
   "two_pass_seconds_by_size": {
-    "4": 0.7442421913146973,
-    "8": 0.0806725025177002,
-    "16": 0.12366676330566406
+    "4": 0.06622767448425293,
+    "8": 0.08051252365112305,
+    "16": 0.12382936477661133
   },
-  "projected_hours_at_200_sources": 0.7501896142959594,
+  "projected_hours_at_200_sources": 0.21154678795072768,
   "peak_vram_GB": 16.222874112,
-  "total_seconds": 14.994720697402954
+  "total_seconds": 14.24274492263794
 }

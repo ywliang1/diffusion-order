@@ -24,6 +24,14 @@ def aligned(tokenizer,mask_id,instruction,A,B):
     return len(a)==len(b)==1 and len(mask)==len(gold) and all(mask[i]==gold[i] or i in slots.values() for i in range(len(mask))) and gold[slots['A']]==a[0] and gold[slots['B']]==b[0]
 
 
+def slot_logits(model,x):
+    logits=model(input_ids=x,use_cache=False).logits
+    if model.config.model_type=='Dream':
+        # Dream's generation_utils shifts next-token logits to masked slots.
+        logits=torch.cat([logits[:,:1],logits[:,:-1]],dim=1)
+    return logits
+
+
 @torch.no_grad()
 def decode(model,tokenizer,mask_id,ids,slots,order,seed):
     x=torch.tensor([ids],device=model.device)
@@ -31,7 +39,7 @@ def decode(model,tokenizer,mask_id,ids,slots,order,seed):
     steps=[]; step0={}; tie=False
     remaining=dict(slots)
     while remaining:
-        logits=model(input_ids=x,use_cache=False).logits[0]
+        logits=slot_logits(model,x)[0]
         choices={}
         for field,pos in remaining.items():
             z=logits[pos].float().clone(); z[mask_id]=-float('inf')

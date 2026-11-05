@@ -3,7 +3,7 @@ from pathlib import Path
 import torch
 from phase1.run import load_model,CFG,instruction
 from phase1.tasks import pool,usable_pool,make_source,tables,integrity
-from phase1.decoder import render,aligned,decode
+from phase1.decoder import render,aligned,decode,slot_logits
 
 p=argparse.ArgumentParser();p.add_argument('--model',required=True);p.add_argument('--gpu',type=int,required=True);a=p.parse_args()
 start=time.time();torch.cuda.set_device(a.gpu)
@@ -18,6 +18,13 @@ inst=instruction(source,'Direct')
 usable=words
 assert len(usable)>=200
 assert all(aligned(tok,mask,inst,source['rows'][source['target']]['A'],source['rows'][source['target']]['B']) for _ in range(1))
+copy_instruction=CFG['copy_prompt_template'].format(A=words[0],B=words[1]).strip()
+for held_field in ['A','B']:
+    held={held_field:words[0] if held_field=='A' else words[1]}
+    masked='B' if held_field=='A' else 'A'
+    copy_ids,copy_slots=render(tok,mask,copy_instruction,**held)
+    copy_pred,_,_,_=decode(model,tok,mask,copy_ids,copy_slots,'A-first',CFG['seed'])
+    assert copy_pred[masked]==(words[1] if masked=='B' else words[0]),'one-mask slot recovery failed'
 ids,slots=render(tok,mask,inst)
 t0=time.time();one=decode(model,tok,mask,ids,slots,'CF',CFG['seed']); elapsed=time.time()-t0
 two=decode(model,tok,mask,ids,slots,'CF',CFG['seed'])
@@ -31,7 +38,7 @@ xx=x.repeat(2,1)
 remaining=dict(slots);batched_steps=[];tie_rng=random.Random(CFG['seed'])
 with torch.no_grad():
     while remaining:
-        logits=model(input_ids=xx,use_cache=False).logits
+        logits=slot_logits(model,xx)
         options=[]
         for field,pos in remaining.items():
             z=logits[:,pos,:].float().clone();z[:,mask]=-float('inf')
