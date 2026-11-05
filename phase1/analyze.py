@@ -124,11 +124,25 @@ def analyze(name):
       passes=all(v>=CFG['g2_direct_min_accuracy'] for v in dacc.values()) and all(v[1]>1/n and v[0]<CFG['g2_path_max_approx_accuracy'] for v in path.values()) and all(v>=CFG['g2_min_discordant_pairs'] for v in discord.values())
       if passes:g2_pass_sizes.append(n)
       lines += [f'- Size {n}: {"pass" if passes else "fail"}; Direct B by order {dacc}; path B with intervals {path}; discordant pairs {discord}.']
-    lines += ['','## Interpretation limits','', '- A stays left of B throughout Phase 1, so CF preference cannot yet be separated from position. Exp 4 tests that.','- Gold beating Wrong does not show that the correct value helps; Masked is the relevant baseline.','- Exp 3 measures conditional response in a fixed context, not an equal-compute method comparison.','- Results are pilot evidence; these sources must stay out of any final test set.','', '## Exp 4 recommendation','', 'Awaiting human review. Lock a configuration only if G2 and the paired effects support it; otherwise revise the pilot before Exp 4.','']
+    lines += ['','## Interpretation limits','', '- A stays left of B throughout Phase 1, so CF preference cannot yet be separated from position. Exp 4 tests that.','- Gold beating Wrong does not show that the correct value helps; Masked is the relevant baseline.','- Exp 3 measures conditional response in a fixed context, not an equal-compute method comparison.','- Results are pilot evidence; these sources must stay out of any final test set.','']
+    candidates=[]
+    for n in g2_pass_sizes:
+        sub=[r for r in e2 if r['table_size']==n and r['condition']=='Shared-path']
+        af=[r for r in sub if r['order_or_branch']=='A-first']
+        bf=[r for r in sub if r['order_or_branch']=='B-first']
+        gap=paired_gap(af,bf,lambda r:r['B_correct'])
+        if gap[1]>0:candidates.append(n)
+    if candidates:
+        chosen=min(candidates)
+        rec=f'Awaiting human review: lock Shared-path, table size {chosen}, A-first for Exp 4; G2 passed and the paired B-accuracy gap has a positive 95% lower bound.'
+    else:
+        rec='Awaiting human review: lock no Exp 4 configuration from this pilot; no table size both passed G2 and showed a positive 95% lower bound for the Shared-path A-first B-accuracy gap.'
+    lines += ['','## Exp 4 recommendation','',rec,'']
     return '\n'.join(lines)
 
 if __name__=='__main__':
     names=sys.argv[1:] or ['llada','dream']
     report=['# Phase 1 report','']
     for name in names: report.append(analyze(name))
+    report.extend(['## Deviations, failed checks, and fixes','',(BASE/'DECISIONS.md').read_text()])
     (BASE/'report.md').write_text('\n\n'.join(report)+'\n')

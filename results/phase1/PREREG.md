@@ -9,3 +9,5 @@ Planned outcomes: A/B/both accuracy, paired correctness counts and exact McNemar
 Pre-Exp-1 amendment: the assistant continuation contains the two-mask JSON output; the user text requests JSON without embedding a second masked output. The updated exact prompt is in `config.yaml`.
 
 Pre-Exp-1 G2 operationalization: evaluate each table size separately. Direct B accuracy must be at least 90% under every order. Each path condition's B accuracy, pooled across orders by source, must have a source-cluster bootstrap lower 95% bound above 1/n and a point estimate below 90%. Each condition must have at least 20 discordant A-first/B-first full-answer pairs at that size. All three requirements must hold for a size to pass G2.
+
+Post-freeze amendment, report-only bug: code inspection found that `analyze.py` omitted the Exp 4 recommendation and the deviations/failed-check record from its generated report. Restored both sections and added a regression test. The model decoder, tasks, config, and traces are unaffected; there are no affected traces to move to `invalid/` or rerun.
