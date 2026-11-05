@@ -19,4 +19,5 @@ prompt_template: |
   Read the tables and return only the JSON object. No explanation.
   {tables}
   Target key: {target}
-  Output: {"a":"<MASK>","b":"<MASK>"}
+  Return only the JSON object with fields a and b; no explanation.
+output_template: '{"a":"<MASK>","b":"<MASK>"}'

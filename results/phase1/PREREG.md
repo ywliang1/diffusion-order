@@ -5,3 +5,5 @@ Prepared before Exp 1. Config: `phase1/config.yaml`, seed 1729 for tasks and tie
 Exp 1: 20 copy instances, three orders. G1 requires each field accuracy at least 95% per order. Exp 2: 200 sources at sizes 4, 8, 16; Direct, Shared-path, Separate-path; A-first, B-first, CF. G2 requires Direct B accuracy at least 90%, a path B accuracy clearly above 1/n and below approximately 90%, and at least 20 discordant A-first/B-first pairs per condition. G2 failure does not stop Exp 3. Exp 3: reuse path sources, decode B with A Masked, Gold, Predicted, or Wrong. Wrong A comes from a seeded non-target row.
 
 Planned outcomes: A/B/both accuracy, paired correctness counts and exact McNemar tests, CF choice on discordant cases, A-first minus B-first interaction, Exp 3 branch gaps and interactions, wrong-branch alternative B matching, and step-0 confidence. Report 95% source-cluster bootstrap intervals. All instances remain in all analyses, regardless of correctness.
+
+Pre-Exp-1 amendment: the assistant continuation contains the two-mask JSON output; the user text requests JSON without embedding a second masked output. The updated exact prompt is in `config.yaml`.
