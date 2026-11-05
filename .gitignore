@@ -4,3 +4,4 @@ __pycache__/
 results/phase1/traces/
 results/phase1/logs/
 phase1/model_code/
+weights/
