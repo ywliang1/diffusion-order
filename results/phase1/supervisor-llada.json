@@ -1,0 +1,15 @@
+{
+  "model": "llada",
+  "time": "2026-11-05 04:26:54 EST",
+  "message": "all experiments complete",
+  "counts": {
+    "1": 60,
+    "2": 5400,
+    "3": 4800
+  },
+  "expected": {
+    "1": 60,
+    "2": 5400,
+    "3": 4800
+  }
+}

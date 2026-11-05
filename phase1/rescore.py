@@ -3,11 +3,25 @@ import argparse,json,random
 from pathlib import Path
 p=argparse.ArgumentParser();p.add_argument('--model',required=True);a=p.parse_args()
 base=Path('results/phase1');summary={}
+words=json.loads((base/f'words-{a.model}.json').read_text())
 for exp in (1,2,3):
     rows=[json.loads(s) for s in (base/'traces'/f'{a.model}-exp{exp}.jsonl').read_text().splitlines() if s]
     rng=random.Random(81173+exp)
     sample=rng.sample(rows,min(20,len(rows)))
     for row in sample:
+        sid=row['source_id'];size=row['table_size']
+        if exp==1:
+            values=random.Random(1729).sample(words,40)
+            oracle_a,oracle_b=values[2*sid],values[2*sid+1]
+        else:
+            source_rng=random.Random(1729*1000003+size*1009+sid)
+            values=source_rng.sample(words,6*size)
+            target_index=source_rng.randrange(size)
+            wrong_index=source_rng.choice([i for i in range(size) if i!=target_index])
+            oracle_a,oracle_b=values[6*target_index],values[6*target_index+2]
+            if exp==3 and row['order_or_branch']=='Wrong':
+                assert row['alternative_B']==values[6*wrong_index+2],row['run_id']
+        assert (row['target_A'],row['target_B'])==(oracle_a,oracle_b),row['run_id']
         expected_a=row['predicted_A']==row['target_A']
         expected_b=row['predicted_B']==row['target_B']
         assert row['A_correct'] is expected_a,row['run_id']
