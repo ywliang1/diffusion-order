@@ -41,9 +41,9 @@ with torch.no_grad():
             options.append((field,pos,int(winners[0]),float(probabilities[0,winners[0]])))
         best=max(v[3] for v in options)
         first=tie_rng.choice([v for v in options if v[3]==best])
-        field,pos,tok,_=first
-        xx[:,pos]=tok
-        batched_steps.append((field,tok))
+        field,pos,token_id,_=first
+        xx[:,pos]=token_id
+        batched_steps.append((field,token_id))
         del remaining[field]
 single_steps=[(v['slot'],v['token_id']) for v in one[1]]
 assert batched_steps==single_steps,f'batched decisions {batched_steps} != single {single_steps}'

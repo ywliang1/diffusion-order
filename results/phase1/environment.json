@@ -1,0 +1,16 @@
+{
+  "host_date": "2026-11-05",
+  "gpu_count": 8,
+  "gpu_model": "NVIDIA RTX A6000",
+  "gpu_vram_MiB": 49140,
+  "used_gpu_ids": [0, 1],
+  "initial_gpu_usage_MiB": 2,
+  "disk_available_TiB": 9.3,
+  "ram_total_GiB": 503,
+  "python": "3.12 (qwen3 virtual environment base)",
+  "torch": "2.5.1+cu121",
+  "cuda_runtime": "12.1",
+  "driver_cuda": "12.4",
+  "transformers": "4.46.3",
+  "scheduler": "No active allocation detected; tmux used"
+}

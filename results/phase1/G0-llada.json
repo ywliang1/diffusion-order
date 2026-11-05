@@ -1,0 +1,21 @@
+{
+  "model": "llada",
+  "model_revision": "08b83a6feb34df1a6011b80c3c00c7563e963b07",
+  "status": "pass",
+  "pool_size": 4912,
+  "aligned_pool_size": 4912,
+  "determinism": true,
+  "immutability": true,
+  "batching": true,
+  "slot_alignment": true,
+  "task_integrity": true,
+  "seconds_per_two_pass_run": 0.7442421913146973,
+  "two_pass_seconds_by_size": {
+    "4": 0.7442421913146973,
+    "8": 0.0806725025177002,
+    "16": 0.12366676330566406
+  },
+  "projected_hours_at_200_sources": 0.7501896142959594,
+  "peak_vram_GB": 16.222874112,
+  "total_seconds": 14.994720697402954
+}

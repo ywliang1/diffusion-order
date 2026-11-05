@@ -9,6 +9,10 @@ ROOT=Path(__file__).resolve().parent.parent
 CFG=yaml.safe_load((ROOT/'phase1/config.yaml').read_text())
 
 def load_model(name,gpu):
+    if name=='dream':
+        torch.backends.cuda.enable_flash_sdp(False)
+        torch.backends.cuda.enable_mem_efficient_sdp(False)
+        torch.backends.cuda.enable_math_sdp(True)
     info=CFG['model_revisions'][name]; path=ROOT/'weights'/info['repo'].split('/')[1]
     tok=AutoTokenizer.from_pretrained(path,trust_remote_code=True,use_fast=True)
     model=AutoModel.from_pretrained(path,trust_remote_code=True,torch_dtype=torch.bfloat16,device_map=f'cuda:{gpu}',low_cpu_mem_usage=True).eval()
