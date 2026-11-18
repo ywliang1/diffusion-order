@@ -268,3 +268,40 @@ def build_multi_pool(tok, mask_id, base, k, n=3000, seed=0):
         if all(align(tok, mask_id, probe, rl_output(lay, 'a', k), {'A': v, 'B': v}) for lay in LAYOUTS):
             out.append(v)
     return sorted(out)
+
+
+# --- Three-field RQ1 design (experiments/rq1_3f): a, b and an independent reference field h -------------
+# Input text is the rl_* V2 text except the closing line; the output has three single-token slots in all
+# six orders. h is the target row's H, read straight from the anchor row; nothing depends on it.
+TAIL3 = 'Target key: {q}\nReturn only the JSON object with fields a, b and h; no explanation.\n'
+LAYOUTS3 = ('abh', 'ahb', 'bah', 'bha', 'hab', 'hba')
+SLOTS3 = ('first', 'middle', 'last')
+
+
+def rl3_prompt_words():
+    return set(re.findall(r'[a-z]+', (TAIL3 + HEAD).lower()))
+
+
+def rl3_roles(direction):
+    roles = rl_roles(direction)
+    roles['H'] = 'independent'
+    return roles
+
+
+def rl3_instruction(source, direction, hop):
+    q = source['rows'][source['target']]['q']
+    return HEAD + rl_tables(source, direction, hop) + '\n' + TAIL3.format(q=q)
+
+
+def rl3_output(layout, direction, k=1):
+    if layout not in LAYOUTS3:
+        raise ValueError(f'unknown layout {layout!r}')
+    roles = rl3_roles(direction)
+    parts = []
+    for i, c in enumerate(layout):
+        parts += [('{"' if i == 0 else '","') + c + '":"', Field(c.upper(), k, role=roles[c.upper()])]
+    return parts + ['"}']
+
+
+def rl3_slots(layout):
+    return {c.upper(): SLOTS3[i] for i, c in enumerate(layout)}

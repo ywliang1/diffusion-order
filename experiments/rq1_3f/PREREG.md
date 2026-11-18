@@ -1,6 +1,12 @@
-# Three-field RQ1 study: role × position on CF commit order (DRAFT for review)
+# Three-field RQ1 study: role × position on CF commit order: preregistration
 
-**Status: proposed 2026-11-18, not approved.** No code beyond `identifiability.py` (a simulation) exists, and no model has been run. This file becomes the preregistration once the team approves it, with any changes, and it is committed before any model output.
+**Status: frozen 2026-11-18.** The team approved it on 2026-11-18 with these choices:
+
+- add LLaDA at 128 rows;
+- keep the independent third field;
+- keep the ±0.10 margin.
+
+This file is committed before any model output from this stage, including smoke. Code: `experiments/rq1_3f/{exp,audit,analyze}.py` and `tasks/lookup.py` (`rl3_*`). The analysis was checked on synthetic data only.
 
 ## Why a new design
 
@@ -32,19 +38,31 @@ The task is the RQ1 study's V2 two-hop lookup, plus one more output field.
 - **Output:** a JSON scaffold with three masked single-token slots, in all **6 orders** of a, b and h (`{"a":…,"b":…,"h":…}`, `{"a":…,"h":…,"b":…}`, …). The input text never depends on layout.
 - **Per-source factors:** query direction (a-prerequisite or b-prerequisite) × 6 layouts × hop (two-hop, or the matched one-hop control) = **24 items per source**, all with the same target triple.
 - **One-hop control:** the anchor row carries both a and b, as in the RQ1 study, so all three fields are direct lookups. "Prerequisite" and "dependent" there are nominal labels, set by query direction.
-- **Code:** new functions next to the existing `rl_*` functions in `tasks/lookup.py` (`rl3_output`, `rl3_instruction`). The existing functions, used by RQ1, Exp 4 and Stage 3, are not changed.
-- **Pool:** the Phase 1.5 pools, rebuilt to also exclude any new prompt words. The task audit (as in the RQ1 study) must show 0 token-count failures, equal prompt lengths within a source, and alignment in all 6 layouts.
+- **Code:** new functions next to the existing `rl_*` functions in `tasks/lookup.py` (`rl3_output`, `rl3_instruction`, `rl3_slots`). The existing functions, used by RQ1, Exp 4 and Stage 3, are not changed.
+- **Pool:** the Phase 1.5 pools minus every word of the prompt text. No word was removed: 4,015 words for LLaDA and 4,759 for Dream.
+- **Task audit** (`results/rq1_3f/task_audit-*.json`): 0 failures in every config.
+  - Main runs: 32,000 value checks per model at 8 rows, and 256,000 for LLaDA at 128 rows. Dev and smoke configs are also clean.
+  - Prompt lengths are equal within each source, and all 6 layouts align.
+  - No source matches a Phase 1 source.
+  - The longest canvas is 3,298 tokens (LLaDA at 128 rows), within the 4,096-token context.
 
 ## Setup
 
 - **Models and decoding:** as in the RQ1 study: pinned revisions, bf16, no KV cache, one commit per pass, greedy over the full vocabulary except the mask token, batch size 1. **CF only.** CF ties are broken by `random.Random(seed + source_id + 1000 × size)`.
-- **Size:** 8 rows, the RQ1 study's size.
-- **Sources:** 200 per model, seed 60001, with Phase 1 exclusion. That is 4,800 CF traces per model, 2,400 of them two-hop.
-- **Dev validity check** (not a selection step): 20 sources (seed 60011), all 24 items, CF.
-  - **Requirement:** one-hop all-three-correct ≥ 90%, and two-hop `h` accuracy ≥ 90%, for each model.
-  - **If a model fails:** report it and stop for review. No size search without approval.
-- **Hardware:** rosetta21 RTX A6000, or rosetta7 A6000. Never A100.
-- **Compute:** about 1–2 A6000 GPU-hours per model at size 8.
+Two arms, analyzed separately:
+
+| Arm | Models | Rows | Sources | Seed | Traces per model | Of which two-hop | Trace name |
+|---|---|---:|---:|---:|---:|---:|---|
+| Primary | LLaDA, Dream | 8 | 200 | 60001 | 4,800 | 2,400 | `main-n8` |
+| Second size (approved) | LLaDA only | 128 | 100 | 60001 | 2,400 | 1,200 | `main-n128` |
+
+LLaDA at 128 rows is its Exp 4 size, where Exp 4 found the largest position effect.
+
+**Dev validity check** (not a selection step): 20 sources (seed 60011), all 24 items, CF, at each arm's size (`dev-n8`, `dev-n128`).
+- **Requirement:** one-hop all-three-correct ≥ 90%, and two-hop `h` accuracy ≥ 90%, per model and arm.
+- **If an arm fails:** it is not run. I report it and stop for review, with no size search.
+
+**Hardware:** rosetta15, NVIDIA A100-PCIE-40GB, for the whole stage. This was decided before any output, following the approved fallback. On 2026-11-18, rosetta21 was down (ssh timeout) and all eight rosetta7 A6000s were busy with other users' jobs (97–100% utilization, 33–48 GB used each). Within this stage, rows are comparable; across GPU types, only effects are.
 
 ## Measures
 
@@ -70,7 +88,11 @@ CIs are 95% bootstraps clustered by source (10,000 resamples, seed 7331).
 **2. Plackett–Luce model (confirms the sign).**
 
 - **Model:** the probability of the observed three-field commit order, with log-worth θ = role (3 levels) + slot (3) + role × slot + field identity (a vs b), and a weak ridge penalty (10⁻³) to guard against separation.
-- **Reported:** the interaction contrast [θ(dep, last) − θ(dep, first)] − [θ(pre, last) − θ(pre, first)], and the joint 4-df role × slot test.
+- **Reported:**
+  - the interaction contrast [θ(dep, last) − θ(dep, first)] − [θ(pre, last) − θ(pre, first)];
+  - the slot main effect, ½ [θ(dep, last) − θ(dep, first) + θ(pre, last) − θ(pre, first)];
+  - the joint 4-df role × slot test: a Wald test on the double-centered 3 × 3 cell matrix, using the bootstrap covariance.
+- **Also reported:** the number of bootstrap refits that did not converge.
 - **CIs:** from the same source bootstrap.
 
 **Verdict rules (per model):**
@@ -82,7 +104,7 @@ CIs are 95% bootstraps clustered by source (10,000 resamples, seed 7331).
 
 The ±0.10 margin is on the probability scale, the same as the RQ1 margin in rank units.
 
-**Power** (simulation above): with 200 sources, the DiD has an SE of about 0.034. The 95% CI half-width is therefore about 0.07, and the ±0.10 equivalence region is reachable only if the true |DiD| is below about 0.03.
+**Power** (simulation above): with 200 sources, the DiD has an SE of about 0.034; at 100 sources (128-row arm), about 0.048. The 95% CI half-width is therefore about 0.07, and the ±0.10 equivalence region is reachable only if the true |DiD| is below about 0.03.
 
 ## Secondary and descriptive
 
@@ -94,10 +116,10 @@ The ±0.10 margin is on the probability scale, the same as the RQ1 margin in ran
 - **Sensitivity:** excluding flip-sensitive traces, and on fully correct traces only.
 - **Alignment:** the prerequisite committed before the dependent, two-hop vs one-hop.
 
-## Open choices for the reviewer
+## Approved choices (2026-11-18)
 
-1. **Second size.** Optionally add each model's Exp 4 size (LLaDA 128, Dream 16; 100 sources), where Exp 4 found the largest position effect (LLaDA +0.29). Cost: about 12 A6000 GPU-hours for LLaDA. Recommended if compute allows, because position mattered most there.
-2. **The third field.** The proposal uses an *independent* field `h`. The alternative is a three-step chain (root → middle → leaf), which also adds an intermediate role but changes the task more.
-3. **Equivalence margin:** ±0.10 on the probability scale, as proposed, or tighter.
+1. **Second size:** LLaDA at 128 rows (100 sources). Dream's Exp 4 size was 16, close to 8, so Dream gets no second arm.
+2. **Third field:** the independent field `h`.
+3. **Equivalence margin:** ±0.10 on the probability scale.
 
 Smoke: 5 sources (120 traces per model) to `results/rq1_3f_smoke/`, excluded from analysis. Deviations go in `experiments/rq1_3f/DECISIONS.md`.

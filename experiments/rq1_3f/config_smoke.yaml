@@ -1,0 +1,7 @@
+# Three-field RQ1 study (smoke). PREREG: experiments/rq1_3f/PREREG.md.
+stage: rq1_3f_smoke
+split: smoke
+seed: 60001
+size: 8
+sources: 5
+orders: [CF]

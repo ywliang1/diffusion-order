@@ -1,0 +1,7 @@
+# Three-field RQ1 study (dev-n128). PREREG: experiments/rq1_3f/PREREG.md.
+stage: rq1_3f
+split: dev
+seed: 60011
+size: 128
+sources: 20
+orders: [CF]
