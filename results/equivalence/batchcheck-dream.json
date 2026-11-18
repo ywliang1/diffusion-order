@@ -1,0 +1,24 @@
+{
+  "model": "dream",
+  "gpu": "NVIDIA RTX A6000",
+  "host": "rosetta21.csail.mit.edu",
+  "instances": 50,
+  "rows": 150,
+  "same_decisions": 139,
+  "identical_probs": 0,
+  "max_prob_diff": 0.21442103385925293,
+  "decision_mismatches": [
+    "dream-e2-n4-s60-Direct-A-first",
+    "dream-e2-n4-s60-Direct-CF",
+    "dream-e2-n8-s124-Direct-A-first",
+    "dream-e2-n8-s124-Direct-CF",
+    "dream-e2-n8-s136-Direct-A-first",
+    "dream-e2-n8-s136-Direct-CF",
+    "dream-e2-n16-s32-Direct-B-first",
+    "dream-e2-n16-s32-Direct-CF",
+    "dream-e2-n16-s92-Direct-A-first",
+    "dream-e2-n16-s116-Direct-B-first",
+    "dream-e2-n16-s116-Direct-CF"
+  ],
+  "verdict": "use batch size 1"
+}

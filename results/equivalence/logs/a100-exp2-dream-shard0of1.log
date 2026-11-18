@@ -1,0 +1,36 @@
+
+LAUNCH attempt 1 Tue Nov 17 20:50:31 2026 host rosetta15.csail.mit.edu
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [01:22<04:07, 82.50s/it]Loading checkpoint shards:  50%|█████     | 2/4 [02:45<02:46, 83.05s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [04:00<01:19, 79.08s/it]Loading checkpoint shards: 100%|██████████| 4/4 [04:19<00:00, 55.32s/it]Loading checkpoint shards: 100%|██████████| 4/4 [04:19<00:00, 64.80s/it]
+/data/rbg/users/linrui/llada/.venv/lib/python3.12/site-packages/transformers/generation/configuration_utils.py:590: UserWarning: `do_sample` is set to `False`. However, `temperature` is set to `0.0` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `temperature`. This was detected when initializing the generation config instance, which means the corresponding file may hold incorrect parameterization and should be fixed.
+  warnings.warn(
+/data/rbg/users/linrui/llada/.venv/lib/python3.12/site-packages/transformers/generation/configuration_utils.py:590: UserWarning: `do_sample` is set to `False`. However, `temperature` is set to `0.0` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `temperature`.
+  warnings.warn(
+START shard 0/1 groups 1800 todo 1800 gpu 1 NVIDIA A100-PCIE-40GB
+PROGRESS 201 rows 24.6s
+PROGRESS 402 rows 44.5s
+PROGRESS 600 rows 64.2s
+PROGRESS 801 rows 84.1s
+PROGRESS 1002 rows 104.2s
+PROGRESS 1200 rows 123.7s
+PROGRESS 1401 rows 143.5s
+PROGRESS 1602 rows 163.2s
+PROGRESS 1800 rows 182.8s
+PROGRESS 2001 rows 203.0s
+PROGRESS 2202 rows 223.4s
+PROGRESS 2400 rows 243.1s
+PROGRESS 2601 rows 263.2s
+PROGRESS 2802 rows 283.2s
+PROGRESS 3000 rows 302.9s
+PROGRESS 3201 rows 323.0s
+PROGRESS 3402 rows 343.1s
+PROGRESS 3600 rows 363.0s
+PROGRESS 3801 rows 383.4s
+PROGRESS 4002 rows 404.1s
+PROGRESS 4200 rows 424.5s
+PROGRESS 4401 rows 445.2s
+PROGRESS 4602 rows 465.8s
+PROGRESS 4800 rows 486.1s
+PROGRESS 5001 rows 506.5s
+PROGRESS 5202 rows 527.3s
+PROGRESS 5400 rows 547.6s
+DONE shard 0 new 5400 seconds 547.6 peak_GB 15.50

@@ -1,0 +1,1192 @@
+{
+  "llada": {
+    "rows": 5400,
+    "missing": 0,
+    "exact": 0,
+    "decisions": 5270,
+    "preds": 5291,
+    "max_prob_diff": 0.663789838552475,
+    "mismatches": [
+      {
+        "run_id": "llada-e2-n4-s0-Direct-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.03669354319572449,
+        "old": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            103624
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            103624
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s0-Direct-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.03669354319572449,
+        "old": [
+          [
+            "B",
+            34362
+          ],
+          [
+            "A",
+            74453
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            34362
+          ],
+          [
+            "A",
+            74453
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s0-Direct-CF",
+        "same_decisions": true,
+        "prob_diff": 0.03669354319572449,
+        "old": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            103624
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            103624
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s0-Shared-path-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.028450816869735718,
+        "old": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            34362
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            34362
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s0-Shared-path-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.028450816869735718,
+        "old": [
+          [
+            "B",
+            34362
+          ],
+          [
+            "A",
+            74453
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            34362
+          ],
+          [
+            "A",
+            74453
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s0-Shared-path-CF",
+        "same_decisions": true,
+        "prob_diff": 0.028450816869735718,
+        "old": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            34362
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            34362
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s0-Separate-path-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.015116333961486816,
+        "old": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            34362
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            34362
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s0-Separate-path-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.022036612033843994,
+        "old": [
+          [
+            "B",
+            34362
+          ],
+          [
+            "A",
+            103624
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            34362
+          ],
+          [
+            "A",
+            103624
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s0-Separate-path-CF",
+        "same_decisions": true,
+        "prob_diff": 0.015116333961486816,
+        "old": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            34362
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            74453
+          ],
+          [
+            "B",
+            34362
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s1-Direct-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.004797041416168213,
+        "old": [
+          [
+            "A",
+            8901
+          ],
+          [
+            "B",
+            34275
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            8901
+          ],
+          [
+            "B",
+            34275
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s1-Direct-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.0033887121826410294,
+        "old": [
+          [
+            "B",
+            34275
+          ],
+          [
+            "A",
+            8901
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            34275
+          ],
+          [
+            "A",
+            8901
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s1-Direct-CF",
+        "same_decisions": true,
+        "prob_diff": 0.0033887121826410294,
+        "old": [
+          [
+            "B",
+            34275
+          ],
+          [
+            "A",
+            8901
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            34275
+          ],
+          [
+            "A",
+            8901
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s1-Shared-path-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.028712809085845947,
+        "old": [
+          [
+            "A",
+            8901
+          ],
+          [
+            "B",
+            36325
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            8901
+          ],
+          [
+            "B",
+            36325
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s1-Shared-path-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.024724304676055908,
+        "old": [
+          [
+            "B",
+            92068
+          ],
+          [
+            "A",
+            34275
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            92068
+          ],
+          [
+            "A",
+            34275
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s1-Shared-path-CF",
+        "same_decisions": true,
+        "prob_diff": 0.028712809085845947,
+        "old": [
+          [
+            "A",
+            8901
+          ],
+          [
+            "B",
+            36325
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            8901
+          ],
+          [
+            "B",
+            36325
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s1-Separate-path-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.010678112506866455,
+        "old": [
+          [
+            "A",
+            8901
+          ],
+          [
+            "B",
+            34275
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            8901
+          ],
+          [
+            "B",
+            34275
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s1-Separate-path-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.010678112506866455,
+        "old": [
+          [
+            "B",
+            92068
+          ],
+          [
+            "A",
+            8901
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            92068
+          ],
+          [
+            "A",
+            8901
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s1-Separate-path-CF",
+        "same_decisions": true,
+        "prob_diff": 0.010678112506866455,
+        "old": [
+          [
+            "A",
+            8901
+          ],
+          [
+            "B",
+            34275
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            8901
+          ],
+          [
+            "B",
+            34275
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s2-Direct-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.019903242588043213,
+        "old": [
+          [
+            "A",
+            98741
+          ],
+          [
+            "B",
+            25621
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            98741
+          ],
+          [
+            "B",
+            25621
+          ]
+        ]
+      },
+      {
+        "run_id": "llada-e2-n4-s2-Direct-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.019903242588043213,
+        "old": [
+          [
+            "B",
+            25621
+          ],
+          [
+            "A",
+            98741
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            25621
+          ],
+          [
+            "A",
+            98741
+          ]
+        ]
+      }
+    ],
+    "by_margin": {
+      "0.00-0.01": {
+        "n": 138,
+        "decision_flips": 41,
+        "b_flips": 19,
+        "both_flips": 11
+      },
+      "0.01-0.02": {
+        "n": 73,
+        "decision_flips": 21,
+        "b_flips": 8,
+        "both_flips": 3
+      },
+      "0.02-0.05": {
+        "n": 332,
+        "decision_flips": 41,
+        "b_flips": 18,
+        "both_flips": 10
+      },
+      "0.05-0.10": {
+        "n": 549,
+        "decision_flips": 24,
+        "b_flips": 14,
+        "both_flips": 11
+      },
+      "0.10-1.01": {
+        "n": 4308,
+        "decision_flips": 3,
+        "b_flips": 3,
+        "both_flips": 2
+      }
+    },
+    "b_accuracy": {
+      "e2 Direct A-first": {
+        "n": 600,
+        "phase1": 0.25166666666666665,
+        "replay": 0.245
+      },
+      "e2 Direct B-first": {
+        "n": 600,
+        "phase1": 0.625,
+        "replay": 0.6233333333333333
+      },
+      "e2 Direct CF": {
+        "n": 600,
+        "phase1": 0.31333333333333335,
+        "replay": 0.31166666666666665
+      },
+      "e2 Separate-path A-first": {
+        "n": 600,
+        "phase1": 0.25333333333333335,
+        "replay": 0.25333333333333335
+      },
+      "e2 Separate-path B-first": {
+        "n": 600,
+        "phase1": 0.18,
+        "replay": 0.18166666666666667
+      },
+      "e2 Separate-path CF": {
+        "n": 600,
+        "phase1": 0.21166666666666667,
+        "replay": 0.20666666666666667
+      },
+      "e2 Shared-path A-first": {
+        "n": 600,
+        "phase1": 0.665,
+        "replay": 0.6716666666666666
+      },
+      "e2 Shared-path B-first": {
+        "n": 600,
+        "phase1": 0.3016666666666667,
+        "replay": 0.305
+      },
+      "e2 Shared-path CF": {
+        "n": 600,
+        "phase1": 0.5733333333333334,
+        "replay": 0.5833333333333334
+      }
+    },
+    "replay_gpu": [
+      "NVIDIA A100-PCIE-40GB"
+    ],
+    "replay_hosts": [
+      "rosetta15.csail.mit.edu"
+    ]
+  },
+  "dream": {
+    "rows": 5400,
+    "missing": 0,
+    "exact": 0,
+    "decisions": 5139,
+    "preds": 5149,
+    "max_prob_diff": 0.9122952241450548,
+    "mismatches": [
+      {
+        "run_id": "dream-e2-n4-s0-Direct-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.04908013343811035,
+        "old": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s0-Direct-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.03575855493545532,
+        "old": [
+          [
+            "B",
+            3600
+          ],
+          [
+            "A",
+            34401
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            3600
+          ],
+          [
+            "A",
+            34401
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s0-Direct-CF",
+        "same_decisions": true,
+        "prob_diff": 0.04908013343811035,
+        "old": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s0-Shared-path-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.017057597637176514,
+        "old": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s0-Shared-path-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.017057597637176514,
+        "old": [
+          [
+            "B",
+            22366
+          ],
+          [
+            "A",
+            34401
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            22366
+          ],
+          [
+            "A",
+            34401
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s0-Shared-path-CF",
+        "same_decisions": true,
+        "prob_diff": 0.017057597637176514,
+        "old": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s0-Separate-path-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.029332637786865234,
+        "old": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s0-Separate-path-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.03532552719116211,
+        "old": [
+          [
+            "B",
+            22366
+          ],
+          [
+            "A",
+            34401
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            22366
+          ],
+          [
+            "A",
+            34401
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s0-Separate-path-CF",
+        "same_decisions": true,
+        "prob_diff": 0.029332637786865234,
+        "old": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            34401
+          ],
+          [
+            "B",
+            22366
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s1-Direct-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.03350561857223511,
+        "old": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            25598
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            25598
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s1-Direct-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.0125657320022583,
+        "old": [
+          [
+            "B",
+            25598
+          ],
+          [
+            "A",
+            29661
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            25598
+          ],
+          [
+            "A",
+            29661
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s1-Direct-CF",
+        "same_decisions": true,
+        "prob_diff": 0.03350561857223511,
+        "old": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            25598
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            25598
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s1-Shared-path-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.01625990867614746,
+        "old": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            4619
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            4619
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s1-Shared-path-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.01625990867614746,
+        "old": [
+          [
+            "B",
+            4619
+          ],
+          [
+            "A",
+            29661
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            4619
+          ],
+          [
+            "A",
+            29661
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s1-Shared-path-CF",
+        "same_decisions": true,
+        "prob_diff": 0.01625990867614746,
+        "old": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            4619
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            4619
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s1-Separate-path-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.03929677605628967,
+        "old": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            47765
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            47765
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s1-Separate-path-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.03929677605628967,
+        "old": [
+          [
+            "B",
+            47765
+          ],
+          [
+            "A",
+            29661
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            47765
+          ],
+          [
+            "A",
+            29661
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s1-Separate-path-CF",
+        "same_decisions": true,
+        "prob_diff": 0.03929677605628967,
+        "old": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            47765
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            29661
+          ],
+          [
+            "B",
+            47765
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s2-Direct-A-first",
+        "same_decisions": true,
+        "prob_diff": 0.02251720428466797,
+        "old": [
+          [
+            "A",
+            13890
+          ],
+          [
+            "B",
+            50110
+          ]
+        ],
+        "new": [
+          [
+            "A",
+            13890
+          ],
+          [
+            "B",
+            50110
+          ]
+        ]
+      },
+      {
+        "run_id": "dream-e2-n4-s2-Direct-B-first",
+        "same_decisions": true,
+        "prob_diff": 0.022367030382156372,
+        "old": [
+          [
+            "B",
+            50110
+          ],
+          [
+            "A",
+            13890
+          ]
+        ],
+        "new": [
+          [
+            "B",
+            50110
+          ],
+          [
+            "A",
+            13890
+          ]
+        ]
+      }
+    ],
+    "by_margin": {
+      "0.00-0.01": {
+        "n": 306,
+        "decision_flips": 90,
+        "b_flips": 43,
+        "both_flips": 39
+      },
+      "0.01-0.02": {
+        "n": 256,
+        "decision_flips": 44,
+        "b_flips": 28,
+        "both_flips": 21
+      },
+      "0.02-0.05": {
+        "n": 590,
+        "decision_flips": 77,
+        "b_flips": 34,
+        "both_flips": 36
+      },
+      "0.05-0.10": {
+        "n": 691,
+        "decision_flips": 33,
+        "b_flips": 17,
+        "both_flips": 13
+      },
+      "0.10-1.01": {
+        "n": 3557,
+        "decision_flips": 17,
+        "b_flips": 8,
+        "both_flips": 11
+      }
+    },
+    "b_accuracy": {
+      "e2 Direct A-first": {
+        "n": 600,
+        "phase1": 0.36333333333333334,
+        "replay": 0.3616666666666667
+      },
+      "e2 Direct B-first": {
+        "n": 600,
+        "phase1": 0.6716666666666666,
+        "replay": 0.68
+      },
+      "e2 Direct CF": {
+        "n": 600,
+        "phase1": 0.42333333333333334,
+        "replay": 0.43
+      },
+      "e2 Separate-path A-first": {
+        "n": 600,
+        "phase1": 0.39666666666666667,
+        "replay": 0.39
+      },
+      "e2 Separate-path B-first": {
+        "n": 600,
+        "phase1": 0.3016666666666667,
+        "replay": 0.3
+      },
+      "e2 Separate-path CF": {
+        "n": 600,
+        "phase1": 0.37833333333333335,
+        "replay": 0.365
+      },
+      "e2 Shared-path A-first": {
+        "n": 600,
+        "phase1": 0.74,
+        "replay": 0.7483333333333333
+      },
+      "e2 Shared-path B-first": {
+        "n": 600,
+        "phase1": 0.3933333333333333,
+        "replay": 0.4033333333333333
+      },
+      "e2 Shared-path CF": {
+        "n": 600,
+        "phase1": 0.7066666666666667,
+        "replay": 0.7166666666666667
+      }
+    },
+    "replay_gpu": [
+      "NVIDIA A100-PCIE-40GB"
+    ],
+    "replay_hosts": [
+      "rosetta15.csail.mit.edu"
+    ]
+  }
+}

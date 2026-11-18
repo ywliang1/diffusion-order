@@ -1,0 +1,32 @@
+
+LAUNCH attempt 1 Tue Nov 17 20:50:31 2026 host rosetta15.csail.mit.edu
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:37<03:05, 37.04s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [01:27<02:58, 44.70s/it]Loading checkpoint shards:  50%|█████     | 3/6 [02:18<02:23, 47.91s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [03:09<01:37, 48.97s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [03:59<00:49, 49.54s/it]Loading checkpoint shards: 100%|██████████| 6/6 [04:28<00:00, 42.29s/it]Loading checkpoint shards: 100%|██████████| 6/6 [04:28<00:00, 44.70s/it]
+START shard 0/1 groups 1800 todo 1800 gpu 0 NVIDIA A100-PCIE-40GB
+PROGRESS 201 rows 22.9s
+PROGRESS 402 rows 43.5s
+PROGRESS 600 rows 66.2s
+PROGRESS 801 rows 86.8s
+PROGRESS 1002 rows 107.5s
+PROGRESS 1200 rows 127.6s
+PROGRESS 1401 rows 148.1s
+PROGRESS 1602 rows 169.9s
+PROGRESS 1800 rows 198.7s
+PROGRESS 2001 rows 230.6s
+PROGRESS 2202 rows 262.7s
+PROGRESS 2400 rows 294.2s
+PROGRESS 2601 rows 324.6s
+PROGRESS 2802 rows 354.5s
+PROGRESS 3000 rows 385.2s
+PROGRESS 3201 rows 417.4s
+PROGRESS 3402 rows 449.4s
+PROGRESS 3600 rows 481.2s
+PROGRESS 3801 rows 516.3s
+PROGRESS 4002 rows 550.2s
+PROGRESS 4200 rows 586.7s
+PROGRESS 4401 rows 623.6s
+PROGRESS 4602 rows 660.3s
+PROGRESS 4800 rows 695.8s
+PROGRESS 5001 rows 730.2s
+PROGRESS 5202 rows 764.8s
+PROGRESS 5400 rows 801.2s
+DONE shard 0 new 5400 seconds 801.2 peak_GB 16.16

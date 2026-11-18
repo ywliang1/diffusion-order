@@ -1,0 +1,14 @@
+{
+  "model": "llada",
+  "gpu": "NVIDIA RTX A6000",
+  "host": "rosetta21.csail.mit.edu",
+  "instances": 50,
+  "rows": 150,
+  "same_decisions": 149,
+  "identical_probs": 0,
+  "max_prob_diff": 0.44162505865097046,
+  "decision_mismatches": [
+    "llada-e2-n4-s132-Direct-B-first"
+  ],
+  "verdict": "use batch size 1"
+}

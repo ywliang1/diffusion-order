@@ -1,0 +1,300 @@
+{
+  "llada": {
+    "rows": 10260,
+    "missing": 0,
+    "exact": 10260,
+    "decisions": 10260,
+    "preds": 10260,
+    "max_prob_diff": 0.0,
+    "mismatches": [],
+    "by_margin": {
+      "0.00-0.01": {
+        "n": 212,
+        "decision_flips": 0,
+        "b_flips": 0,
+        "both_flips": 0
+      },
+      "0.01-0.02": {
+        "n": 121,
+        "decision_flips": 0,
+        "b_flips": 0,
+        "both_flips": 0
+      },
+      "0.02-0.05": {
+        "n": 490,
+        "decision_flips": 0,
+        "b_flips": 0,
+        "both_flips": 0
+      },
+      "0.05-0.10": {
+        "n": 779,
+        "decision_flips": 0,
+        "b_flips": 0,
+        "both_flips": 0
+      },
+      "0.10-1.01": {
+        "n": 8658,
+        "decision_flips": 0,
+        "b_flips": 0,
+        "both_flips": 0
+      }
+    },
+    "b_accuracy": {
+      "e1 Copy A-first": {
+        "n": 20,
+        "phase1": 1.0,
+        "replay": 1.0
+      },
+      "e1 Copy B-first": {
+        "n": 20,
+        "phase1": 1.0,
+        "replay": 1.0
+      },
+      "e1 Copy CF": {
+        "n": 20,
+        "phase1": 1.0,
+        "replay": 1.0
+      },
+      "e2 Direct A-first": {
+        "n": 600,
+        "phase1": 0.25166666666666665,
+        "replay": 0.25166666666666665
+      },
+      "e2 Direct B-first": {
+        "n": 600,
+        "phase1": 0.625,
+        "replay": 0.625
+      },
+      "e2 Direct CF": {
+        "n": 600,
+        "phase1": 0.31333333333333335,
+        "replay": 0.31333333333333335
+      },
+      "e2 Separate-path A-first": {
+        "n": 600,
+        "phase1": 0.25333333333333335,
+        "replay": 0.25333333333333335
+      },
+      "e2 Separate-path B-first": {
+        "n": 600,
+        "phase1": 0.18,
+        "replay": 0.18
+      },
+      "e2 Separate-path CF": {
+        "n": 600,
+        "phase1": 0.21166666666666667,
+        "replay": 0.21166666666666667
+      },
+      "e2 Shared-path A-first": {
+        "n": 600,
+        "phase1": 0.665,
+        "replay": 0.665
+      },
+      "e2 Shared-path B-first": {
+        "n": 600,
+        "phase1": 0.3016666666666667,
+        "replay": 0.3016666666666667
+      },
+      "e2 Shared-path CF": {
+        "n": 600,
+        "phase1": 0.5733333333333334,
+        "replay": 0.5733333333333334
+      },
+      "e3 Separate-path Gold": {
+        "n": 600,
+        "phase1": 0.11166666666666666,
+        "replay": 0.11166666666666666
+      },
+      "e3 Separate-path Masked": {
+        "n": 600,
+        "phase1": 0.18,
+        "replay": 0.18
+      },
+      "e3 Separate-path Predicted": {
+        "n": 600,
+        "phase1": 0.25333333333333335,
+        "replay": 0.25333333333333335
+      },
+      "e3 Separate-path Wrong": {
+        "n": 600,
+        "phase1": 0.015,
+        "replay": 0.015
+      },
+      "e3 Shared-path Gold": {
+        "n": 600,
+        "phase1": 0.7116666666666667,
+        "replay": 0.7116666666666667
+      },
+      "e3 Shared-path Masked": {
+        "n": 600,
+        "phase1": 0.3016666666666667,
+        "replay": 0.3016666666666667
+      },
+      "e3 Shared-path Predicted": {
+        "n": 600,
+        "phase1": 0.665,
+        "replay": 0.665
+      },
+      "e3 Shared-path Wrong": {
+        "n": 600,
+        "phase1": 0.0033333333333333335,
+        "replay": 0.0033333333333333335
+      }
+    },
+    "replay_gpu": [
+      "NVIDIA RTX A6000"
+    ],
+    "replay_hosts": [
+      "rosetta21.csail.mit.edu"
+    ]
+  },
+  "dream": {
+    "rows": 10260,
+    "missing": 0,
+    "exact": 10260,
+    "decisions": 10260,
+    "preds": 10260,
+    "max_prob_diff": 0.0,
+    "mismatches": [],
+    "by_margin": {
+      "0.00-0.01": {
+        "n": 538,
+        "decision_flips": 0,
+        "b_flips": 0,
+        "both_flips": 0
+      },
+      "0.01-0.02": {
+        "n": 370,
+        "decision_flips": 0,
+        "b_flips": 0,
+        "both_flips": 0
+      },
+      "0.02-0.05": {
+        "n": 925,
+        "decision_flips": 0,
+        "b_flips": 0,
+        "both_flips": 0
+      },
+      "0.05-0.10": {
+        "n": 1221,
+        "decision_flips": 0,
+        "b_flips": 0,
+        "both_flips": 0
+      },
+      "0.10-1.01": {
+        "n": 7206,
+        "decision_flips": 0,
+        "b_flips": 0,
+        "both_flips": 0
+      }
+    },
+    "b_accuracy": {
+      "e1 Copy A-first": {
+        "n": 20,
+        "phase1": 0.95,
+        "replay": 0.95
+      },
+      "e1 Copy B-first": {
+        "n": 20,
+        "phase1": 0.95,
+        "replay": 0.95
+      },
+      "e1 Copy CF": {
+        "n": 20,
+        "phase1": 0.95,
+        "replay": 0.95
+      },
+      "e2 Direct A-first": {
+        "n": 600,
+        "phase1": 0.36333333333333334,
+        "replay": 0.36333333333333334
+      },
+      "e2 Direct B-first": {
+        "n": 600,
+        "phase1": 0.6716666666666666,
+        "replay": 0.6716666666666666
+      },
+      "e2 Direct CF": {
+        "n": 600,
+        "phase1": 0.42333333333333334,
+        "replay": 0.42333333333333334
+      },
+      "e2 Separate-path A-first": {
+        "n": 600,
+        "phase1": 0.39666666666666667,
+        "replay": 0.39666666666666667
+      },
+      "e2 Separate-path B-first": {
+        "n": 600,
+        "phase1": 0.3016666666666667,
+        "replay": 0.3016666666666667
+      },
+      "e2 Separate-path CF": {
+        "n": 600,
+        "phase1": 0.37833333333333335,
+        "replay": 0.37833333333333335
+      },
+      "e2 Shared-path A-first": {
+        "n": 600,
+        "phase1": 0.74,
+        "replay": 0.74
+      },
+      "e2 Shared-path B-first": {
+        "n": 600,
+        "phase1": 0.3933333333333333,
+        "replay": 0.3933333333333333
+      },
+      "e2 Shared-path CF": {
+        "n": 600,
+        "phase1": 0.7066666666666667,
+        "replay": 0.7066666666666667
+      },
+      "e3 Separate-path Gold": {
+        "n": 600,
+        "phase1": 0.31,
+        "replay": 0.31
+      },
+      "e3 Separate-path Masked": {
+        "n": 600,
+        "phase1": 0.3016666666666667,
+        "replay": 0.3016666666666667
+      },
+      "e3 Separate-path Predicted": {
+        "n": 600,
+        "phase1": 0.39666666666666667,
+        "replay": 0.39666666666666667
+      },
+      "e3 Separate-path Wrong": {
+        "n": 600,
+        "phase1": 0.07833333333333334,
+        "replay": 0.07833333333333334
+      },
+      "e3 Shared-path Gold": {
+        "n": 600,
+        "phase1": 0.7566666666666667,
+        "replay": 0.7566666666666667
+      },
+      "e3 Shared-path Masked": {
+        "n": 600,
+        "phase1": 0.3933333333333333,
+        "replay": 0.3933333333333333
+      },
+      "e3 Shared-path Predicted": {
+        "n": 600,
+        "phase1": 0.74,
+        "replay": 0.74
+      },
+      "e3 Shared-path Wrong": {
+        "n": 600,
+        "phase1": 0.008333333333333333,
+        "replay": 0.008333333333333333
+      }
+    },
+    "replay_gpu": [
+      "NVIDIA RTX A6000"
+    ],
+    "replay_hosts": [
+      "rosetta21.csail.mit.edu"
+    ]
+  }
+}

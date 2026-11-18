@@ -1,0 +1,3 @@
+attempt 1: exit codes [('llada', 0, 0), ('llada', 1, 0), ('dream', 0, 0), ('dream', 1, 0)]; incomplete []
+MERGED /data/rbg/users/linrui/llada/results/equivalence/traces/a6000-llada.jsonl rows 10260 gpu {'NVIDIA RTX A6000'}
+MERGED /data/rbg/users/linrui/llada/results/equivalence/traces/a6000-dream.jsonl rows 10260 gpu {'NVIDIA RTX A6000'}
