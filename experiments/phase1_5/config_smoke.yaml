@@ -1,0 +1,7 @@
+# Smoke only (crash and completeness check): 5 dev sources, V1, size 4. Excluded from analysis.
+split: smoke
+seed: 15001
+sizes: [4]
+sources: 5
+variants: [V1]
+exps: [2, 3]

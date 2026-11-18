@@ -1,0 +1,7 @@
+# Phase 1.5 test set. `variants` is set to the dev-frozen variant before the test run.
+split: test
+seed: 15002
+sizes: [4, 8, 16]
+sources: 200
+variants: [FROZEN]
+exps: [2, 3]

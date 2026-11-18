@@ -1,0 +1,8 @@
+# Phase 1.5 dev, V5 arm: the variant picked by the selection rule (or the closest one),
+# rendered without the chat template. Same dev sources. Variant is filled in after selection.
+split: dev
+seed: 15001
+sizes: [4, 8, 16]
+sources: 100
+variants: [VX-nochat]
+exps: [2]

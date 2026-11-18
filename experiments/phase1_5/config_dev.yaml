@@ -1,0 +1,7 @@
+# Phase 1.5 dev set: variant selection only. Seed is new; Phase 1 sources are excluded.
+split: dev
+seed: 15001
+sizes: [4, 8, 16]
+sources: 100
+variants: [V1, V2, V3, V4]
+exps: [2]

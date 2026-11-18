@@ -1,0 +1,7 @@
+# Phase 1.5 decisions and deviations
+
+- 2026-11-17: Team decision B on the gate. Separate-path B must only have a 95% lower bound above chance, not 40–80%. Direct ≥ 90% under each order and Shared-path at 40–80% (averaged over orders) are hard requirements.
+- 2026-11-17: V4's instruction reads "Fill field a from a column labeled a and field b from a column labeled b.", with mapping columns labeled to match, so it is true in every condition. The original wording ("both values come from the target row") is false on the path conditions. Approved by the team.
+- 2026-11-17: Pool. 17–25% of Phase 1 pool words merge with a preceding `=` (e.g. `=int`), so the pool requires each word to stay its own token after `=`. One pool serves every variant, keeping variants paired on identical sources.
+- 2026-11-17: The first pool build excluded prompt words but not chat-template words; Dream's pool contained `assistant`, `system` and `you`, and LLaDA's `user`, `start`, `header` and `end`. Found by the dev task audit (76 extra value matches in Dream prompts) before any model run. The pool now also excludes each model's chat-template words: 4,015 words for LLaDA (was 4,019) and 4,759 for Dream (was 4,762). Dev audit rerun: 0 failures.
+- 2026-11-17: Anchor and mapping row orders are shared across conditions within a source. Phase 1 drew a separate shuffle per condition. This makes condition and variant comparisons paired.
