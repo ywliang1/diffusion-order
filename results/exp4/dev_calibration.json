@@ -1,0 +1,64 @@
+{
+  "llada": {
+    "choice": 128,
+    "reason": "one-hop >= 90%; two-hop dependent accuracy closest to 60%",
+    "in_band": true,
+    "table": {
+      "16": {
+        "two_hop_dependent": 1.0,
+        "one_hop_both": 0.995,
+        "n_two": 200,
+        "n_one": 200
+      },
+      "32": {
+        "two_hop_dependent": 1.0,
+        "one_hop_both": 1.0,
+        "n_two": 200,
+        "n_one": 200
+      },
+      "64": {
+        "two_hop_dependent": 0.97,
+        "one_hop_both": 0.975,
+        "n_two": 200,
+        "n_one": 200
+      },
+      "128": {
+        "two_hop_dependent": 0.73,
+        "one_hop_both": 0.965,
+        "n_two": 200,
+        "n_one": 200
+      }
+    }
+  },
+  "dream": {
+    "choice": 16,
+    "reason": "no size reached 90% one-hop; highest one-hop accuracy",
+    "in_band": false,
+    "table": {
+      "16": {
+        "two_hop_dependent": 0.96,
+        "one_hop_both": 0.815,
+        "n_two": 200,
+        "n_one": 200
+      },
+      "32": {
+        "two_hop_dependent": 0.675,
+        "one_hop_both": 0.575,
+        "n_two": 200,
+        "n_one": 200
+      },
+      "64": {
+        "two_hop_dependent": 0.65,
+        "one_hop_both": 0.68,
+        "n_two": 200,
+        "n_one": 200
+      },
+      "128": {
+        "two_hop_dependent": 0.185,
+        "one_hop_both": 0.425,
+        "n_two": 200,
+        "n_one": 200
+      }
+    }
+  }
+}

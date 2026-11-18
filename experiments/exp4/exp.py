@@ -40,9 +40,10 @@ def prepare(tok, mask_id, name, cfg):
 def jobs(ctx):
     c, name, n = ctx['cfg'], ctx['name'], ctx['size']
     sizes = c.get('sizes_per_model', {}).get(name, [n])
+    n_sources = c.get('sources_per_model', {}).get(name, c['sources'])
     out = []
     for size in sizes:
-        for sid in range(c['sources']):
+        for sid in range(n_sources):
             for d in lookup.DIRECTIONS:
                 for hop in lookup.HOPS:
                     for lay in lookup.LAYOUTS:

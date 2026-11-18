@@ -1,0 +1,9 @@
+# Exp 4 main run. Sizes from the pre-registered dev calibration (results/exp4/dev_calibration.json);
+# sources per the PREREG: 100 at size 128, 200 at size <= 64.
+stage: exp4
+split: main
+seed: 40001
+size: {llada: 128, dream: 16}
+sources: 200
+sources_per_model: {llada: 100, dream: 200}
+orders: [CF, PF, DF, L2R, R2L, random-s0, random-s1, random-s2]
