@@ -1,0 +1,7 @@
+# RQ1 role x layout commit-rank study: V2 rows, size 8 (V2 dev Direct B >= 90% for both models).
+stage: rq1
+split: main
+seed: 20001
+size: 8
+sources: 200
+orders: [CF]

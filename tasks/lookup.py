@@ -174,3 +174,68 @@ def table_values(source, condition, variant=None):
         dl, _, dr, _ = DECOY[condition]
         vals |= {r[dl] for r in source['rows']} | {r[dr] for r in source['rows']}
     return vals
+
+
+# ---------------------------------------------------------------------------------------
+# Role x layout x hop design (RQ1 study, Exp 4), V2 row format.
+#
+# direction 'a': the anchor gives a (a is the prerequisite); direction 'b': the anchor gives b.
+#   two-hop: anchor "key=k | <p>=<P> | h=<H> | c=<C>", mapping "a=<A> | b=<B>" (identical text in
+#            both directions; read left-to-right or right-to-left)
+#   one-hop: anchor "key=k | <p>=<P> | h=<H> | <d>=<D>" (both answers in the row; <p>/<d> = the
+#            prerequisite/dependent field of the matched two-hop item), mapping filler "d=<D> | e=<E>"
+# layout 'ab' renders {"a":..,"b":..}; layout 'ba' renders {"b":..,"a":..}. Input text never depends
+# on layout. Roles name the reference computation of the two-hop item; one-hop items carry the same
+# labels for matching (the "direction role") but have no second lookup.
+# ---------------------------------------------------------------------------------------
+DIRECTIONS = ('a', 'b')
+LAYOUTS = ('ab', 'ba')
+HOPS = (2, 1)
+
+
+def rl_roles(direction):
+    pre = 'A' if direction == 'a' else 'B'
+    return {pre: 'prerequisite', ('B' if pre == 'A' else 'A'): 'dependent'}
+
+
+def rl_tables(source, direction, hop):
+    rows = source['rows']
+    anchor = [rows[i] for i in source['anchor_order']]
+    mapping = [rows[i] for i in source['map_order']]
+    p, pl = ('A', 'a') if direction == 'a' else ('B', 'b')
+    d, dl = ('B', 'b') if direction == 'a' else ('A', 'a')
+    last = (d, dl) if hop == 1 else ('C', 'c')
+    a = [f"key={r['q']} | {pl}={r[p]} | h={r['H']} | {last[1]}={r[last[0]]}" for r in anchor]
+    m = [f"a={r['A']} | b={r['B']}" if hop == 2 else f"d={r['D']} | e={r['E']}" for r in mapping]
+    return 'Anchor:\n' + '\n'.join(a) + '\nMapping:\n' + '\n'.join(m)
+
+
+def rl_instruction(source, direction, hop):
+    q = source['rows'][source['target']]['q']
+    return HEAD + rl_tables(source, direction, hop) + '\n' + TAIL.format(q=q)
+
+
+def rl_output(layout, direction):
+    roles = rl_roles(direction)
+    fa, fb = Field('A', role=roles['A']), Field('B', role=roles['B'])
+    if layout == 'ab':
+        return ['{"a":"', fa, '","b":"', fb, '"}']
+    if layout == 'ba':
+        return ['{"b":"', fb, '","a":"', fa, '"}']
+    raise ValueError(f'unknown layout {layout!r}')
+
+
+def rl_integrity(source, direction, hop):
+    rows, t = source['rows'], source['rows'][source['target']]
+    assert len({r[c] for r in rows for c in COLS}) == len(COLS) * len(rows)
+    if hop == 2:
+        key, other = ('A', 'B') if direction == 'a' else ('B', 'A')
+        assert [r[other] for r in rows if r[key] == t[key]] == [t[other]]
+    return True
+
+
+def rl_table_values(source, direction, hop):
+    vals = set()
+    for r in source['rows']:
+        vals |= {r['A'], r['B'], r['H']} | ({r['C']} if hop == 2 else {r['D'], r['E']})
+    return vals

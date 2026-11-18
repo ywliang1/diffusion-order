@@ -1,0 +1,22 @@
+{
+  "llada": {
+    "pool": 4015,
+    "checked_values": 595200,
+    "not_single_token": 0,
+    "length_mismatch": 0,
+    "misaligned": 0,
+    "phase1_matches": 0,
+    "resampled_sources": 0,
+    "examples": []
+  },
+  "dream": {
+    "pool": 4759,
+    "checked_values": 595200,
+    "not_single_token": 0,
+    "length_mismatch": 0,
+    "misaligned": 0,
+    "phase1_matches": 0,
+    "resampled_sources": 0,
+    "examples": []
+  }
+}

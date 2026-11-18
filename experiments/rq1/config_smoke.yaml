@@ -1,0 +1,7 @@
+# Smoke only: 5 sources (excluded from analysis).
+stage: rq1_smoke
+split: smoke
+seed: 20001
+size: 8
+sources: 5
+orders: [CF]
