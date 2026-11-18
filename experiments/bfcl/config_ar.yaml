@@ -1,0 +1,6 @@
+# BFCL autoregressive reference (Qwen2.5-7B-Instruct, greedy), split test. See experiments/bfcl/PREREG.md (addendum).
+stage: bfcl
+split: test
+seed: 4610
+length: 64
+schemas: [original, reversed]

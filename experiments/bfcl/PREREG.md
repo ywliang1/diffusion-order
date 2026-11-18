@@ -48,3 +48,35 @@ The three random seeds are averaged within an item before any comparison. All in
 ## Harness sanity check
 
 Dream, CF order, on 100 seeded `live_simple` items with BFCL's JSON output format (`ret_fmt=json`), same canvas. The team's reference figure is about 64% for Dream greedy on BFCL-Live JSON. If our accuracy is below 50%, the harness is inspected for bugs before the main analysis (prompt, template, cropping, decoding). Any fix is logged, and affected runs are rerun in full, never selectively.
+
+## Addendum (2026-11-18): lenient-parse score and autoregressive reference
+
+Written and committed before any lenient score was computed and before any Qwen output existed. The team requested both on 2026-11-18.
+
+### Secondary lenient-parse score
+
+The strict score above remains the primary result. The lenient score is a secondary result that separates format failures from wrong calls.
+
+- **Rules:** fixed in `experiments/bfcl/lenient.py`, with tests in `tests/test_bfcl_lenient.py`. They apply to Python-format items only.
+  - **L1:** keep the first balanced `[...]` segment, or else the first balanced `name(...)` call, and drop any prose or trailing characters around it.
+  - **L2:** rewrite JSON-style call structures as Python calls: `["f", {args}]`, `{"name": "f", "arguments": {…}}`, and lists of either.
+  - Nothing else is repaired: no quote, bracket, argument-name or value fixes.
+- **Basis:** the rules were chosen from failure types already seen in LLaDA's strict-scored outputs (trailing periods; JSON-style `["name", {args}]` lists). No lenient score had been computed when they were written.
+- **Scoring:** the rewritten text goes through the same `default_decode_ast_prompting` and `ast_checker` as the strict score. Outputs go to `results/bfcl/scores/<trace>-<model>-lenient.jsonl`.
+- **Reported per model × schema × order:**
+  - lenient AST accuracy;
+  - the lenient − strict difference, paired by item, with CIs clustered by item;
+  - the share of outputs the rules changed;
+  - lenient error classes.
+- **Interpretation:** the strict − lenient gap measures format failure. Order contrasts under the lenient score show whether the order effects survive once format failures are removed.
+
+### Autoregressive reference: Qwen2.5-7B-Instruct
+
+- **Model:** `Qwen/Qwen2.5-7B-Instruct` at revision `a09a35458c702b33eeacc393d103063234e8bc28` (`weights/Qwen2.5-7B-Instruct`; `experiments/bfcl/ar.py`).
+- **Decoding:** greedy, bf16, batch size 1, at most 64 new tokens (the diffusion canvas length).
+- **EOS crop:** content is everything before the first `<|im_end|>` or `<|endoftext|>`, as in the shared crop. No repair.
+- **Inputs:** the same chat messages as the diffusion runs, on the same 400 test items × 2 schemas (800 generations). Also the 100-item `live_simple` JSON sanity set.
+- **Scoring:** strict and lenient, as above.
+- **Hardware:** rosetta15 A100-PCIE-40GB. The diffusion BFCL runs were on rosetta21 A6000s, which are now unavailable. The team asked for the reference to run on the same GPU type as the other new runs (the three-field stage, on A100s).
+- **Reported:** AST accuracy and error classes per schema, and the reversed − original difference.
+- **Interpretation:** Qwen is a different model with a different tokenizer, so this is a descriptive reference point for the diffusion models, not a paired order contrast. No hypothesis test is attached.
