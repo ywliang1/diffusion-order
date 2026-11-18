@@ -1,12 +1,15 @@
 """Exp 4: role x layout x hop with CF, PF, DF, L2R, R2L and random orders (RQ1 + RQ2), V2 format.
 
 Same items as the RQ1 study (tasks.lookup rl_*), at a table size per model.
-Config keys: stage, split, seed, size (int, or {model: int}), sources, orders.
+Config keys: stage, split, seed, size (int, or {model: int}), sources, orders, tokens (values per field, default 1).
 run_id: <model>-<split>-n<size>-s<sid>-d<direction>-<layout>-h<hop>-<order>
 """
+import json
+
 from dlm import ranks, schedules
 from dlm.canvas import build
 from dlm.decoder import Job, decode
+from dlm.models import ROOT
 from dlm.scoring import score_field, taxonomy
 from experiments.phase1_5.exp import pool
 from experiments.rq1.exp import shown_rows
@@ -18,8 +21,20 @@ def size_of(cfg, name):
     return s[name] if isinstance(s, dict) else s
 
 
+def multi_pool(tok, mask_id, name, k):
+    path = ROOT / 'results/stage3' / f'pool-k{k}-{name}.json'
+    if path.exists():
+        return json.loads(path.read_text())
+    words = lookup.build_multi_pool(tok, mask_id, pool(tok, mask_id, name), k)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(words) + '\n')
+    return words
+
+
 def prepare(tok, mask_id, name, cfg):
-    return dict(tok=tok, mask_id=mask_id, name=name, cfg=cfg, size=size_of(cfg, name), words=pool(tok, mask_id, name))
+    k = cfg.get('tokens', 1)
+    words = pool(tok, mask_id, name) if k == 1 else multi_pool(tok, mask_id, name, k)
+    return dict(tok=tok, mask_id=mask_id, name=name, cfg=cfg, size=size_of(cfg, name), words=words, k=k)
 
 
 def jobs(ctx):
@@ -46,7 +61,7 @@ def execute(bundle, ctx, group, batch=False):
     source = lookup.make_source(size, j0['sid'], ctx['words'], c['seed'])
     lookup.rl_integrity(source, j0['direction'], j0['hop'])
     canvas = build(tok, mask_id, lookup.rl_instruction(source, j0['direction'], j0['hop']),
-                   lookup.rl_output(j0['layout'], j0['direction']))
+                   lookup.rl_output(j0['layout'], j0['direction'], ctx['k']))
     fo = canvas.field_of()
     positions = canvas.masked_positions()
     left = min(canvas.fields, key=lambda f: canvas.fields[f][0])
@@ -59,7 +74,7 @@ def execute(bundle, ctx, group, batch=False):
     for j in group:
         sched = schedules.make(j['order'], roles=canvas.roles, tie_seed=tie_seed, order_seed_base=c['seed'] + j['sid'])
         r = decode(bundle, [Job(canvas.ids, positions, sched, fo, canvas.roles)])[0]
-        pred = {f: tok.decode([r['ids'][ps[0]]]) for f, ps in canvas.fields.items()}
+        pred = {f: tok.decode([r['ids'][p] for p in ps]) for f, ps in canvas.fields.items()}
         fields = {f: score_field(pred[f], t[f]) for f in pred}
         margins = [s['cf_margin'] for s in r['steps'] if s['cf_margin'] is not None]
         rows.append(dict(
@@ -71,8 +86,10 @@ def execute(bundle, ctx, group, batch=False):
             A_correct=fields['A']['correct'], B_correct=fields['B']['correct'],
             both_correct=fields['A']['correct'] and fields['B']['correct'],
             prerequisite_correct=fields[pre]['correct'], dependent_correct=fields[dep]['correct'],
-            first_field=r['steps'][0]['field'], prerequisite_first=r['steps'][0]['field'] == pre,
+            first_field=r['steps'][0]['field'], prerequisite_first=ranks.first_commit(r['steps'], canvas.fields[pre]) < ranks.first_commit(r['steps'], canvas.fields[dep]),
             left_first=r['steps'][0]['field'] == left, min_cf_margin=min(margins) if margins else None,
+            tokens_per_value=ctx['k'], within_field_l2r={f: ranks.within_field_l2r(r['steps'], ps) for f, ps in canvas.fields.items()},
+            first_commit={f: ranks.first_commit(r['steps'], ps) for f, ps in canvas.fields.items()},
             tie_broken=any(s['tie'] for s in r['steps']), prompt_tokens=canvas.prompt_len,
             steps=r['steps'], step0=r['step0']))
     return rows

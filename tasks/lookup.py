@@ -215,9 +215,9 @@ def rl_instruction(source, direction, hop):
     return HEAD + rl_tables(source, direction, hop) + '\n' + TAIL.format(q=q)
 
 
-def rl_output(layout, direction):
+def rl_output(layout, direction, k=1):
     roles = rl_roles(direction)
-    fa, fb = Field('A', role=roles['A']), Field('B', role=roles['B'])
+    fa, fb = Field('A', k, role=roles['A']), Field('B', k, role=roles['B'])
     if layout == 'ab':
         return ['{"a":"', fa, '","b":"', fb, '"}']
     if layout == 'ba':
@@ -239,3 +239,32 @@ def rl_table_values(source, direction, hop):
     for r in source['rows']:
         vals |= {r['A'], r['B'], r['H']} | ({r['C']} if hop == 2 else {r['D'], r['E']})
     return vals
+
+
+def multi_token_ok(tok, value, k):
+    """value is exactly k tokens bare, after a space, after '=' and inside quotes, with the same ids."""
+    enc = lambda x: tok.encode(x, add_special_tokens=False)
+    bare = enc(value)
+    if len(bare) != k or len(enc(' ' + value)) != k:
+        return False
+    eq = enc('a=' + value)
+    return eq[-k:] == bare and len(eq) == len(enc('a=')) + k and enc('"' + value + '"')[1:-1] == bare
+
+
+def build_multi_pool(tok, mask_id, base, k, n=3000, seed=0):
+    """Stage 3 values: concatenations of k distinct base-pool words that tokenize to exactly k tokens
+    in every context and align in both output slots and both layouts. Deterministic for a seed."""
+    rng = random.Random(f'multi-{k}-{seed}')
+    probe = 'Target key: k00\n'
+    out, seen, tries = [], set(), 0
+    while len(out) < n:
+        tries += 1
+        if tries > 50 * n:
+            raise ValueError(f'only {len(out)} {k}-token values after {tries} draws')
+        v = ''.join(rng.sample(base, k))
+        if v in seen or not multi_token_ok(tok, v, k):
+            continue
+        seen.add(v)
+        if all(align(tok, mask_id, probe, rl_output(lay, 'a', k), {'A': v, 'B': v}) for lay in LAYOUTS):
+            out.append(v)
+    return sorted(out)
