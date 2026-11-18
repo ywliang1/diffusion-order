@@ -472,6 +472,162 @@
         }
       }
     },
+    "V3-nochat": {
+      "passed": false,
+      "met": 15,
+      "total": 20,
+      "min_direct": 0.89,
+      "cells": {
+        "llada-4": {
+          "direct_A-first": {
+            "ok": true,
+            "mean": 1.0,
+            "lo": 1.0,
+            "hi": 1.0,
+            "n_clusters": 100
+          },
+          "direct_B-first": {
+            "ok": true,
+            "mean": 1.0,
+            "lo": 1.0,
+            "hi": 1.0,
+            "n_clusters": 100
+          },
+          "direct_CF": {
+            "ok": true,
+            "mean": 1.0,
+            "lo": 1.0,
+            "hi": 1.0,
+            "n_clusters": 100
+          },
+          "shared": {
+            "ok": false,
+            "mean": 1.0,
+            "lo": 1.0,
+            "hi": 1.0,
+            "n_clusters": 100
+          },
+          "separate": {
+            "ok": true,
+            "mean": 1.0,
+            "lo": 1.0,
+            "hi": 1.0,
+            "n_clusters": 100
+          }
+        },
+        "llada-8": {
+          "direct_A-first": {
+            "ok": true,
+            "mean": 1.0,
+            "lo": 1.0,
+            "hi": 1.0,
+            "n_clusters": 100
+          },
+          "direct_B-first": {
+            "ok": true,
+            "mean": 1.0,
+            "lo": 1.0,
+            "hi": 1.0,
+            "n_clusters": 100
+          },
+          "direct_CF": {
+            "ok": true,
+            "mean": 1.0,
+            "lo": 1.0,
+            "hi": 1.0,
+            "n_clusters": 100
+          },
+          "shared": {
+            "ok": false,
+            "mean": 1.0,
+            "lo": 1.0,
+            "hi": 1.0,
+            "n_clusters": 100
+          },
+          "separate": {
+            "ok": true,
+            "mean": 1.0,
+            "lo": 1.0,
+            "hi": 1.0,
+            "n_clusters": 100
+          }
+        },
+        "dream-4": {
+          "direct_A-first": {
+            "ok": true,
+            "mean": 0.9,
+            "lo": 0.84,
+            "hi": 0.95,
+            "n_clusters": 100
+          },
+          "direct_B-first": {
+            "ok": true,
+            "mean": 0.91,
+            "lo": 0.85,
+            "hi": 0.96,
+            "n_clusters": 100
+          },
+          "direct_CF": {
+            "ok": false,
+            "mean": 0.89,
+            "lo": 0.83,
+            "hi": 0.95,
+            "n_clusters": 100
+          },
+          "shared": {
+            "ok": false,
+            "mean": 0.88,
+            "lo": 0.8233333333333333,
+            "hi": 0.93,
+            "n_clusters": 100
+          },
+          "separate": {
+            "ok": true,
+            "mean": 0.8633333333333333,
+            "lo": 0.8033333333333332,
+            "hi": 0.9166666666666667,
+            "n_clusters": 100
+          }
+        },
+        "dream-8": {
+          "direct_A-first": {
+            "ok": true,
+            "mean": 0.93,
+            "lo": 0.88,
+            "hi": 0.98,
+            "n_clusters": 100
+          },
+          "direct_B-first": {
+            "ok": true,
+            "mean": 0.95,
+            "lo": 0.9,
+            "hi": 0.99,
+            "n_clusters": 100
+          },
+          "direct_CF": {
+            "ok": true,
+            "mean": 0.95,
+            "lo": 0.9,
+            "hi": 0.99,
+            "n_clusters": 100
+          },
+          "shared": {
+            "ok": false,
+            "mean": 0.9166666666666665,
+            "lo": 0.87325,
+            "hi": 0.9566666666666666,
+            "n_clusters": 100
+          },
+          "separate": {
+            "ok": true,
+            "mean": 0.9266666666666667,
+            "lo": 0.89,
+            "hi": 0.96,
+            "n_clusters": 100
+          }
+        }
+      }
+    },
     "V4": {
       "passed": false,
       "met": 6,

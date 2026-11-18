@@ -2,9 +2,9 @@
 
 ## Run summary
 
-- Split: dev; traces: dev; rows: 21600; variants: V1, V2, V3, V4; sizes: [4, 8, 16].
-- Hosts / GPUs / commits: [('rosetta15.csail.mit.edu', 'NVIDIA A100-PCIE-40GB', '0525b7245b23bd77d614a1550d4d7fd32b3f896f')].
-- Answers whose correctness changed under whitespace normalization: dream A: 28, dream B: 33, llada A: 0, llada B: 12.
+- Split: dev; traces: dev, dev-nochat; rows: 27000; variants: V1, V2, V3, V3-nochat, V4; sizes: [4, 8, 16].
+- Hosts / GPUs / commits: [('rosetta15.csail.mit.edu', 'NVIDIA A100-PCIE-40GB', '0525b7245b23bd77d614a1550d4d7fd32b3f896f'), ('rosetta15.csail.mit.edu', 'NVIDIA A100-PCIE-40GB', '7f499909285d931774bd3cc9d76615d538c9a0de')].
+- Answers whose correctness changed under whitespace normalization: dream A: 33, dream B: 37, llada A: 0, llada B: 12.
 
 ## Selection
 
@@ -36,6 +36,15 @@
 | llada | 8 | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | ✗ 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | no |
 | dream | 4 | 94.0 [89.0, 98.0] | 93.0 [88.0, 98.0] | 93.0 [88.0, 98.0] | ✗ 87.3 [82.0, 92.0] | 90.0 [84.7, 94.7] | no |
 | dream | 8 | 97.0 [93.0, 100.0] | 98.0 [95.0, 100.0] | 98.0 [95.0, 100.0] | ✗ 91.3 [87.0, 95.3] | 95.3 [92.3, 98.0] | no |
+
+## Gate: V3-nochat
+
+| Model | Size | Direct A-first | Direct B-first | Direct CF | Shared (avg of orders) | Separate (avg of orders) | Pass |
+|---|---:|---:|---:|---:|---:|---:|---|
+| llada | 4 | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | ✗ 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | no |
+| llada | 8 | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | ✗ 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | no |
+| dream | 4 | 90.0 [84.0, 95.0] | 91.0 [85.0, 96.0] | ✗ 89.0 [83.0, 95.0] | ✗ 88.0 [82.3, 93.0] | 86.3 [80.3, 91.7] | no |
+| dream | 8 | 93.0 [88.0, 98.0] | 95.0 [90.0, 99.0] | 95.0 [90.0, 99.0] | ✗ 91.7 [87.3, 95.7] | 92.7 [89.0, 96.0] | no |
 
 ## Gate: V4
 
@@ -291,6 +300,88 @@
 | 16 | Direct | 0.998 | 0.999 | 0.410 | 0.980 |
 | 16 | Shared-path | 0.998 | 0.990 | 0.800 | 0.930 |
 | 16 | Separate-path | 0.990 | 0.981 | 0.520 | 0.860 |
+
+## llada V3-nochat: accuracy
+
+| Size | Condition | Order | A | B | Both |
+|---:|---|---|---:|---:|---:|
+| 4 | Direct | A-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 4 | Direct | B-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 4 | Direct | CF | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 4 | Shared-path | A-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 4 | Shared-path | B-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 4 | Shared-path | CF | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 4 | Separate-path | A-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 4 | Separate-path | B-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 4 | Separate-path | CF | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 8 | Direct | A-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 8 | Direct | B-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 8 | Direct | CF | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 8 | Shared-path | A-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 8 | Shared-path | B-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 8 | Shared-path | CF | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 8 | Separate-path | A-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 8 | Separate-path | B-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 8 | Separate-path | CF | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 16 | Direct | A-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 16 | Direct | B-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 16 | Direct | CF | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 16 | Shared-path | A-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 16 | Shared-path | B-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 16 | Shared-path | CF | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 16 | Separate-path | A-first | 100.0 [100.0, 100.0] | 98.0 [95.0, 100.0] | 98.0 [95.0, 100.0] |
+| 16 | Separate-path | B-first | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] |
+| 16 | Separate-path | CF | 100.0 [100.0, 100.0] | 98.0 [95.0, 100.0] | 98.0 [95.0, 100.0] |
+
+## llada V3-nochat: B error taxonomy (all sizes)
+
+| Condition | Order | n | correct | target_row_H | target_row_other | distractor_row_same_field | other_table_value | non_table |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| Direct | A-first | 300 | 300 | 0 | 0 | 0 | 0 | 0 |
+| Direct | B-first | 300 | 300 | 0 | 0 | 0 | 0 | 0 |
+| Direct | CF | 300 | 300 | 0 | 0 | 0 | 0 | 0 |
+| Shared-path | A-first | 300 | 300 | 0 | 0 | 0 | 0 | 0 |
+| Shared-path | B-first | 300 | 300 | 0 | 0 | 0 | 0 | 0 |
+| Shared-path | CF | 300 | 300 | 0 | 0 | 0 | 0 | 0 |
+| Separate-path | A-first | 300 | 298 | 0 | 2 | 0 | 0 | 0 |
+| Separate-path | B-first | 300 | 300 | 0 | 0 | 0 | 0 | 0 |
+| Separate-path | CF | 300 | 298 | 0 | 2 | 0 | 0 | 0 |
+
+## llada V3-nochat: paired A-first vs B-first (B correct)
+
+| Size | Condition | Both right | Both wrong | Only A-first right | Only B-first right | McNemar p | A-first − B-first B accuracy |
+|---:|---|---:|---:|---:|---:|---:|---:|
+| 4 | Direct | 100 | 0 | 0 | 0 | nan | 0.0 [0.0, 0.0] |
+| 4 | Shared-path | 100 | 0 | 0 | 0 | nan | 0.0 [0.0, 0.0] |
+| 4 | Separate-path | 100 | 0 | 0 | 0 | nan | 0.0 [0.0, 0.0] |
+| 8 | Direct | 100 | 0 | 0 | 0 | nan | 0.0 [0.0, 0.0] |
+| 8 | Shared-path | 100 | 0 | 0 | 0 | nan | 0.0 [0.0, 0.0] |
+| 8 | Separate-path | 100 | 0 | 0 | 0 | nan | 0.0 [0.0, 0.0] |
+| 16 | Direct | 100 | 0 | 0 | 0 | nan | 0.0 [0.0, 0.0] |
+| 16 | Shared-path | 100 | 0 | 0 | 0 | nan | 0.0 [0.0, 0.0] |
+| 16 | Separate-path | 98 | 0 | 0 | 2 | 0.5 | -2.0 [-5.0, 0.0] |
+
+## llada V3-nochat: order × path interaction
+
+| Size | Shared A-first − B-first | Separate A-first − B-first | Shared − Separate |
+|---:|---:|---:|---:|
+| 4 | 0.0 [0.0, 0.0] | 0.0 [0.0, 0.0] | 0.0 [0.0, 0.0] |
+| 8 | 0.0 [0.0, 0.0] | 0.0 [0.0, 0.0] | 0.0 [0.0, 0.0] |
+| 16 | 0.0 [0.0, 0.0] | -2.0 [-5.0, 0.0] | 2.0 [0.0, 5.0] |
+
+## llada V3-nochat: step-0 confidence and CF
+
+| Size | Condition | Mean A top-1 | Mean B top-1 | CF commits A first | CF min margin < 0.02 |
+|---:|---|---:|---:|---:|---:|
+| 4 | Direct | 0.998 | 0.998 | 0.390 | 0.980 |
+| 4 | Shared-path | 0.997 | 0.993 | 0.720 | 0.960 |
+| 4 | Separate-path | 0.993 | 0.991 | 0.520 | 0.860 |
+| 8 | Direct | 0.998 | 0.998 | 0.400 | 0.990 |
+| 8 | Shared-path | 0.999 | 0.992 | 0.850 | 0.920 |
+| 8 | Separate-path | 0.993 | 0.987 | 0.660 | 0.840 |
+| 16 | Direct | 0.998 | 0.999 | 0.400 | 0.980 |
+| 16 | Shared-path | 0.998 | 0.982 | 0.820 | 0.870 |
+| 16 | Separate-path | 0.982 | 0.972 | 0.530 | 0.790 |
 
 ## llada V4: accuracy
 
@@ -620,6 +711,88 @@
 | 16 | Shared-path | 0.678 | 0.392 | 0.820 | 0.050 |
 | 16 | Separate-path | 0.646 | 0.389 | 0.790 | 0.030 |
 
+## dream V3-nochat: accuracy
+
+| Size | Condition | Order | A | B | Both |
+|---:|---|---|---:|---:|---:|
+| 4 | Direct | A-first | 76.0 [67.0, 84.0] | 90.0 [84.0, 95.0] | 76.0 [67.0, 84.0] |
+| 4 | Direct | B-first | 86.0 [79.0, 92.0] | 91.0 [85.0, 96.0] | 83.0 [75.0, 90.0] |
+| 4 | Direct | CF | 83.0 [75.0, 90.0] | 89.0 [83.0, 95.0] | 82.0 [74.0, 89.0] |
+| 4 | Shared-path | A-first | 88.0 [81.0, 94.0] | 94.0 [89.0, 98.0] | 86.0 [79.0, 92.0] |
+| 4 | Shared-path | B-first | 89.0 [83.0, 95.0] | 80.0 [72.0, 88.0] | 80.0 [72.0, 88.0] |
+| 4 | Shared-path | CF | 91.0 [85.0, 96.0] | 90.0 [84.0, 96.0] | 87.0 [80.0, 93.0] |
+| 4 | Separate-path | A-first | 62.0 [52.0, 71.0] | 92.0 [86.0, 97.0] | 57.0 [47.0, 67.0] |
+| 4 | Separate-path | B-first | 63.0 [54.0, 72.0] | 81.0 [73.0, 89.0] | 55.0 [45.0, 65.0] |
+| 4 | Separate-path | CF | 65.0 [56.0, 74.0] | 86.0 [79.0, 92.0] | 57.0 [47.0, 67.0] |
+| 8 | Direct | A-first | 83.0 [76.0, 90.0] | 93.0 [88.0, 98.0] | 82.0 [74.0, 89.0] |
+| 8 | Direct | B-first | 93.0 [88.0, 97.0] | 95.0 [90.0, 99.0] | 92.0 [86.0, 97.0] |
+| 8 | Direct | CF | 92.0 [86.0, 97.0] | 95.0 [90.0, 99.0] | 91.0 [85.0, 96.0] |
+| 8 | Shared-path | A-first | 87.0 [80.0, 93.0] | 97.0 [93.0, 100.0] | 86.0 [79.0, 92.0] |
+| 8 | Shared-path | B-first | 89.0 [82.0, 95.0] | 83.0 [75.0, 90.0] | 81.0 [73.0, 88.0] |
+| 8 | Shared-path | CF | 90.0 [84.0, 95.0] | 95.0 [90.0, 99.0] | 89.0 [83.0, 95.0] |
+| 8 | Separate-path | A-first | 26.0 [18.0, 35.0] | 99.0 [97.0, 100.0] | 25.0 [17.0, 33.0] |
+| 8 | Separate-path | B-first | 33.0 [24.0, 42.0] | 83.0 [75.0, 90.0] | 30.0 [21.0, 39.0] |
+| 8 | Separate-path | CF | 32.0 [23.0, 41.0] | 96.0 [92.0, 99.0] | 31.0 [22.0, 40.0] |
+| 16 | Direct | A-first | 93.0 [88.0, 98.0] | 95.0 [90.0, 99.0] | 91.0 [85.0, 96.0] |
+| 16 | Direct | B-first | 96.0 [92.0, 99.0] | 95.0 [90.0, 99.0] | 92.0 [86.0, 97.0] |
+| 16 | Direct | CF | 94.0 [89.0, 98.0] | 96.0 [92.0, 99.0] | 92.0 [86.0, 97.0] |
+| 16 | Shared-path | A-first | 81.0 [73.0, 88.0] | 90.0 [84.0, 95.0] | 78.0 [70.0, 86.0] |
+| 16 | Shared-path | B-first | 77.0 [69.0, 85.0] | 53.0 [43.0, 63.0] | 51.0 [41.0, 61.0] |
+| 16 | Shared-path | CF | 83.0 [75.0, 90.0] | 89.0 [83.0, 95.0] | 79.0 [71.0, 87.0] |
+| 16 | Separate-path | A-first | 21.0 [13.0, 29.0] | 94.0 [89.0, 98.0] | 18.0 [11.0, 26.0] |
+| 16 | Separate-path | B-first | 39.0 [29.0, 49.0] | 43.0 [33.0, 53.0] | 14.0 [8.0, 21.0] |
+| 16 | Separate-path | CF | 21.0 [13.0, 29.0] | 91.0 [85.0, 96.0] | 17.0 [10.0, 25.0] |
+
+## dream V3-nochat: B error taxonomy (all sizes)
+
+| Condition | Order | n | correct | target_row_H | target_row_other | distractor_row_same_field | other_table_value | non_table |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| Direct | A-first | 300 | 278 | 0 | 7 | 1 | 9 | 5 |
+| Direct | B-first | 300 | 281 | 1 | 5 | 1 | 8 | 4 |
+| Direct | CF | 300 | 280 | 0 | 6 | 1 | 9 | 4 |
+| Shared-path | A-first | 300 | 281 | 0 | 7 | 7 | 0 | 5 |
+| Shared-path | B-first | 300 | 216 | 3 | 39 | 35 | 0 | 7 |
+| Shared-path | CF | 300 | 274 | 0 | 11 | 11 | 0 | 4 |
+| Separate-path | A-first | 300 | 285 | 0 | 4 | 8 | 0 | 3 |
+| Separate-path | B-first | 300 | 207 | 1 | 55 | 31 | 0 | 6 |
+| Separate-path | CF | 300 | 273 | 0 | 11 | 13 | 0 | 3 |
+
+## dream V3-nochat: paired A-first vs B-first (B correct)
+
+| Size | Condition | Both right | Both wrong | Only A-first right | Only B-first right | McNemar p | A-first − B-first B accuracy |
+|---:|---|---:|---:|---:|---:|---:|---:|
+| 4 | Direct | 83 | 2 | 7 | 8 | 1 | -1.0 [-9.0, 6.0] |
+| 4 | Shared-path | 80 | 6 | 14 | 0 | 0.000122 | 14.0 [7.0, 21.0] |
+| 4 | Separate-path | 79 | 6 | 13 | 2 | 0.00739 | 11.0 [4.0, 19.0] |
+| 8 | Direct | 91 | 3 | 2 | 4 | 0.688 | -2.0 [-7.0, 3.0] |
+| 8 | Shared-path | 83 | 3 | 14 | 0 | 0.000122 | 14.0 [8.0, 21.0] |
+| 8 | Separate-path | 83 | 1 | 16 | 0 | 3.05e-05 | 16.0 [9.0, 24.0] |
+| 16 | Direct | 92 | 2 | 3 | 3 | 1 | 0.0 [-5.0, 5.0] |
+| 16 | Shared-path | 51 | 8 | 39 | 2 | 7.84e-10 | 37.0 [27.0, 47.0] |
+| 16 | Separate-path | 43 | 6 | 51 | 0 | 8.88e-16 | 51.0 [41.0, 61.0] |
+
+## dream V3-nochat: order × path interaction
+
+| Size | Shared A-first − B-first | Separate A-first − B-first | Shared − Separate |
+|---:|---:|---:|---:|
+| 4 | 14.0 [7.0, 21.0] | 11.0 [4.0, 19.0] | 3.0 [-6.0, 12.0] |
+| 8 | 14.0 [8.0, 21.0] | 16.0 [9.0, 24.0] | -2.0 [-9.0, 5.0] |
+| 16 | 37.0 [27.0, 47.0] | 51.0 [41.0, 61.0] | -14.0 [-25.0, -3.0] |
+
+## dream V3-nochat: step-0 confidence and CF
+
+| Size | Condition | Mean A top-1 | Mean B top-1 | CF commits A first | CF min margin < 0.02 |
+|---:|---|---:|---:|---:|---:|
+| 4 | Direct | 0.417 | 0.510 | 0.400 | 0.080 |
+| 4 | Shared-path | 0.583 | 0.500 | 0.620 | 0.040 |
+| 4 | Separate-path | 0.522 | 0.448 | 0.620 | 0.070 |
+| 8 | Direct | 0.532 | 0.650 | 0.350 | 0.030 |
+| 8 | Shared-path | 0.685 | 0.496 | 0.730 | 0.060 |
+| 8 | Separate-path | 0.587 | 0.474 | 0.590 | 0.010 |
+| 16 | Direct | 0.649 | 0.619 | 0.530 | 0.110 |
+| 16 | Shared-path | 0.659 | 0.315 | 0.900 | 0.030 |
+| 16 | Separate-path | 0.603 | 0.317 | 0.860 | 0.030 |
+
 ## dream V4: accuracy
 
 | Size | Condition | Order | A | B | Both |
@@ -718,3 +891,4 @@
 - 2026-11-17: The first pool build excluded prompt words but not chat-template words; Dream's pool contained `assistant`, `system` and `you`, and LLaDA's `user`, `start`, `header` and `end`. Found by the dev task audit (76 extra value matches in Dream prompts) before any model run. The pool now also excludes each model's chat-template words: 4,015 words for LLaDA (was 4,019) and 4,759 for Dream (was 4,762). Dev audit rerun: 0 failures.
 - 2026-11-17: Anchor and mapping row orders are shared across conditions within a source. Phase 1 drew a separate shuffle per condition. This makes condition and variant comparisons paired.
 - 2026-11-17: Hardware deviation from the PREREG. At smoke time, another user's vLLM servers held 43–45 GB on all eight rosetta21 A6000s, and the smoke run ran out of memory while loading weights; no rows were written and the empty smoke directory was deleted. rosetta7's eight A6000s were all at 97–100% utilization. Following the fallback order, all of Phase 1.5 (smoke, dev, V5 arm, test) runs on rosetta15 (NVIDIA A100-PCIE-40GB); no Phase 1.5 split mixes GPU types. Stage 0 measured the A6000→A100 effect on Phase 1 Exp 2: 2.4% (LLaDA) and 4.8% (Dream) of individual decisions flip, and cell-level B accuracy moves by at most 1.3 points. Phase 1.5 numbers are therefore compared to Phase 1 only at the cell level.
+- 2026-11-17: Dev V1–V4 complete (10,800 rows per model, rosetta15 A100). No variant passed. Per the selection rule, the closest variant is V3 (16/20 criteria): Direct passes for both models, but Shared-path B is above the 80% ceiling (LLaDA 100%, Dream 87–91%). V2 fails the same way; V1 and V4 fail Direct. The V5 arm runs V3-nochat on the same dev sources.
