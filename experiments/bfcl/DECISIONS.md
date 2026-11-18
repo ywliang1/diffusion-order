@@ -4,3 +4,4 @@
 - 2026-11-17: Smoke-run bug fixed before any full run: the function-name locator took the first word of prose outputs as the function name. It now takes the first identifier followed by `(` (or a JSON `"function"` value). Only the 24 smoke rows were affected.
 - 2026-11-17: Scoring config `qwen3-8b` (a BFCL prompting config with `underscore_to_dot=False`); the first choice, `Qwen/Qwen2.5-7B-Instruct`, is not in this version's config table.
 - 2026-11-17: Scorer validation: 790/800 rendered gold calls pass; the 10 failures come from rendering only the first acceptable value per parameter, not from the checker.
+- 2026-11-18: Harness sanity check passed. Dream CF on 100 `live_simple` items with JSON output (A6000) scored 77/100 AST-correct (14 argument errors, 9 wrong call counts, 0 parse errors), above the 50% inspection threshold and the team's ~64% reference. No harness fix was needed.
