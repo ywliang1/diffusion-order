@@ -223,6 +223,13 @@ AST accuracy, %, original schema; random is the mean of 3 seeds:
   - **BFCL:** the Qwen reference ran on a different GPU type from the diffusion runs.
   - **Phase 1:** the handoff's LLaDA repo name was wrong (`ML-GSAI`); the run used `GSAI-ML/LLaDA-8B-Instruct`.
 
+**Places where the sources disagree** (the newer file is used unless noted):
+- **Qwen gap:** `experiments/bfcl/DECISIONS.md` says the AR model beats the best diffusion order by "about 18 points"; the newer `SUMMARY.md` says 16–18 (strict vs lenient). This update uses 16–18.
+- **Best lenient diffusion score:** `SUMMARY.md` cites Dream L2R at 79.8% lenient. That is the original schema; on the reversed schema it is 80.2% (`results/bfcl/report.md`).
+- **Dream RQ1 margin rate:** `SUMMARY.md` rounds it to 10%; the report gives 9.8%, used here.
+- **Test count:** `SUMMARY.md` says 47 tests; `experiments/exp4/DECISIONS.md` (newer) says 50, and tests were added after both. No count is given here.
+- **Multi-token identifiability:** the RQ1 DECISIONS note and the Stage 3 PREREG both said multi-token values would identify the interaction; later entries correct both.
+
 ## 6. Open questions and proposed next steps
 
 | # | Question / step | Why | Owner |
