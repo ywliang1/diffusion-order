@@ -1,0 +1,7 @@
+# Harness sanity check: Dream CF on 100 live_simple items, JSON output format.
+stage: bfcl
+split: sanity
+seed: 4610
+length: 64
+orders: [CF]
+schemas: [original]

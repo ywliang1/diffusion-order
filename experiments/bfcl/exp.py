@@ -16,7 +16,8 @@ from dlm.decoder import Job, decode
 from dlm.models import ROOT
 
 FILES = {'test': 'items.jsonl', 'dev': 'dev.jsonl', 'sanity': 'sanity.jsonl'}
-NAME = re.compile(r'^\s*`*\s*(?:json)?\s*\[?\s*(?:\{\s*"function"\s*:\s*")?([A-Za-z_][\w.]*)')
+CALL = re.compile(r'([A-Za-z_][\w.]*)\s*\(')               # python format: first identifier called
+JSON_NAME = re.compile(r'"function"\s*:\s*"([A-Za-z_][\w.]*)"')  # json format
 
 
 def prepare(tok, mask_id, name, cfg):
@@ -41,7 +42,7 @@ def jobs(ctx):
 
 def name_positions(content, content_tokens, text):
     """Canvas positions of the first called function's name, via character offsets of the content tokens."""
-    m = NAME.search(text)
+    m = JSON_NAME.search(text) or CALL.search(text)
     if not m:
         return []
     st, en = m.span(1)

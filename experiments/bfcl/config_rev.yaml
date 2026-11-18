@@ -1,0 +1,7 @@
+# BFCL test, reversed schema (priority blocks 3-4).
+stage: bfcl
+split: test
+seed: 4610
+length: 64
+orders: [L2R, R2L, random-s0, random-s1, random-s2, CF]
+schemas: [reversed]
