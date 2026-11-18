@@ -36,7 +36,7 @@ In Phase 1's space-separated table format, LLaDA's Shared-path B accuracy was 27
 - **Margins:** 91% of LLaDA CF traces have a step with margin below 0.02; Dream 10%.
 
 ### Exp 4: role × layout × hop with all orders (`results/exp4/report.md`, A6000)
-- **Sizes:** calibrated on dev to LLaDA 128 rows (100 sources) and Dream 16 rows (200 sources). Dream used the fallback branch: no size put its one-hop accuracy at 90% or more, so its two-hop items sit near ceiling.
+- **Format and sizes:** V2 row format (`key=… | a=… | h=… | c=…` anchor rows, `a=… | b=…` mapping rows), not frozen by any gate. Sizes calibrated on dev to LLaDA 128 rows (100 sources) and Dream 16 rows (200 sources); this is a preregistration deviation from the Mission (`experiments/exp4/DECISIONS.md`). Dream used the fallback branch: no size put its one-hop accuracy at 90% or more, so its two-hop items sit near ceiling.
 - **H2:** as in the table above. LLaDA two-hop dependent accuracy is PF 89.5, CF 76.8, R2L 65.0, random 62.3, L2R 59.5 and DF 35.0. One-hop accuracy is 98–99 under every order.
 - **H1:** position +0.290 (LLaDA) and +0.113 (Dream); field (b − a) +0.240 and +0.253; role +0.630 and +0.562. In LLaDA, most of the position and field effect comes from one cell, two-hop / query b / layout ab. There CF commits the prerequisite first in only 43% of traces and both fields are right in 42%.
 - CF commits the prerequisite first in 81.5% (LLaDA) and 78.1% (Dream) of two-hop traces, compared with 58.2% and 64.9% for the one-hop direction field.
@@ -82,7 +82,8 @@ Values are AST accuracy in %, with intervals clustered by item. Random is the me
 
 ## Limitations
 
-- **Synthetic tasks.** RQ1 and RQ2 use synthetic two-field lookup tables, in which field a is always prefilled inside a JSON scaffold. The gap from these to real tool calls is what the BFCL check probes, and it does not test dependency order directly.
+- **Synthetic tasks.** RQ1 and RQ2 use synthetic two-field lookup tables with a fixed JSON output scaffold; both value fields are masked. (Only the Phase 1/1.5 Exp 3 design prefilled field a.) The BFCL check probes the gap to real tool calls, but it does not test dependency order directly.
+- **Unvalidated row format.** Exp 4 and Stage 3 use the V2 row format, which passed no gate: Phase 1.5 froze no format. Exp 4 sizes come from its own dev calibration, and Dream's size is outside the 40–80% band. See `experiments/exp4/DECISIONS.md`.
 - **Two models, different table sizes.** Each model was tested at a size calibrated to it (LLaDA 128, Dream 16; Stage 3 used LLaDA 64), so between-model comparisons are descriptive. Dream's Exp 4 two-hop items sit near ceiling, which compresses its H2 gap.
 - **No frozen Phase 1.5 configuration.** The gate failed for both models. Exp 4 calibrated its own size on dev, and no Phase 1.5 test split exists.
 - **GPU types.** RQ1, Exp 4 and BFCL ran on RTX A6000; Phase 1.5 and Stage 3 ran on A100-PCIE-40GB. Each stage uses one GPU type. Across GPU types, about 2–5% of row-level decisions flip, almost all where the margin is below 0.02. In Stage 3 that covers most LLaDA CF traces (94–100%), so compare Stage 3 with the other stages at the level of effects only.
