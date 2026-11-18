@@ -1,0 +1,53 @@
+{
+  "llada dev-n8": {
+    "one_hop_all_correct": {
+      "mean": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_clusters": 20
+    },
+    "two_hop_h_correct": {
+      "mean": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_clusters": 20
+    },
+    "n_one": 240,
+    "n_two": 240,
+    "passes": true
+  },
+  "dream dev-n8": {
+    "one_hop_all_correct": {
+      "mean": 0.9958333333333332,
+      "lo": 0.9875,
+      "hi": 1.0,
+      "n_clusters": 20
+    },
+    "two_hop_h_correct": {
+      "mean": 0.9958333333333333,
+      "lo": 0.9875,
+      "hi": 1.0,
+      "n_clusters": 20
+    },
+    "n_one": 240,
+    "n_two": 240,
+    "passes": true
+  },
+  "llada dev-n128": {
+    "one_hop_all_correct": {
+      "mean": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_clusters": 20
+    },
+    "two_hop_h_correct": {
+      "mean": 0.9833333333333332,
+      "lo": 0.9666666666666668,
+      "hi": 0.9958333333333332,
+      "n_clusters": 20
+    },
+    "n_one": 240,
+    "n_two": 240,
+    "passes": true
+  }
+}
