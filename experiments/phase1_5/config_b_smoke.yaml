@@ -1,0 +1,9 @@
+# Smoke only (crash/completeness): 5 dev sources, V2 and V2d at size 64. Excluded from analysis.
+stage: phase1_5b
+split: smoke
+seed: 15011
+cols8: true
+sizes: [64]
+sources: 5
+variants: [V2, V2d]
+exps: [2, 3]

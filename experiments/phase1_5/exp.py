@@ -32,27 +32,39 @@ def prepare(tok, mask_id, name, cfg):
     return dict(tok=tok, mask_id=mask_id, name=name, cfg=cfg, words=pool(tok, mask_id, name))
 
 
+def cells(c, name):
+    """(variant, size) cells to run: `per_model` (frozen choice per model) overrides variants x sizes;
+    `max_size` caps sizes per variant (e.g. V2d prompts must fit LLaDA's 4,096 tokens)."""
+    if 'per_model' in c:
+        pm = c['per_model'][name]
+        return [(pm['variant'], pm['size'])]
+    caps = c.get('max_size', {})
+    return [(v, n) for v in c['variants'] for n in c['sizes'] if n <= caps.get(v, n)]
+
+
 def jobs(ctx):
     c, name = ctx['cfg'], ctx['name']
     out = []
-    for v in c['variants']:
+    for v, size in cells(c, name):
         lookup.parse_variant(v)
         for exp in c['exps']:
             conds = lookup.CONDITIONS if exp == 2 else ('Shared-path', 'Separate-path')
             arms = ORDERS if exp == 2 else BRANCHES
-            for size in c['sizes']:
-                for sid in range(c['sources']):
-                    for cond in conds:
-                        for arm in arms:
-                            out.append(dict(run_id=f"{name}-{c['split']}-{v}-e{exp}-n{size}-s{sid}-{cond}-{arm}",
-                                            variant=v, exp=exp, size=size, sid=sid, condition=cond, order=arm,
-                                            group=f"{v}-e{exp}-n{size}-s{sid}-{cond}"))
+            for sid in range(c['sources']):
+                for cond in conds:
+                    for arm in arms:
+                        out.append(dict(run_id=f"{name}-{c['split']}-{v}-e{exp}-n{size}-s{sid}-{cond}-{arm}",
+                                        variant=v, exp=exp, size=size, sid=sid, condition=cond, order=arm,
+                                        group=f"{v}-e{exp}-n{size}-s{sid}-{cond}"))
     return out
 
 
-def shown_rows(source, condition):
+def shown_rows(source, condition, variant):
     (c4, _), (ml, _), (mr, _) = lookup.LAYOUT[condition]
     keep = {'q', 'A', 'H', 'B', c4, ml, mr}
+    if lookup.parse_variant(variant)[0] == 'V2d':
+        dl, _, dr, _ = lookup.DECOY[condition]
+        keep |= {dl, dr}
     return [{k: v for k, v in r.items() if k in keep} for r in source['rows']]
 
 
@@ -64,8 +76,8 @@ def base_row(j, source, canvas, ctx):
                 prompt_tokens=canvas.prompt_len, canvas_tokens=len(canvas.ids))
 
 
-def score(row, pred, source, condition):
-    rows = shown_rows(source, condition)
+def score(row, pred, source, condition, variant):
+    rows = shown_rows(source, condition, variant)
     t = source['rows'][source['target']]
     row['fields'] = {f: score_field(pred[f], t[f]) for f in pred}
     row['taxonomy'] = {f: taxonomy(pred[f], rows, source['target'], f) for f in pred}
@@ -79,7 +91,8 @@ def execute(bundle, ctx, group, batch=False):
     j0 = group[0]
     base, chat = lookup.parse_variant(j0['variant'])
     seed = ctx['cfg']['seed']
-    source = lookup.make_source(j0['size'], j0['sid'], ctx['words'], seed)
+    cols = lookup.COLS8 if ctx['cfg'].get('cols8') else lookup.COLS
+    source = lookup.make_source(j0['size'], j0['sid'], ctx['words'], seed, cols=cols)
     lookup.integrity(source, j0['condition'])
     canvas = build(tok, mask_id, lookup.instruction(source, j0['condition'], j0['variant']), lookup.OUTPUT, chat=chat)
     fo = canvas.field_of()
@@ -90,7 +103,7 @@ def execute(bundle, ctx, group, batch=False):
         for j in group:
             r = decode(bundle, [Job(canvas.ids, [pA, pB], schedules.make(j['order'], tie_seed=tie_seed), fo)])[0]
             row = base_row(j, source, canvas, ctx)
-            score(row, {'A': tok.decode([r['ids'][pA]]), 'B': tok.decode([r['ids'][pB]])}, source, j['condition'])
+            score(row, {'A': tok.decode([r['ids'][pA]]), 'B': tok.decode([r['ids'][pB]])}, source, j['condition'], j['variant'])
             row.update(first_field=r['steps'][0]['field'], tie_broken=any(s['tie'] for s in r['steps']),
                        steps=r['steps'], step0=r['step0'])
             rows.append(row)
@@ -110,7 +123,7 @@ def execute(bundle, ctx, group, batch=False):
         r = decode(bundle, [Job(ids, [pB], schedules.make('B-first', tie_seed=tie_seed), fo)])[0]
         row = base_row(j, source, canvas, ctx)
         pred_B = tok.decode([r['ids'][pB]])
-        score(row, {'B': pred_B}, source, j['condition'])
+        score(row, {'B': pred_B}, source, j['condition'], j['variant'])
         alt = wrong['B'] if j['order'] == 'Wrong' else None
         row.update(held_A=held, initial_A=score_field(init_A, t['A']), alternative_B=alt,
                    B_matches_alternative=(pred_B.strip() == alt if alt is not None else None),

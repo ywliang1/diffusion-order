@@ -21,7 +21,7 @@ def test_source_is_deterministic_and_excludes_phase1(words):
 
 
 def test_conditions_share_row_orders_and_lengths(words):
-    s = lookup.make_source(4, 0, words, 15001)
+    s = lookup.make_source(4, 0, words, 15001, cols=lookup.COLS8)
     for v in lookup.VARIANTS:
         texts = [lookup.tables(s, c, v) for c in lookup.CONDITIONS]
         assert len({t.count('\n') for t in texts}) == 1
@@ -56,3 +56,18 @@ def test_pool_has_no_template_words(words):
     from tasks.exclusion import stopwords
     assert not set(words) & stopwords(lookup.all_prompt_text())
     assert not set(words) & {'user', 'header', 'start', 'end'}  # LLaDA's own chat-template words
+
+
+def test_v2d_adds_labeled_decoy_rows(words):
+    s = lookup.make_source(8, 0, words, 15011, cols=lookup.COLS8)
+    r = s['rows'][s['target']]
+    sh = lookup.tables(s, 'Shared-path', 'V2d')
+    assert f"a={r['A']} | b={r['B']}" in sh and f"h={r['H']} | b={r['F']}" in sh
+    se = lookup.tables(s, 'Separate-path', 'V2d')
+    assert f"h={r['H']} | b={r['B']}" in se and f"a={r['A']} | b={r['F']}" in se
+    for c in lookup.CONDITIONS:
+        assert lookup.tables(s, c, 'V2d').count('\n') == 1 + 8 + 1 + 16 - 1
+    # V2 on the same 8-column source is unchanged in shape
+    assert lookup.tables(s, 'Shared-path', 'V2').count('\n') == 1 + 8 + 1 + 8 - 1
+    with pytest.raises(ValueError):
+        lookup.tables(lookup.make_source(8, 0, words, 15011), 'Direct', 'V2d')

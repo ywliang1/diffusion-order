@@ -1,0 +1,10 @@
+# Phase 1.5b dev: V2 at larger tables, plus the pre-registered V2d decoy fallback.
+stage: phase1_5b
+split: dev
+seed: 15011
+cols8: true
+sizes: [16, 32, 64, 128]
+max_size: {V2d: 64}
+sources: 100
+variants: [V2, V2d]
+exps: [2]
