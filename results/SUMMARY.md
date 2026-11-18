@@ -53,6 +53,7 @@ In Phase 1's space-separated table format, LLaDA's Shared-path B accuracy was 27
 
 - **Within a field, CF does not go left to right.** The share of fields committed strictly left to right is close to chance: about 50% at k=2 (chance 50%) and 14–28% at k=3 (chance 17%).
 - **Fields are mostly committed as blocks.** 85–98% of traces commit each field as one uninterrupted block at k=2, and 68–93% at k=3.
+- **Determinism check:** a full rerun on the same GPU type (rosetta15 A100; `results/stage3_rerun/`) reproduced all 9,600 rows bit for bit (same commits and probabilities), so every Stage 3 verdict reproduces. The intended A6000 rerun was not possible: rosetta21 was down and rosetta7's A6000s were all busy.
 - **The preregistered role × position interaction is not identifiable.** In this two-field design the two field ranks in a trace always sum to a constant, so the contrast is exactly 0 for any k. The preregistration was wrong on this point; see `experiments/stage3/DECISIONS.md`.
 
 ### Three-field RQ1 study: role × slot (`results/rq1_3f/report.md`, A100 for the whole stage, CF only)

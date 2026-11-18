@@ -1,0 +1,170 @@
+{
+  "llada k=2": {
+    "h1": "supported (position effect excludes 0 in both the mixed model and the bootstrap)",
+    "h2": "supported (two-hop PF \u2212 DF > 0 and larger than in one-hop controls)",
+    "position": {
+      "mean": 0.05166666666666665,
+      "lo": 0.023333333333333327,
+      "hi": 0.07999999999999999,
+      "n_clusters": 100
+    },
+    "role": {
+      "mean": 0.5499999999999999,
+      "lo": 0.5158333333333334,
+      "hi": 0.5824999999999999,
+      "n_clusters": 100
+    },
+    "interaction": {
+      "mean": 5.828670879282072e-18,
+      "lo": 8.326672684688674e-19,
+      "hi": 1.0824674490095277e-17,
+      "n_clusters": 100
+    },
+    "pf_df_two": {
+      "mean": 0.4275,
+      "lo": 0.385,
+      "hi": 0.4675,
+      "n_clusters": 100
+    },
+    "pf_df_one": {
+      "mean": 0.0025,
+      "lo": 0.0,
+      "hi": 0.0075,
+      "n_clusters": 100
+    },
+    "hop_x_order": {
+      "mean": 0.425,
+      "lo": 0.3825,
+      "hi": 0.4675,
+      "n_clusters": 100
+    },
+    "flip_fraction": 0.94125,
+    "size": 64
+  },
+  "llada k=3": {
+    "h1": "supported (position effect excludes 0 in both the mixed model and the bootstrap)",
+    "h2": "supported (two-hop PF \u2212 DF > 0 and larger than in one-hop controls)",
+    "position": {
+      "mean": 0.017000000000000032,
+      "lo": 0.0010000000000000365,
+      "hi": 0.03366666666666669,
+      "n_clusters": 100
+    },
+    "role": {
+      "mean": 0.5409999999999998,
+      "lo": 0.5163333333333331,
+      "hi": 0.5633333333333331,
+      "n_clusters": 100
+    },
+    "interaction": {
+      "mean": 8.326672684688674e-19,
+      "lo": -8.326672684688674e-19,
+      "hi": 2.498001805406602e-18,
+      "n_clusters": 100
+    },
+    "pf_df_two": {
+      "mean": 0.42,
+      "lo": 0.37,
+      "hi": 0.47,
+      "n_clusters": 100
+    },
+    "pf_df_one": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_clusters": 100
+    },
+    "hop_x_order": {
+      "mean": 0.42,
+      "lo": 0.37,
+      "hi": 0.47,
+      "n_clusters": 100
+    },
+    "flip_fraction": 1.0,
+    "size": 64
+  },
+  "dream k=2": {
+    "h1": "supported (position effect excludes 0 in both the mixed model and the bootstrap)",
+    "h2": "partly supported (two-hop PF \u2212 DF > 0, but the hop \u00d7 order interaction CI includes 0)",
+    "position": {
+      "mean": 0.07083333333333332,
+      "lo": 0.04583333333333331,
+      "hi": 0.09666666666666666,
+      "n_clusters": 100
+    },
+    "role": {
+      "mean": 0.36749999999999994,
+      "lo": 0.31499999999999995,
+      "hi": 0.42,
+      "n_clusters": 100
+    },
+    "interaction": {
+      "mean": 5.551115123125783e-19,
+      "lo": -6.38378239159465e-18,
+      "hi": 6.938893903907228e-18,
+      "n_clusters": 100
+    },
+    "pf_df_two": {
+      "mean": 0.0325,
+      "lo": 0.0125,
+      "hi": 0.0575,
+      "n_clusters": 100
+    },
+    "pf_df_one": {
+      "mean": 0.0025,
+      "lo": -0.0225,
+      "hi": 0.025,
+      "n_clusters": 100
+    },
+    "hop_x_order": {
+      "mean": 0.03,
+      "lo": 0.0,
+      "hi": 0.0625,
+      "n_clusters": 100
+    },
+    "flip_fraction": 0.6125,
+    "size": 16
+  },
+  "dream k=3": {
+    "h1": "contradicted (bootstrap CI of the position effect lies within \u00b10.1)",
+    "h2": "supported (two-hop PF \u2212 DF > 0 and larger than in one-hop controls)",
+    "position": {
+      "mean": -0.010333333333333321,
+      "lo": -0.028666666666666653,
+      "hi": 0.00733333333333335,
+      "n_clusters": 100
+    },
+    "role": {
+      "mean": 0.373,
+      "lo": 0.33333333333333326,
+      "hi": 0.4113333333333333,
+      "n_clusters": 100
+    },
+    "interaction": {
+      "mean": -2.7755575615628915e-18,
+      "lo": -6.661338147750939e-18,
+      "hi": 1.1102230246251566e-18,
+      "n_clusters": 100
+    },
+    "pf_df_two": {
+      "mean": 0.145,
+      "lo": 0.1,
+      "hi": 0.1925,
+      "n_clusters": 100
+    },
+    "pf_df_one": {
+      "mean": 0.015,
+      "lo": -0.0125,
+      "hi": 0.0425,
+      "n_clusters": 100
+    },
+    "hop_x_order": {
+      "mean": 0.13,
+      "lo": 0.075,
+      "hi": 0.1875,
+      "n_clusters": 100
+    },
+    "flip_fraction": 0.985,
+    "size": 16
+  }
+}

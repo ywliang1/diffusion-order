@@ -1,0 +1,58 @@
+{
+  "llada k=2": {
+    "rows_original": 2400,
+    "rows_rerun": 2400,
+    "matched_ids": 2400,
+    "identical_commit_sequence": 2400,
+    "identical_probabilities": 2400,
+    "same_dependent_correctness": 2400,
+    "gpus": [
+      "NVIDIA A100-PCIE-40GB"
+    ],
+    "commits": [
+      "5220168"
+    ]
+  },
+  "llada k=3": {
+    "rows_original": 2400,
+    "rows_rerun": 2400,
+    "matched_ids": 2400,
+    "identical_commit_sequence": 2400,
+    "identical_probabilities": 2400,
+    "same_dependent_correctness": 2400,
+    "gpus": [
+      "NVIDIA A100-PCIE-40GB"
+    ],
+    "commits": [
+      "bfcc85e"
+    ]
+  },
+  "dream k=2": {
+    "rows_original": 2400,
+    "rows_rerun": 2400,
+    "matched_ids": 2400,
+    "identical_commit_sequence": 2400,
+    "identical_probabilities": 2400,
+    "same_dependent_correctness": 2400,
+    "gpus": [
+      "NVIDIA A100-PCIE-40GB"
+    ],
+    "commits": [
+      "5220168"
+    ]
+  },
+  "dream k=3": {
+    "rows_original": 2400,
+    "rows_rerun": 2400,
+    "matched_ids": 2400,
+    "identical_commit_sequence": 2400,
+    "identical_probabilities": 2400,
+    "same_dependent_correctness": 2400,
+    "gpus": [
+      "NVIDIA A100-PCIE-40GB"
+    ],
+    "commits": [
+      "5220168"
+    ]
+  }
+}
