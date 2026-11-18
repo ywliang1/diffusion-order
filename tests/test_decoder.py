@@ -46,6 +46,10 @@ def test_margins_logged():
     s0 = r['steps'][0]
     assert s0['pos'] == 6 and s0['cf_margin'] > 0 and s0['choice_margin'] == s0['cf_margin']
     assert r['steps'][-1]['cf_margin'] is None
+    _, a = run('A-first')
+    assert all(s['choice_margin'] is None or s['choice_margin'] >= 0 for s in a['steps'])
+    _, l = run('L2R')
+    assert all(s['choice_margin'] is None for s in l['steps'])
     assert set(s0) >= {'step', 'pos', 'field', 'role', 'token_id', 'token', 'prob', 'top5_ids', 'top5_probs', 'tok_margin'}
 
 

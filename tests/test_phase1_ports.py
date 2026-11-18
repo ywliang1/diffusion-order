@@ -28,7 +28,7 @@ def test_llada_is_not_shifted():
 def decision(logits, positions, mask):
     probs = slot_probs(logits[positions], mask)
     conf = {p: float(probs[i].max()) for i, p in enumerate(positions)}
-    pos, _ = cf_pick(positions, conf, random.Random(0))
+    pos, _, _ = cf_pick(positions, conf, random.Random(0))
     return pos, int(probs[positions.index(pos)].argmax())
 
 

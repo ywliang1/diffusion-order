@@ -22,13 +22,19 @@ def parse(name):
 
 
 def cf_pick(candidates, conf, tie_rng):
+    """-> (position, tie_broken, margin to the best other candidate or None)."""
     best = max(conf[p] for p in candidates)
     winners = [p for p in sorted(candidates) if conf[p] == best]
-    return tie_rng.choice(winners), len(winners) > 1
+    pos = tie_rng.choice(winners)
+    others = [conf[p] for p in candidates if p != pos]
+    return pos, len(winners) > 1, (best - max(others)) if others else None
 
 
 class Schedule:
-    """`choose(remaining, conf, field_of)` -> (position, tie_broken)."""
+    """`choose(remaining, conf, field_of)` -> (position, tie_broken, choice margin or None).
+
+    The choice margin is the chosen slot's confidence minus the best other slot this
+    schedule could have picked (None for L2R/R2L/random or a single candidate)."""
 
     def __init__(self, name, roles=None, tie_seed=0, order_seed_base=0):
         self.name = name
@@ -55,11 +61,11 @@ class Schedule:
     def choose(self, remaining, conf, field_of):
         remaining = sorted(remaining)
         if self.kind == 'L2R':
-            return remaining[0], False
+            return remaining[0], False, None
         if self.kind == 'R2L':
-            return remaining[-1], False
+            return remaining[-1], False, None
         if self.kind == 'random':
-            return self.order_rng.choice(remaining), False
+            return self.order_rng.choice(remaining), False, None
         cands = remaining
         if self.priority:
             for f in self.priority:

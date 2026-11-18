@@ -67,11 +67,10 @@ def decode(bundle, jobs, topk=5):
                         out[b]['step0'][step0_key(j, p)] = dict(pos=p, top5_ids=top.indices[i, :topk].tolist(),
                                                     top5_tokens=[tok.decode([t]) for t in top.indices[i, :topk].tolist()],
                                                     top5_probs=top.values[i, :topk].tolist())
-            pos, tie = j.schedule.choose(rem, conf, j.field_of)
+            pos, tie, choice_margin = j.schedule.choose(rem, conf, j.field_of)
             i = rem.index(pos)
             tid = int(top.indices[i, 0])
             ranked = sorted(conf.values(), reverse=True)
-            others = [conf[p] for p in rem if p != pos]
             if int(x[b, pos]) != mask_id:
                 raise RuntimeError('attempt to rewrite a committed token')
             x[b, pos] = tid
@@ -83,7 +82,7 @@ def decode(bundle, jobs, topk=5):
                 top5_ids=top.indices[i, :topk].tolist(), top5_probs=top.values[i, :topk].tolist(),
                 tok_margin=float(top.values[i, 0] - top.values[i, 1]),
                 cf_margin=(ranked[0] - ranked[1]) if len(ranked) > 1 else None,
-                choice_margin=(conf[pos] - max(others)) if others else None,
+                choice_margin=choice_margin,
                 tie=tie))
     final = x.tolist()
     for b, j in enumerate(jobs):
