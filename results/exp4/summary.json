@@ -1,0 +1,180 @@
+{
+  "llada": {
+    "sizes": [
+      128
+    ],
+    "h2": {
+      "verdict": "supported (two-hop PF \u2212 DF > 0 and larger than in one-hop controls)",
+      "two_hop": {
+        "mean": 0.545,
+        "lo": 0.49743750000000003,
+        "hi": 0.5925,
+        "n_clusters": 100
+      },
+      "one_hop": {
+        "mean": -0.01,
+        "lo": -0.0275,
+        "hi": 0.005,
+        "n_clusters": 100
+      },
+      "interaction": {
+        "mean": 0.555,
+        "lo": 0.5075,
+        "hi": 0.6025,
+        "n_clusters": 100
+      }
+    },
+    "h1": {
+      "verdict": "supported",
+      "mixedlm": {
+        "coefs": {
+          "Intercept": {
+            "coef": 0.5,
+            "se": 0.012037942542606187,
+            "lo": 0.4764060661685294,
+            "hi": 0.5235939338314707,
+            "p": 0.0
+          },
+          "role_c": {
+            "coef": 0.63,
+            "se": 0.02407588505550792,
+            "lo": 0.5828121323952784,
+            "hi": 0.6771878676047216,
+            "p": 6.270051711346571e-151
+          },
+          "pos_c": {
+            "coef": 0.29,
+            "se": 0.02407588505550792,
+            "lo": 0.24281213239527832,
+            "hi": 0.33718786760472164,
+            "p": 2.054582208236376e-33
+          },
+          "field_c": {
+            "coef": 0.23999999999999996,
+            "se": 0.02407588505550792,
+            "lo": 0.19281213239527834,
+            "hi": 0.2871878676047216,
+            "p": 2.0940711504816307e-23
+          }
+        },
+        "group_var": 3.5758033094377815e-11,
+        "resid_var": 0.11592964824120591,
+        "converged": true,
+        "optimizer": "powell",
+        "optimizer_errors": {},
+        "n_obs": 800,
+        "n_groups": 100
+      },
+      "bootstrap": {
+        "position": {
+          "mean": 0.29,
+          "lo": 0.235,
+          "hi": 0.345,
+          "n_clusters": 100
+        },
+        "role": {
+          "mean": 0.63,
+          "lo": 0.56,
+          "hi": 0.695,
+          "n_clusters": 100
+        },
+        "field": {
+          "mean": 0.24,
+          "lo": 0.17,
+          "hi": 0.31,
+          "n_clusters": 100
+        }
+      }
+    },
+    "flip_fraction": 0.2625
+  },
+  "dream": {
+    "sizes": [
+      16
+    ],
+    "h2": {
+      "verdict": "supported (two-hop PF \u2212 DF > 0 and larger than in one-hop controls)",
+      "two_hop": {
+        "mean": 0.14875,
+        "lo": 0.1175,
+        "hi": 0.18125,
+        "n_clusters": 200
+      },
+      "one_hop": {
+        "mean": 0.08625,
+        "lo": 0.06,
+        "hi": 0.1125,
+        "n_clusters": 200
+      },
+      "interaction": {
+        "mean": 0.0625,
+        "lo": 0.02375,
+        "hi": 0.1025,
+        "n_clusters": 200
+      }
+    },
+    "h1": {
+      "verdict": "supported",
+      "mixedlm": {
+        "coefs": {
+          "Intercept": {
+            "coef": 0.5,
+            "se": 0.009752427654666412,
+            "lo": 0.48088559303502143,
+            "hi": 0.5191144069649786,
+            "p": 0.0
+          },
+          "role_c": {
+            "coef": 0.5625,
+            "se": 0.01950485528526802,
+            "lo": 0.5242711861172089,
+            "hi": 0.6007288138827911,
+            "p": 6.966861550884103e-183
+          },
+          "pos_c": {
+            "coef": 0.1125,
+            "se": 0.01950485528526802,
+            "lo": 0.07427118611720895,
+            "hi": 0.15072881388279105,
+            "p": 8.031558321645244e-09
+          },
+          "field_c": {
+            "coef": 0.2525,
+            "se": 0.01950485528526802,
+            "lo": 0.21427118611720897,
+            "hi": 0.29072881388279104,
+            "p": 2.4915318681175265e-38
+          }
+        },
+        "group_var": 4.693799785043953e-11,
+        "resid_var": 0.1521757518796991,
+        "converged": true,
+        "optimizer": "powell",
+        "optimizer_errors": {},
+        "n_obs": 1600,
+        "n_groups": 200
+      },
+      "bootstrap": {
+        "position": {
+          "mean": 0.1125,
+          "lo": 0.0775,
+          "hi": 0.1475,
+          "n_clusters": 200
+        },
+        "role": {
+          "mean": 0.5625,
+          "lo": 0.5,
+          "hi": 0.6225,
+          "n_clusters": 200
+        },
+        "field": {
+          "mean": 0.2525,
+          "lo": 0.18,
+          "hi": 0.3225,
+          "n_clusters": 200
+        }
+      }
+    },
+    "flip_fraction": 0.08
+  }
+}
