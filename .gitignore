@@ -5,3 +5,5 @@ results/phase1/traces/
 results/phase1/logs/
 phase1/model_code/
 weights/
+results/*/traces/
+results/equivalence_smoke/
