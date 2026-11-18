@@ -74,43 +74,53 @@ def rank_by_role_position():
         grid(ax)
     for row in axes:
         row[0].set_ylabel('normalized commit rank\n(0 = committed first)')
-    fig.suptitle('Under CF, the prerequisite field is committed first; output position matters little', x=.01, ha='left',
+    fig.suptitle('Under CF the prerequisite field is committed first; position matters more in large tables', x=.01, ha='left',
                  fontsize=10.5, fontweight='bold', color=INK)
     fig.tight_layout()
     save(fig, 'rank_role_position')
 
 
 def pf_df_gap():
-    rows = {m: jsonl(ROOT / f'results/exp4/traces/main-{m}.jsonl') for m, _ in MODELS}
-    if not any(rows.values()):
+    """PF - DF dependent-field accuracy by hop: Exp 4 (1-token values) and Stage 3 (2- and 3-token values)."""
+    conds = [('Exp 4', 'results/exp4/traces/main-{m}.jsonl', 1), ('Stage 3', 'results/stage3/traces/main-k2-{m}.jsonl', 2),
+             ('Stage 3', 'results/stage3/traces/main-k3-{m}.jsonl', 3)]
+    panels = []
+    for m, label in MODELS:
+        got = [(t, k, jsonl(ROOT / p.format(m=m))) for t, p, k in conds]
+        got = [g for g in got if g[2]]
+        if got:
+            panels.append((label, got))
+    if not panels:
         return
-    fig, ax = plt.subplots(figsize=(5.6, 2.8))
-    ticks = []
-    for i, (m, label) in enumerate(MODELS):
-        rs = rows[m]
-        if not rs:
-            continue
-        dep = defaultdict(dict)
-        for r in rs:
-            if r['order'] in ('PF', 'DF'):
-                dep[r['order']][(r['source_id'], r['direction'], r['layout'], r['hop'])] = float(r['dependent_correct'])
-        for hop, color, marker, dx in ((2, BLUE, 'o', -.12), (1, ORANGE, 's', .12)):
-            keys = sorted(k for k in dep['PF'] if k[3] == hop and k in dep['DF'])
-            c = stats.paired_bootstrap([dep['PF'][k] for k in keys], [dep['DF'][k] for k in keys], [k[0] for k in keys])
-            ax.errorbar([i + dx], [100 * c['mean']], yerr=[[100 * (c['mean'] - c['lo'])], [100 * (c['hi'] - c['mean'])]],
-                        color=color, marker=marker, markersize=7, linewidth=2, capsize=0, markeredgecolor=SURFACE,
-                        markeredgewidth=1.5, label=('two-hop' if hop == 2 else 'one-hop control') if i == 0 else None)
-            ax.annotate(f'{100 * c["mean"]:+.1f}', (i + dx, 100 * c['hi']), xytext=(0, 4), textcoords='offset points',
-                        ha='center', fontsize=8, color=INK)
-        ticks.append((i, f'{label}\n(n={rs[0]["table_size"]} rows)'))
-    ax.axhline(0, color=INK2, linewidth=1)
-    ax.set_xticks([t for t, _ in ticks], [l for _, l in ticks])
-    ax.set_xlim(-.6, len(MODELS) - .4)
-    ax.set_ylabel('PF − DF dependent-field\naccuracy (points)')
-    ax.legend(loc='upper left', ncol=2, fontsize=8.5)
-    ax.set_title('Prerequisite-first vs dependent-first, Exp 4 (95% CI, clustered by source)', loc='left')
-    grid(ax)
-    fig.tight_layout()
+    fig, axes = plt.subplots(1, len(panels), figsize=(3.7 * len(panels), 3.1), squeeze=False, sharey=True)
+    for ax, (label, got) in zip(axes[0], panels):
+        ticks = []
+        for i, (t, k, rs) in enumerate(got):
+            dep = defaultdict(dict)
+            for r in rs:
+                if r['order'] in ('PF', 'DF'):
+                    dep[r['order']][(r['source_id'], r['direction'], r['layout'], r['hop'])] = float(r['dependent_correct'])
+            for hop, color, marker, dx in ((2, BLUE, 'o', -.13), (1, ORANGE, 's', .13)):
+                keys = sorted(x for x in dep['PF'] if x[3] == hop and x in dep['DF'])
+                c = stats.paired_bootstrap([dep['PF'][x] for x in keys], [dep['DF'][x] for x in keys], [x[0] for x in keys])
+                ax.errorbar([i + dx], [100 * c['mean']], yerr=[[100 * (c['mean'] - c['lo'])], [100 * (c['hi'] - c['mean'])]],
+                            color=color, marker=marker, markersize=7, linewidth=2, capsize=0, markeredgecolor=SURFACE,
+                            markeredgewidth=1.5, label=('two-hop' if hop == 2 else 'one-hop control') if i == 0 else None)
+                ax.annotate(f'{100 * c["mean"]:+.0f}', (i + dx, 100 * c['hi']), xytext=(0, 4), textcoords='offset points',
+                            ha='center', fontsize=7.5, color=INK)
+            ticks.append((i, f'{t}\n{k}-token, {rs[0]["table_size"]} rows'))
+        ax.axhline(0, color=INK2, linewidth=1)
+        ax.set_xticks([t for t, _ in ticks], [l for _, l in ticks], fontsize=7.5)
+        ax.set_xlim(-.5, len(got) - .5)
+        ax.set_ylim(-8, 68)
+        ax.set_title(label, loc='left')
+        grid(ax)
+    axes[0][0].set_ylabel('PF − DF dependent-field\naccuracy (points)')
+    handles, labels = axes[0][0].get_legend_handles_labels()
+    axes[0][-1].legend(handles, labels, loc='upper right', fontsize=8.5)
+    fig.suptitle('Prerequisite-first beats dependent-first on two-hop items\n95% CI, clustered by source',
+                 x=.01, ha='left', fontsize=10.5, fontweight='bold', color=INK)
+    fig.tight_layout(rect=(0, 0, 1, .95))
     save(fig, 'pf_df_gap')
 
 
