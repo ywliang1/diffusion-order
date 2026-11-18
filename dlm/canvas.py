@@ -111,3 +111,13 @@ def align(tok, mask_id, user_text, parts, gold, chat=True, canvas=None):
             return None
         out[name] = g
     return out
+
+
+def build_chat(tok, mask_id, messages, length):
+    """Chat-templated messages followed by a fully masked response canvas of `length` tokens
+    (no scaffold). All canvas positions are the tail; content is decided after decoding by
+    `Canvas.content_positions(final_ids, end_ids)` (everything before the first end token)."""
+    pre = tok.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    ids = tok.encode(pre, add_special_tokens=False)
+    tail = list(range(len(ids), len(ids) + length))
+    return Canvas(ids=ids + [mask_id] * length, fields={}, roles={}, tail=tail, prompt_len=len(ids))

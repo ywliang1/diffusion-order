@@ -48,3 +48,14 @@ def test_no_template_variant_has_no_chat_markup(tm):
     c = build(tok, mask, 'hello', PARTS, chat=False)
     text = tok.decode(c.ids[:c.prompt_len])
     assert 'assistant' not in text and 'hello' in text
+
+
+def test_build_chat_masks_whole_response(tm):
+    from dlm.canvas import build_chat
+    name, tok, mask = tm
+    c = build_chat(tok, mask, [{'role': 'system', 'content': 'S'}, {'role': 'user', 'content': 'U'}], 16)
+    assert c.tail == list(range(c.prompt_len, c.prompt_len + 16)) and len(c.ids) == c.prompt_len + 16
+    assert all(c.ids[p] == mask for p in c.tail) and mask not in c.ids[:c.prompt_len]
+    final = list(c.ids)
+    final[c.tail[0]], final[c.tail[1]], final[c.tail[2]] = 5, 6, 7
+    assert c.content_positions(final, end_ids=(7,)) == c.tail[:2]
