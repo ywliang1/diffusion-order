@@ -1,0 +1,94 @@
+{
+  "model": "llada",
+  "gpu": "NVIDIA A100-PCIE-40GB",
+  "load_seconds": 286.35365176200867,
+  "pool_matches_phase1": true,
+  "per_instance_seconds": [
+    4.061212062835693,
+    0.19776630401611328,
+    0.08908796310424805,
+    0.06475067138671875,
+    0.06476402282714844
+  ],
+  "all_commits_match_phase1": false,
+  "rerun_identical": true,
+  "peak_allocated_GB": 16.164224,
+  "peak_reserved_GB": 16.341008384,
+  "rows": [
+    {
+      "run_id": "llada-e2-n4-s0-Direct-CF",
+      "seconds": 4.061212062835693,
+      "prompt_tokens": null,
+      "same_commits_as_phase1": true,
+      "max_step0_prob_diff": 0.03669354319572449,
+      "pred": [
+        "frequency",
+        "detect"
+      ],
+      "gold": [
+        "frequency",
+        "notes"
+      ]
+    },
+    {
+      "run_id": "llada-e2-n8-s1-Shared-path-A-first",
+      "seconds": 0.19776630401611328,
+      "prompt_tokens": null,
+      "same_commits_as_phase1": true,
+      "max_step0_prob_diff": 0.011737704277038574,
+      "pred": [
+        "veh",
+        "dir"
+      ],
+      "gold": [
+        "veh",
+        "dir"
+      ]
+    },
+    {
+      "run_id": "llada-e2-n16-s2-Separate-path-B-first",
+      "seconds": 0.08908796310424805,
+      "prompt_tokens": null,
+      "same_commits_as_phase1": true,
+      "max_step0_prob_diff": 0.0011613760143518448,
+      "pred": [
+        "flutter",
+        "post"
+      ],
+      "gold": [
+        "pak",
+        "rave"
+      ]
+    },
+    {
+      "run_id": "llada-e2-n8-s3-Direct-B-first",
+      "seconds": 0.06475067138671875,
+      "prompt_tokens": null,
+      "same_commits_as_phase1": true,
+      "max_step0_prob_diff": 0.015868842601776123,
+      "pred": [
+        "alert",
+        "peace"
+      ],
+      "gold": [
+        "alert",
+        "peace"
+      ]
+    },
+    {
+      "run_id": "llada-e2-n16-s4-Shared-path-CF",
+      "seconds": 0.06476402282714844,
+      "prompt_tokens": null,
+      "same_commits_as_phase1": false,
+      "max_step0_prob_diff": 0.021984681487083435,
+      "pred": [
+        "rap",
+        "cot"
+      ],
+      "gold": [
+        "rap",
+        "sql"
+      ]
+    }
+  ]
+}

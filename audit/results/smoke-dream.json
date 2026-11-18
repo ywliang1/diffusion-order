@@ -1,0 +1,94 @@
+{
+  "model": "dream",
+  "gpu": "NVIDIA A100-PCIE-40GB",
+  "load_seconds": 279.7036108970642,
+  "pool_matches_phase1": true,
+  "per_instance_seconds": [
+    3.556407928466797,
+    0.1131598949432373,
+    0.12393593788146973,
+    0.09984135627746582,
+    0.1018381118774414
+  ],
+  "all_commits_match_phase1": false,
+  "rerun_identical": true,
+  "peak_allocated_GB": 15.499985408,
+  "peak_reserved_GB": 15.908995072,
+  "rows": [
+    {
+      "run_id": "dream-e2-n4-s0-Direct-CF",
+      "seconds": 3.556407928466797,
+      "prompt_tokens": null,
+      "same_commits_as_phase1": true,
+      "max_step0_prob_diff": 0.03575855493545532,
+      "pred": [
+        "developer",
+        "mutex"
+      ],
+      "gold": [
+        "developer",
+        "mutex"
+      ]
+    },
+    {
+      "run_id": "dream-e2-n8-s1-Shared-path-A-first",
+      "seconds": 0.1131598949432373,
+      "prompt_tokens": null,
+      "same_commits_as_phase1": false,
+      "max_step0_prob_diff": 0.015327215194702148,
+      "pred": [
+        "false",
+        "fest"
+      ],
+      "gold": [
+        "false",
+        "fest"
+      ]
+    },
+    {
+      "run_id": "dream-e2-n16-s2-Separate-path-B-first",
+      "seconds": 0.12393593788146973,
+      "prompt_tokens": null,
+      "same_commits_as_phase1": true,
+      "max_step0_prob_diff": 0.054311156272888184,
+      "pred": [
+        "hog",
+        "agar"
+      ],
+      "gold": [
+        "bat",
+        "vocab"
+      ]
+    },
+    {
+      "run_id": "dream-e2-n8-s3-Direct-B-first",
+      "seconds": 0.09984135627746582,
+      "prompt_tokens": null,
+      "same_commits_as_phase1": true,
+      "max_step0_prob_diff": 0.011964283883571625,
+      "pred": [
+        "kids",
+        "inside"
+      ],
+      "gold": [
+        "kids",
+        "inside"
+      ]
+    },
+    {
+      "run_id": "dream-e2-n16-s4-Shared-path-CF",
+      "seconds": 0.1018381118774414,
+      "prompt_tokens": null,
+      "same_commits_as_phase1": true,
+      "max_step0_prob_diff": 0.004633471369743347,
+      "pred": [
+        "ogs",
+        "consumer"
+      ],
+      "gold": [
+        "ogs",
+        "consumer"
+      ]
+    }
+  ]
+}

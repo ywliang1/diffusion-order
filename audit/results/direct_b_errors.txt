@@ -1,0 +1,18 @@
+llada Direct A-first 600 {'target.H': 426, 'correct': 151, 'other.E': 11, 'other.D': 5, 'target.E': 3, 'nontable': 2, 'target.A': 2}
+llada Direct B-first 600 {'correct': 375, 'target.H': 209, 'other.E': 5, 'nontable': 5, 'other.D': 3, 'target.E': 2, 'target.A': 1}
+llada Direct CF 600 {'target.H': 398, 'correct': 188, 'other.E': 6, 'other.D': 5, 'nontable': 2, 'target.E': 1}
+llada Shared-path A-first 600 {'correct': 399, 'target.H': 134, 'target.C': 66, 'other.B': 1}
+llada Shared-path B-first 600 {'target.C': 323, 'correct': 181, 'target.H': 94, 'nontable': 1, 'target.A': 1}
+llada Shared-path CF 600 {'correct': 344, 'target.C': 132, 'target.H': 123, 'other.B': 1}
+llada Separate-path A-first 600 {'target.H': 280, 'target.C': 164, 'correct': 152, 'nontable': 3, 'other.B': 1}
+llada Separate-path B-first 600 {'target.C': 358, 'target.H': 122, 'correct': 108, 'target.A': 8, 'other.B': 3, 'nontable': 1}
+llada Separate-path CF 600 {'target.C': 255, 'target.H': 216, 'correct': 127, 'nontable': 2}
+dream Direct A-first 600 {'target.H': 267, 'correct': 218, 'other.E': 41, 'nontable': 28, 'other.D': 22, 'target.D': 9, 'target.E': 9, 'target.B': 6}
+dream Direct B-first 600 {'correct': 403, 'target.H': 114, 'nontable': 22, 'other.E': 21, 'target.A': 16, 'other.D': 11, 'target.E': 6, 'target.B': 6, 'target.D': 1}
+dream Direct CF 600 {'correct': 254, 'target.H': 243, 'other.E': 34, 'nontable': 28, 'other.D': 22, 'target.D': 8, 'target.E': 6, 'target.B': 5}
+dream Shared-path A-first 600 {'correct': 444, 'target.C': 69, 'target.H': 60, 'nontable': 17, 'target.B': 5, 'other.B': 5}
+dream Shared-path B-first 600 {'target.C': 262, 'correct': 236, 'target.H': 59, 'nontable': 19, 'other.B': 9, 'target.A': 9, 'target.B': 6}
+dream Shared-path CF 600 {'correct': 424, 'target.C': 95, 'target.H': 60, 'nontable': 15, 'target.B': 4, 'other.B': 2}
+dream Separate-path A-first 600 {'correct': 238, 'target.H': 217, 'target.C': 109, 'nontable': 13, 'other.B': 10, 'target.B': 7, 'other.H': 6}
+dream Separate-path B-first 600 {'target.C': 284, 'correct': 181, 'target.H': 89, 'nontable': 17, 'target.A': 14, 'other.B': 8, 'target.B': 5, 'other.H': 2}
+dream Separate-path CF 600 {'correct': 227, 'target.H': 201, 'target.C': 144, 'nontable': 12, 'target.B': 6, 'other.B': 6, 'other.H': 4}
