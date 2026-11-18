@@ -226,6 +226,28 @@ GEE logistic (exchangeable within item): fn_rank log-odds +3.224 [+1.262, +5.185
 
 - dream, CF, 100 live_simple items, JSON format: AST accuracy 77.0 [68.0, 85.0], parse valid 100.0 [100.0, 100.0] (team reference for Dream greedy: about 64%).
 
+## Autoregressive reference (Qwen2.5-7B-Instruct, greedy): strict
+
+Rows: 800; hosts/GPUs [('rosetta15.csail.mit.edu', 'NVIDIA A100-PCIE-40GB')]. Descriptive reference only: a different model and tokenizer, no order manipulation.
+
+| Schema | Parse valid | AST accuracy | Wrong function | Argument error | Wrong count | Hit length limit |
+|---|---:|---:|---:|---:|---:|---:|
+| original | 99.2 [98.2, 100.0] | 95.8 [93.8, 97.8] | 0.2 [0.0, 0.8] | 2.8 [1.2, 4.5] | 0.5 [0.0, 1.2] | 0.8 [0.0, 1.8] |
+| reversed | 99.0 [98.0, 99.8] | 91.5 [88.8, 94.0] | 0.8 [0.0, 1.8] | 6.5 [4.2, 9.0] | 0.2 [0.0, 0.8] | 0.8 [0.0, 1.8] |
+
+Reversed − original schema, AST accuracy: -4.2 [-6.8, -1.8] (400 items).
+
+## Autoregressive reference: strict vs lenient
+
+| Schema | Order | Strict AST | Lenient AST | Lenient − strict | Outputs changed by the rules |
+|---|---|---:|---:|---:|---:|
+| original | AR | 95.8 [93.8, 97.8] | 95.8 [93.8, 97.8] | 0.0 [0.0, 0.0] | 0.2 [0.0, 0.8] |
+| reversed | AR | 91.5 [88.8, 94.0] | 91.5 [88.8, 94.0] | 0.0 [0.0, 0.0] | 0.0 [0.0, 0.0] |
+
+## Autoregressive reference: sanity set
+
+- qwen, greedy, 100 live_simple items, JSON format: AST accuracy 76.0 [67.0, 84.0].
+
 ## Interpretation limits
 
 - One commit per forward pass on a 64-token canvas; results are not comparable to standard (multi-token-per-step) diffusion decoding.
@@ -243,3 +265,7 @@ GEE logistic (exchangeable within item): fn_rank log-odds +3.224 [+1.262, +5.185
 - 2026-11-18: Harness sanity check passed. Dream CF on 100 `live_simple` items with JSON output (A6000) scored 77/100 AST-correct (14 argument errors, 9 wrong call counts, 0 parse errors), above the 50% inspection threshold and the team's ~64% reference. No harness fix was needed.
 - 2026-11-18: Observation from LLaDA's original-schema block (2,400 decodes), not a fix. 620 are AST-correct (CF 50.5%, L2R 41.2%, random 18.7%, R2L 7.2%). Most errors are parse errors (L2R 30%, R2L 64%). Inspected L2R parse errors are genuine format failures: JSON-style `["name", {args}]` lists instead of Python call syntax, or a trailing period after the call. Under the preregistered no-repair rule they stay parse errors.
 - 2026-11-18: Analysis code fix. `import statsmodels.api` fails under pandas 3.0.2 (statsmodels.tsa calls `deprecate_kwarg` with an old signature). `fn_rank_models` now imports `BinomialBayesMixedGLM`, `GEE`, `families` and `cov_struct` directly from `statsmodels.genmod`. The models and formulas are unchanged. Impact: none on results; the first analysis call crashed before writing anything.
+- 2026-11-18: Secondary lenient-parse score computed (PREREG addendum; rules frozen in `experiments/bfcl/lenient.py` before any lenient score existed). Strict scores were re-checked after the `score.py` edit and are unchanged.
+  - **Lenient AST-correct counts:** LLaDA 876 (original) and 808 (reversed) out of 2,400 each, vs 620 and 572 strict. Dream 857 and 850, vs 779 and 794. The Dream sanity set is unchanged at 77 (JSON items are not touched).
+  - **Finding that changes a conclusion:** LLaDA's CF advantage over L2R is a format effect. Strict CF − L2R is +9.2 [3.5, 15.0]; lenient it is +0.8 [−5.5, 7.0] (original schema) and −1.2 [−7.5, 4.8] (reversed). The rules change 17% of LLaDA's L2R outputs but only 12% of its CF outputs.
+  - **Unchanged under the lenient score:** R2L and random still collapse (−28 to −30 points for LLaDA vs L2R, −60 to −74 for Dream), and Dream's CF deficit stays at −12.0 [−17.5, −6.5].

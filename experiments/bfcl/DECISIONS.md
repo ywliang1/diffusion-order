@@ -11,3 +11,8 @@
   - **Lenient AST-correct counts:** LLaDA 876 (original) and 808 (reversed) out of 2,400 each, vs 620 and 572 strict. Dream 857 and 850, vs 779 and 794. The Dream sanity set is unchanged at 77 (JSON items are not touched).
   - **Finding that changes a conclusion:** LLaDA's CF advantage over L2R is a format effect. Strict CF − L2R is +9.2 [3.5, 15.0]; lenient it is +0.8 [−5.5, 7.0] (original schema) and −1.2 [−7.5, 4.8] (reversed). The rules change 17% of LLaDA's L2R outputs but only 12% of its CF outputs.
   - **Unchanged under the lenient score:** R2L and random still collapse (−28 to −30 points for LLaDA vs L2R, −60 to −74 for Dream), and Dream's CF deficit stays at −12.0 [−17.5, −6.5].
+- 2026-11-18: Autoregressive reference run (PREREG addendum). Qwen2.5-7B-Instruct, greedy, rosetta15 A100, 800 test generations plus the 100-item sanity set.
+  - **AST accuracy:** 95.8% [93.8, 97.8] on the original schema and 91.5% [88.8, 94.0] on the reversed. Reversing the schema costs 4.2 points [1.8, 6.8].
+  - **Format:** 99% of outputs parse, and the lenient rules change nothing (0.2% of outputs touched; same score).
+  - **Sanity set:** 76% [67, 84], close to Dream CF's 77%.
+  - **Interpretation (descriptive):** on the same prompts, the AR model beats the best diffusion order by about 18 points (Dream L2R, 77.5%) and the best LLaDA order (CF, 50.5%) by about 45 points. Lenient parsing does not close this gap (best diffusion lenient score: Dream L2R 79.8%). The diffusion models' BFCL accuracy is therefore limited by more than format. This compares different models and different hardware (A100 vs A6000); it is not an order effect.
