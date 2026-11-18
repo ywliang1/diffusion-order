@@ -1,0 +1,8 @@
+# Stage 3: 2-token values in the Exp 4 design, CF/PF/DF, rosetta15 A100 (whole stage).
+stage: stage3
+split: main
+seed: 50001
+tokens: 2
+size: {llada: 64, dream: 16}
+sources: 100
+orders: [CF, PF, DF]

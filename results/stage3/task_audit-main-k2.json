@@ -1,0 +1,24 @@
+{
+  "llada": {
+    "pool": 3000,
+    "size": 64,
+    "tokens": 2,
+    "checked_values": 128000,
+    "wrong_token_count": 0,
+    "length_mismatch": 0,
+    "misaligned": 0,
+    "phase1_matches": 0,
+    "max_canvas": 1985
+  },
+  "dream": {
+    "pool": 3000,
+    "size": 16,
+    "tokens": 2,
+    "checked_values": 32000,
+    "wrong_token_count": 0,
+    "length_mismatch": 0,
+    "misaligned": 0,
+    "phase1_matches": 0,
+    "max_canvas": 548
+  }
+}
