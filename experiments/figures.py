@@ -191,7 +191,7 @@ def bfcl_commit_heatmap():
     groups = ('L2R', 'R2L', 'random', 'CF')
     from matplotlib.colors import LinearSegmentedColormap
     cmap = LinearSegmentedColormap.from_list('blue_seq', ['#cde2fb', '#86b6ef', '#3987e5', '#256abf', '#104281', '#0d366b'])
-    fig, axes = plt.subplots(len(panels), 1, figsize=(7.2, 1.5 * len(panels) + .6), squeeze=False)
+    fig, axes = plt.subplots(len(panels), 1, figsize=(7.2, 1.7 * len(panels) + .8), squeeze=False, gridspec_kw=dict(hspace=.75))
     for ax, (label, d) in zip(axes[:, 0], panels):
         gs = [g for g in groups if g in d]
         im = ax.imshow(np.vstack([d[g] for g in gs]), aspect='auto', cmap=cmap, vmin=0, vmax=1)

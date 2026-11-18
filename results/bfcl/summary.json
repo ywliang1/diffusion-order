@@ -1,0 +1,16 @@
+{
+  "llada": {
+    "rows": 4800,
+    "schemas": [
+      "original",
+      "reversed"
+    ]
+  },
+  "dream": {
+    "rows": 4800,
+    "schemas": [
+      "original",
+      "reversed"
+    ]
+  }
+}

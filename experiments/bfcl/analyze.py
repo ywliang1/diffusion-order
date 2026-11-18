@@ -142,9 +142,10 @@ def fn_rank_models(rows):
     out = [f'Rows: {len(df)} (CF and random orders, parseable, called name identified); wrong-function rate {df.wrong.mean():.3f}.']
     if df.wrong.sum() < 5:
         return '\n'.join(out + ['Fewer than 5 wrong-function errors; no model fitted.'])
-    import statsmodels.api as sm
-    import statsmodels.formula.api as smf
+    # Not statsmodels.api: it imports statsmodels.tsa, which breaks under pandas 3 (deprecate_kwarg signature).
+    from statsmodels.genmod import cov_struct, families
     from statsmodels.genmod.bayes_mixed_glm import BinomialBayesMixedGLM
+    from statsmodels.genmod.generalized_estimating_equations import GEE
     form = 'wrong ~ fn_rank + C(order)' + (' + C(schema)' if df.schema.nunique() > 1 else '')
     try:
         bm = BinomialBayesMixedGLM.from_formula(form, {'item': '0 + C(item)'}, df).fit_vb()
@@ -154,7 +155,7 @@ def fn_rank_models(rows):
     except Exception as e:
         out.append(f'Mixed logistic failed: {type(e).__name__}: {e}')
     try:
-        g = smf.gee(form, 'item', df, family=sm.families.Binomial(), cov_struct=sm.cov_struct.Exchangeable()).fit()
+        g = GEE.from_formula(form, 'item', df, family=families.Binomial(), cov_struct=cov_struct.Exchangeable()).fit()
         lo, hi = g.conf_int().loc['fn_rank']
         out.append(f'GEE logistic (exchangeable within item): fn_rank log-odds {g.params["fn_rank"]:+.3f} [{lo:+.3f}, {hi:+.3f}], p = {g.pvalues["fn_rank"]:.3g}.')
     except Exception as e:
