@@ -7,8 +7,9 @@ Branch `phase2`. Models: LLaDA-8B-Instruct (primary) and Dream-v0-Instruct-7B (r
 | Question | LLaDA | Dream | Verdict |
 |---|---|---|---|
 | **H1** (RQ1): under CF, output position shifts a field's commit rank after controlling for role and field | Small or absent at easy settings: +0.013 [−0.018, +0.043] at 8 rows; +0.017 to +0.052 with 2–3-token values. Large at 128 rows: +0.290 [+0.235, +0.345] | −0.052 [−0.090, −0.015] at 8 rows; +0.113 [+0.077, +0.147] at 16 rows (Exp 4); −0.010 to +0.071 with 2–3-token values | **Inconclusive.** Position effects are mostly smaller than the ±0.10 margin and change sign between settings. The one large effect comes with a field-identity effect of similar size. **Role** dominates everywhere: the dependent field is committed 0.37–0.63 later. |
+| **H1b** (three-field study): the slot effect differs between prerequisite and dependent (role × slot) | Inconclusive at 8 rows (DiD +0.063 [0.017, 0.109]; PL −0.015 [−0.18, 0.15]) and at 128 rows (DiD +0.175 [0.105, 0.245]; PL +0.30 [−0.14, 0.68]) | Supported at 8 rows: DiD −0.045 [−0.085, −0.006]; PL −0.174 [−0.33, −0.03] | **No evidence that dependency role changes the slot effect.** The one-hop control, where roles are only labels, shows an interaction as large or larger (LLaDA DiD +0.19; Dream PL +0.38). The interaction most likely reflects where each value sits in the input, not the dependency. |
 | **H2** (RQ2): PF beats DF on the dependent field for two-hop items, with a smaller gap on one-hop controls | +54.5 [49.7, 59.2] two-hop vs −1.0 [−2.8, 0.5] one-hop (Exp 4); +42 to +43 with 2–3-token values | +14.9 [11.8, 18.1] vs +8.6 [6.0, 11.2]; interaction +6.2 [2.4, 10.2] (Exp 4); +3 / +14 with 2–3-token values | **Supported** in 5 of 6 model × value-length cells. Dream at k=2 is partly supported: the interaction CI touches 0, near ceiling. **Dream's Exp 4 H2 is a near-ceiling result:** its calibrated size (16 rows) had 96% two-hop dev accuracy, outside the preregistered 40–80% band, so its PF − DF gap is compressed and not comparable to LLaDA's. |
-| BFCL realism check: does order matter on real single-turn calls? | AST accuracy: CF 50.5, L2R 41.2, random 18.7, R2L 7.2 (original schema) | L2R 77.5, CF 66.0, random 15.0, R2L 6.2 | **Order matters a lot.** R2L and random collapse in both models. CF beats L2R for LLaDA (+9.2 [3.5, 15.0]) and loses to it for Dream (−11.5 [−17.0, −6.0]). Reversing the schema changes accuracy by at most 3.5 points. |
+| BFCL realism check: does order matter on real single-turn calls? | AST accuracy: CF 50.5, L2R 41.2, random 18.7, R2L 7.2 (original schema) | L2R 77.5, CF 66.0, random 15.0, R2L 6.2 | **Order matters a lot.** R2L and random collapse in both models. CF beats L2R for LLaDA under strict scoring (+9.2 [3.5, 15.0]), but **not under the lenient parse** (+0.8 [−5.5, 7.0]), so that advantage is about output format. CF loses to L2R for Dream under both scorings (about −12). Reversing the schema changes accuracy by at most 3.5 points. An autoregressive reference, Qwen2.5-7B-Instruct, scores 95.8%. |
 
 Figures: `results/figures/rank_role_position.png`, `pf_df_gap.png`, `bfcl_errors.png`, `bfcl_commit_heatmap.png` (PDFs alongside).
 
@@ -54,6 +55,29 @@ In Phase 1's space-separated table format, LLaDA's Shared-path B accuracy was 27
 - **Fields are mostly committed as blocks.** 85–98% of traces commit each field as one uninterrupted block at k=2, and 68–93% at k=3.
 - **The preregistered role × position interaction is not identifiable.** In this two-field design the two field ranks in a trace always sum to a constant, so the contrast is exactly 0 for any k. The preregistration was wrong on this point; see `experiments/stage3/DECISIONS.md`.
 
+### Three-field RQ1 study: role × slot (`results/rq1_3f/report.md`, A100 for the whole stage, CF only)
+
+- **Design** (preregistered in `experiments/rq1_3f/PREREG.md`, frozen before any output): a third output field `h` is read straight from the anchor row and nothing depends on it, so it serves as a reference. All 6 output orders of a, b and h are used.
+- **Arms:** 8 rows (200 sources per model) and LLaDA at 128 rows (100 sources). The dev validity check passed for every arm (98–100%).
+- **Why it was needed:** with two fields, the role × slot interaction cannot be estimated (Stage 3). With three, it can, as the simulation in `experiments/rq1_3f/identifiability.py` confirms.
+
+| Arm | Role × slot: DiD in P(committed before h) | Role × slot: Plackett–Luce | Slot effect, last − first (PL log-worth) | Same interaction on one-hop controls (DiD; PL) |
+|---|---:|---:|---:|---:|
+| LLaDA, 8 rows | +0.063 [+0.017, +0.109] | −0.015 [−0.179, +0.149] | −0.130 [−0.196, −0.067] | +0.189; +0.71 |
+| Dream, 8 rows | −0.045 [−0.085, −0.006] | −0.174 [−0.325, −0.029] | −0.031 [−0.090, +0.028] | +0.021; +0.38 |
+| LLaDA, 128 rows | +0.175 [+0.105, +0.245] | +0.295 [−0.136, +0.681] | −1.008 [−1.277, −0.791] | +0.195; +1.09 |
+
+- **H1b (role × slot):** inconclusive for LLaDA at both sizes; supported for Dream at 8 rows, under the preregistered rule.
+- **The one-hop control is not null,** although the PREREG expected it to be. The "prerequisite" field also sits before `h` in the anchor row, so the role labels encode input position. A two-hop interaction therefore cannot be attributed to the dependency. LLaDA's two-hop interaction is no larger than its one-hop control, and Dream's has the opposite sign to its one-hop PL interaction.
+- **Slot effect (H1):** the preregistered model-free slot measure (POS) is contaminated by the reference field's own slot effect. This is a PREREG error, logged in `experiments/rq1_3f/DECISIONS.md`. By the Plackett–Luce slot effect:
+  - Dream at 8 rows: none.
+  - LLaDA at 8 rows: a small left-to-right tendency.
+  - LLaDA at 128 rows: a strong left-to-right tendency (−1.01 log-worth). On two-hop items, the share of traces in which the prerequisite is committed before `h` falls from 69% in the first slot to 42% in the last.
+
+  This matches Exp 4's large LLaDA position effect at 128 rows.
+- **Prerequisite committed before the dependent:** 82% (LLaDA) and 79% (Dream) on two-hop items at 8 rows, vs 51% and 55% on one-hop items.
+- **Near-ties:** all LLaDA two-hop traces at 8 rows have a CF margin below 0.02, so commit orders at that size are hardware-sensitive.
+
 ### Stage 4: BFCL realism check (`results/bfcl/report.md`)
 
 **Setup.** 400 items: 200 `simple_python` and all 200 `multiple`. Each runs under the original and the reversed schema, with 6 orders, on a 64-token canvas. Prompts come from BFCL's own code and scoring from its official AST checker, with no output repair. All four blocks finished on the rosetta21 A6000s, giving 9,600 decodes. The harness check (Dream, CF, 100 `live_simple` items, JSON format) scored 77% against a team reference of about 64%, so no harness fix was needed.
@@ -78,6 +102,20 @@ Values are AST accuracy in %, with intervals clustered by item. Random is the me
   - LLaDA: mixed logistic log-odds +4.28 [3.77, 4.78]; GEE +4.94 [3.31, 6.56].
   - Dream: +2.58 [1.91, 3.24]; GEE +3.22 [1.26, 5.19].
   - Base rates are low (2–3%).
+- **Secondary lenient-parse score** (rules preregistered before scoring, `experiments/bfcl/lenient.py`): keep the first call or list, and rewrite JSON-style `["name", {args}]` structures as Python calls.
+
+  | Model, original schema | L2R | R2L | random | CF | CF − L2R |
+  |---|---:|---:|---:|---:|---:|
+  | LLaDA, lenient | 55.2 | 25.0 | 27.6 | 56.0 | +0.8 [−5.5, +7.0] |
+  | Dream, lenient | 79.8 | 12.2 | 18.2 | 67.8 | −12.0 [−17.5, −6.5] |
+
+  - **LLaDA:** lenient parsing recovers 14 points under L2R but only 5.5 under CF, which erases CF's strict advantage. On the reversed schema, CF − L2R is −1.2 [−7.5, 4.8].
+  - **Unchanged:** R2L and random still collapse, and Dream's CF deficit stays.
+- **Autoregressive reference** (Qwen2.5-7B-Instruct, greedy, 64 new tokens, the same prompts; rosetta15 A100):
+  - AST accuracy 95.8% [93.8, 97.8] on the original schema and 91.5% [88.8, 94.0] on the reversed; reversal costs 4.2 points [1.8, 6.8].
+  - 99% of outputs parse, and the lenient rules change nothing.
+  - Sanity set: 76%, against Dream CF's 77%.
+  - The best diffusion setting (Dream L2R, 77.5% strict, 79.8% lenient) trails it by about 16–18 points. This is a descriptive comparison across models and hardware, not an order effect.
 - **CF commit pattern** (`bfcl_commit_heatmap.png`): CF commits the trailing end-token padding and the opening tokens first, and the middle of the call (the arguments) last. The first end token is committed at a normalized step of 0.61 for LLaDA and 0.89 for Dream.
 
 ## Limitations
@@ -86,11 +124,13 @@ Values are AST accuracy in %, with intervals clustered by item. Random is the me
 - **Unvalidated row format.** Exp 4 and Stage 3 use the V2 row format, which passed no gate: Phase 1.5 froze no format. Exp 4 sizes come from its own dev calibration, and Dream's size is outside the 40–80% band. See `experiments/exp4/DECISIONS.md`.
 - **Two models, different table sizes.** Each model was tested at a size calibrated to it (LLaDA 128, Dream 16; Stage 3 used LLaDA 64), so between-model comparisons are descriptive. Dream's Exp 4 two-hop items sit near ceiling (96% on dev, outside the 40–80% band), which compresses its H2 gap. Read Dream's H2 as a near-ceiling result.
 - **No frozen Phase 1.5 configuration.** The gate failed for both models. Exp 4 calibrated its own size on dev, and no Phase 1.5 test split exists.
-- **GPU types.** RQ1, Exp 4 and BFCL ran on RTX A6000; Phase 1.5 and Stage 3 ran on A100-PCIE-40GB. Each stage uses one GPU type. Across GPU types, about 2–5% of row-level decisions flip, almost all where the margin is below 0.02. In Stage 3 that covers most LLaDA CF traces (94–100%), so compare Stage 3 with the other stages at the level of effects only.
+- **GPU types.** RQ1, Exp 4 and BFCL ran on RTX A6000; Phase 1.5, Stage 3, the three-field study and the Qwen reference ran on A100-PCIE-40GB. Each stage uses one GPU type. Across GPU types, about 2–5% of row-level decisions flip, almost all where the margin is below 0.02. In Stage 3 that covers most LLaDA CF traces (94–100%), so compare Stage 3 with the other stages at the level of effects only.
 - **Near-tied CF choices.** Many CF decisions in LLaDA are near-ties. CF commit orders are therefore deterministic for a fixed GPU and stack, but fragile across hardware.
-- **Interaction not identifiable.** H1's role × position interaction cannot be estimated in a two-field design (see Stage 3).
+- **Interaction not identifiable with two fields.** H1's role × position interaction cannot be estimated in a two-field design (see Stage 3). The three-field study can estimate it, but its one-hop control shows that role labels there also track input position.
+- **Three-field PREREG error.** The preregistered model-free slot measure (POS) is contaminated by the reference field's own slot effect; use the Plackett–Luce slot effect instead.
 - **Orders dropped for compute.** Stage 3 ran only CF, PF and DF.
-- **No autoregressive reference.** The optional Qwen2.5-7B run was not done.
+- **Autoregressive reference on different hardware.** Qwen2.5-7B-Instruct ran on A100 while the diffusion BFCL runs used A6000; it is a descriptive reference only.
+- **Lenient parse is secondary.** It is preregistered but post hoc relative to the strict analysis; the rules were chosen from failure types already observed.
 
 ## Reproducibility
 
@@ -112,6 +152,20 @@ PYTHONNOUSERSITE=1 /data/rbg/users/linrui/venvs/bfcl-eval-2026.3.23/bin/python e
 .venv/bin/python -m dlm.runner launch --exp experiments.bfcl.exp --config experiments/bfcl/config_orig.yaml --stage bfcl --trace test-orig --models llada --gpus 0,1,2 --expect-gpu 'RTX A6000'
 PYTHONNOUSERSITE=1 /data/rbg/users/linrui/venvs/bfcl-eval-2026.3.23/bin/python experiments/bfcl/score.py --stage bfcl --trace test-orig
 .venv/bin/python -m experiments.bfcl.analyze --traces test-orig,test-rev --sanity sanity
+# Three-field RQ1 study (rosetta15 A100)
+.venv/bin/python -m experiments.rq1_3f.identifiability
+.venv/bin/python -m experiments.rq1_3f.audit --config experiments/rq1_3f/config_main-n8.yaml
+.venv/bin/python -m dlm.runner launch --exp experiments.rq1_3f.exp --config experiments/rq1_3f/config_main-n8.yaml   --stage rq1_3f --trace main-n8   --models llada,dream --gpus 2,3 --expect-gpu A100
+.venv/bin/python -m dlm.runner launch --exp experiments.rq1_3f.exp --config experiments/rq1_3f/config_main-n128.yaml --stage rq1_3f --trace main-n128 --models llada --gpus 6,7 --expect-gpu A100
+.venv/bin/python -m experiments.rq1_3f.dev_check
+.venv/bin/python -m experiments.rq1_3f.analyze --traces main-n8,main-n128
+# BFCL lenient score and AR reference
+PYTHONNOUSERSITE=1 /data/rbg/users/linrui/venvs/bfcl-eval-2026.3.23/bin/python experiments/bfcl/score.py --stage bfcl --trace test-orig --lenient
+.venv/bin/python -m experiments.bfcl.ar --config experiments/bfcl/config_ar.yaml --trace test-ar --gpu 0 --expect-gpu A100
+PYTHONNOUSERSITE=1 /data/rbg/users/linrui/venvs/bfcl-eval-2026.3.23/bin/python experiments/bfcl/score.py --stage bfcl --trace test-ar --models qwen [--lenient]
+.venv/bin/python -m experiments.bfcl.analyze --traces test-orig,test-rev --sanity sanity --ar test-ar --ar-sanity sanity-ar
+# Stage 3 rerun (same configs, results/stage3_rerun)
+.venv/bin/python -m experiments.stage3.analyze --stage stage3_rerun && .venv/bin/python -m experiments.stage3.compare_rerun
 # Figures
 MPLCONFIGDIR=/data/scratch/linrui/llada_home/.mpl .venv/bin/python -m experiments.figures
 ```
