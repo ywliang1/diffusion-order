@@ -1,0 +1,8 @@
+# Exp 4 dev calibration: CF only, sizes 16-128, 50 sources.
+stage: exp4
+split: dev
+seed: 40011
+size: 16
+sizes_per_model: {llada: [16, 32, 64, 128], dream: [16, 32, 64, 128]}
+sources: 50
+orders: [CF]
