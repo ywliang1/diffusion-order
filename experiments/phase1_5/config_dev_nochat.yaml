@@ -4,5 +4,5 @@ split: dev
 seed: 15001
 sizes: [4, 8, 16]
 sources: 100
-variants: [VX-nochat]
+variants: [V3-nochat]
 exps: [2]
