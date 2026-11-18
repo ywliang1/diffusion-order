@@ -1,8 +1,9 @@
 """Stage 3 analysis: multi-token values. H1 (now with an identifiable role x position interaction),
 H2 (PF vs DF), and within-field commit order under CF.
 
-    python -m experiments.stage3.analyze
+    python -m experiments.stage3.analyze [--stage stage3_rerun]
 """
+import argparse
 import json
 
 import numpy as np
@@ -12,7 +13,7 @@ from dlm.models import ROOT
 from experiments.exp4 import analyze as e4
 from experiments.rq1 import analyze as rq1
 
-BASE = ROOT / 'results/stage3'
+BASE = ROOT / 'results/stage3'   # set by --stage
 
 
 def load(k, m):
@@ -41,7 +42,9 @@ def within_table(cf):
     return '\n'.join(lines)
 
 
-def run():
+def run(stage='stage3'):
+    global BASE
+    BASE = ROOT / 'results' / stage
     sections, summary = {}, {}
     for m in ('llada', 'dream'):
         for k in (2, 3):
@@ -68,7 +71,7 @@ def run():
             sections[f'{key}: accuracy by order'] = e4.accuracy_table(rows)
             sections[f'{key}: alignment'] = rq1.alignment(cf)
     sections['Interpretation limits'] = '\n'.join([
-        '- Run on rosetta15 A100s (whole stage); compare with A6000 stages at the level of effects, not rows.',
+        f'- Results directory: results/{stage}. Run on rosetta15 A100s (whole stage); compare with A6000 stages at the level of effects, not rows.',
         '- Orders limited to CF, PF and DF (compute); L2R, R2L and random were not run in this stage.',
         '- Table sizes: LLaDA 64 (128 exceeds its context with 3-token values), Dream 16 (its Exp 4 size).'])
     dec = ROOT / 'experiments/stage3/DECISIONS.md'
@@ -79,4 +82,6 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--stage', default='stage3')
+    run(ap.parse_args().stage)
