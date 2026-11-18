@@ -8,3 +8,18 @@
   - **Row format:** V2, unfrozen. Anchor rows read `key=<q> | <p>=<prerequisite value> | h=<H> | <c>=<C>`. Mapping rows read `a=<A> | b=<B>` on two-hop items and `d=<D> | e=<E>` on one-hop items. The output is the JSON scaffold `{"a":"…","b":"…"}` or `{"b":"…","a":"…"}`, with **both** value fields masked and nothing prefilled. V2 was chosen from Phase 1.5 dev data, where it was one of two variants (with V3) that kept Direct accuracy at 90% or more for both models; the team approved V2 for Phase 1.5b. No test data informed the choice.
   - **Sizes:** chosen by Exp 4's own dev calibration (`PREREG.md`, `results/exp4/dev_calibration.json`). LLaDA used 128 rows and 100 sources; its two-hop dependent accuracy on dev was 73%, inside the band. Dream used 16 rows and 200 sources through the fallback branch; its two-hop accuracy was 96%, outside the band, because no size reached 90% one-hop accuracy. LLaDA's 100 sources (not 200) follow the PREREG compute rule for size 128.
   - **Impact:** H1 and H2 are tested on a format that passed no gate. In particular, the Phase 1.5 condition checks (Direct ≥ 90%, Shared-path at 40–80%) were not met in V2 at these sizes. Dream's H2 is tested near ceiling. Exp 4 conclusions hold for V2 at these sizes, not for a validated format. The Exp 4 PREREG recorded the calibration rule before the main run but did not log this as a departure from the Mission until now.
+- 2026-11-18: **Investigation of the empty first summary: cause not established; failure mode removed.**
+  - **Established:**
+    - The code, inputs and command were identical in both calls.
+    - The traces were written by the rosetta21 merge at 00:37 (Dream) and 00:58 (LLaDA) EST. Their inodes, sizes and mtimes are unchanged since, so nothing rewrote them.
+    - The first call (01:16:34–48 EST, rosettacpu1) wrote a report with no model sections. In this code that happens only if `load()` returned no rows for both models, meaning the path did not exist or the file read as empty.
+    - The second call (01:17:14) succeeded.
+    - Between the two calls, the only filesystem operation on that directory from this host was `ls -la results/exp4/traces/` (01:16:54).
+    - Earlier, from 23:52 to 23:54, the figures script had looked up `main-{llada,dream}.jsonl` on this host while the files did not yet exist.
+  - **Hypothesis tested, a stale NFS "file missing" cache on rosettacpu1 (NFSv4.2, default mount options): not supported.**
+    - Probe 1: a missing-file lookup, then a remote create from rosetta15. This host saw the file after 15–30 s.
+    - Probe 2: a missing-file lookup aged 10 minutes, then a remote create. Seen within 2 s.
+    - Normal NFS client caching does not explain a view that was 18 minutes stale. The probe files are in `results/exp4/logs/nfs_probe/` (untracked).
+  - **Not tested:** rosetta21 as the writing host (no ssh to it since about 08:45, and an expired AFS token then blocked ssh to every GPU host), and NFS server-side behavior.
+  - **Fix:** `dlm.report.read_required` replaces the silent `[]` in the RQ1, Exp 4 and Stage 3 analyses. A missing or empty expected trace is now an error, not a partial report. The BFCL analysis lists absent blocks as "not run", as preregistered, and errors if a trace has no scores. Tests: `tests/test_report_required.py` (50 tests pass).
+  - **Impact:** none on results. All four analyses were rerun with the strict reader, and every `summary.json` is byte-identical. The report diffs only add newer DECISIONS entries.

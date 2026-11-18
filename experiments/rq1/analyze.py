@@ -20,7 +20,7 @@ FLIP = 0.02            # CF margin below which a trace is flip-sensitive
 
 def load(trace, model):
     p = BASE / 'traces' / f'{trace}-{model}.jsonl'
-    return [json.loads(x) for x in open(p) if x.strip()] if p.exists() else []
+    return report.read_required(p)
 
 
 def field_frame(rows):

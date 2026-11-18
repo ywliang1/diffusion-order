@@ -1,4 +1,5 @@
-"""Markdown report assembly with required sections that are always present."""
+"""Markdown report assembly with required sections that are always present, and a strict trace reader."""
+import json
 
 
 def build(title, sections, required=()):
@@ -10,3 +11,14 @@ def build(title, sections, required=()):
         body = sections.get(name) or 'No data.'
         out += [f'## {name}', '', body.rstrip(), '']
     return '\n'.join(out)
+
+
+def read_required(path):
+    """Rows of an expected JSONL trace. A missing or empty file is an error, never an empty result:
+    an analysis must not write a report that silently omits a model (Exp 4, 2026-11-18)."""
+    if not path.exists():
+        raise FileNotFoundError(f'expected trace is missing: {path}')
+    rows = [json.loads(x) for x in open(path) if x.strip()]
+    if not rows:
+        raise ValueError(f'expected trace is empty: {path}')
+    return rows

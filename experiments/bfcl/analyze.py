@@ -20,8 +20,10 @@ CLASSES = ('correct', 'parse_error', 'wrong_function', 'wrong_count', 'argument_
 
 def load(trace, model):
     t, s = BASE / 'traces' / f'{trace}-{model}.jsonl', BASE / 'scores' / f'{trace}-{model}.jsonl'
-    if not (t.exists() and s.exists()):
-        return []
+    if not t.exists():
+        return []          # block not run: reported as such, never as partial results (PREREG)
+    if not s.exists():
+        raise FileNotFoundError(f'trace {t} exists but its scores {s} do not; run score.py first')
     sc = {json.loads(x)['run_id']: json.loads(x) for x in open(s)}
     out = []
     for x in open(t):
@@ -166,7 +168,11 @@ def fn_rank_models(rows):
 def run(traces, sanity):
     sections, summary = {}, {}
     for m in MODELS:
-        rows = [r for t in traces for r in load(t, m)]
+        loaded = {t: load(t, m) for t in traces}
+        missing = [t for t, rs in loaded.items() if not rs]
+        if missing:
+            sections[f'{m}: blocks not run'] = ', '.join(missing)
+        rows = [r for rs in loaded.values() for r in rs]
         if not rows:
             continue
         schemas = sorted({r['schema'] for r in rows})

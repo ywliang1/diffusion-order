@@ -17,7 +17,7 @@ BASE = ROOT / 'results/stage3'
 
 def load(k, m):
     p = BASE / 'traces' / f'main-k{k}-{m}.jsonl'
-    return [json.loads(x) for x in open(p) if x.strip()] if p.exists() else []
+    return report.read_required(p)
 
 
 def contiguous(steps, fields):

@@ -19,7 +19,7 @@ ORDERS = ('CF', 'PF', 'DF', 'L2R', 'R2L', 'random')
 
 def load(stage, trace, model):
     p = ROOT / 'results' / stage / 'traces' / f'{trace}-{model}.jsonl'
-    return [json.loads(x) for x in open(p) if x.strip()] if p.exists() else []
+    return report.read_required(p)
 
 
 def item_key(r):
