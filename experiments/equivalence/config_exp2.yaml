@@ -1,0 +1,4 @@
+# Phase 1 Exp 2 only, for the A100 flip-rate replay on rosetta15.
+seed: 1729
+sources: 200
+exps: [2]

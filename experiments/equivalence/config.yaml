@@ -1,0 +1,5 @@
+# Equivalence replay of Phase 1 through the dlm stack. Prompts, seeds and sources come
+# from the frozen phase1/config.yaml and results/phase1/words-*.json.
+seed: 1729
+sources: 200
+exps: [1, 2, 3]

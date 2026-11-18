@@ -1,0 +1,4 @@
+# Smoke: Phase 1 Exp 2 and 3, one source per size (51 rows per model).
+seed: 1729
+sources: 1
+exps: [2, 3]
