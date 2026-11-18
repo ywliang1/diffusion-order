@@ -4,13 +4,337 @@
     "schemas": [
       "original",
       "reversed"
-    ]
+    ],
+    "lenient": {
+      "original L2R": {
+        "strict": {
+          "mean": 0.4125,
+          "lo": 0.365,
+          "hi": 0.46,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.5525,
+          "lo": 0.5025,
+          "hi": 0.6025,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.14,
+          "lo": 0.1075,
+          "hi": 0.175,
+          "n_clusters": 400
+        }
+      },
+      "original R2L": {
+        "strict": {
+          "mean": 0.0725,
+          "lo": 0.0475,
+          "hi": 0.0975,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.25,
+          "lo": 0.2075,
+          "hi": 0.295,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.1775,
+          "lo": 0.14,
+          "hi": 0.215,
+          "n_clusters": 400
+        }
+      },
+      "original random": {
+        "strict": {
+          "mean": 0.18666666666666665,
+          "lo": 0.16083333333333333,
+          "hi": 0.21333333333333335,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.2758333333333333,
+          "lo": 0.2475,
+          "hi": 0.305,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.08916666666666666,
+          "lo": 0.07166666666666666,
+          "hi": 0.1075,
+          "n_clusters": 400
+        }
+      },
+      "original CF": {
+        "strict": {
+          "mean": 0.505,
+          "lo": 0.455,
+          "hi": 0.5525,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.56,
+          "lo": 0.51,
+          "hi": 0.6075,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.055,
+          "lo": 0.0325,
+          "hi": 0.08,
+          "n_clusters": 400
+        }
+      },
+      "reversed L2R": {
+        "strict": {
+          "mean": 0.4,
+          "lo": 0.3525,
+          "hi": 0.4475,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.535,
+          "lo": 0.4875,
+          "hi": 0.5825,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.135,
+          "lo": 0.1025,
+          "hi": 0.17,
+          "n_clusters": 400
+        }
+      },
+      "reversed R2L": {
+        "strict": {
+          "mean": 0.04,
+          "lo": 0.0225,
+          "hi": 0.06,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.2525,
+          "lo": 0.21,
+          "hi": 0.295,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.2125,
+          "lo": 0.1725,
+          "hi": 0.255,
+          "n_clusters": 400
+        }
+      },
+      "reversed random": {
+        "strict": {
+          "mean": 0.1708333333333333,
+          "lo": 0.14664583333333334,
+          "hi": 0.19666666666666666,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.23666666666666664,
+          "lo": 0.21,
+          "hi": 0.26416666666666666,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.06583333333333333,
+          "lo": 0.05166666666666666,
+          "hi": 0.08083333333333333,
+          "n_clusters": 400
+        }
+      },
+      "reversed CF": {
+        "strict": {
+          "mean": 0.4775,
+          "lo": 0.4275,
+          "hi": 0.525,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.5225,
+          "lo": 0.4725,
+          "hi": 0.5725,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.045,
+          "lo": 0.025,
+          "hi": 0.0675,
+          "n_clusters": 400
+        }
+      }
+    }
   },
   "dream": {
     "rows": 4800,
     "schemas": [
       "original",
       "reversed"
-    ]
+    ],
+    "lenient": {
+      "original L2R": {
+        "strict": {
+          "mean": 0.775,
+          "lo": 0.735,
+          "hi": 0.815,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.7975,
+          "lo": 0.7575,
+          "hi": 0.8375,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.0225,
+          "lo": 0.0075,
+          "hi": 0.04,
+          "n_clusters": 400
+        }
+      },
+      "original R2L": {
+        "strict": {
+          "mean": 0.0625,
+          "lo": 0.04,
+          "hi": 0.0875,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.1225,
+          "lo": 0.09,
+          "hi": 0.155,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.06,
+          "lo": 0.0375,
+          "hi": 0.0825,
+          "n_clusters": 400
+        }
+      },
+      "original random": {
+        "strict": {
+          "mean": 0.15,
+          "lo": 0.12833333333333333,
+          "hi": 0.1725,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.18166666666666664,
+          "lo": 0.1575,
+          "hi": 0.20666666666666664,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.03166666666666667,
+          "lo": 0.020833333333333336,
+          "hi": 0.0425,
+          "n_clusters": 400
+        }
+      },
+      "original CF": {
+        "strict": {
+          "mean": 0.66,
+          "lo": 0.6125,
+          "hi": 0.7075,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.6775,
+          "lo": 0.63,
+          "hi": 0.7225,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.0175,
+          "lo": 0.005,
+          "hi": 0.0325,
+          "n_clusters": 400
+        }
+      },
+      "reversed L2R": {
+        "strict": {
+          "mean": 0.7875,
+          "lo": 0.7475,
+          "hi": 0.8275,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.8025,
+          "lo": 0.7625,
+          "hi": 0.84,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.015,
+          "lo": 0.0025,
+          "hi": 0.03,
+          "n_clusters": 400
+        }
+      },
+      "reversed R2L": {
+        "strict": {
+          "mean": 0.0275,
+          "lo": 0.0125,
+          "hi": 0.045,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.0625,
+          "lo": 0.04,
+          "hi": 0.0875,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.035,
+          "lo": 0.0175,
+          "hi": 0.055,
+          "n_clusters": 400
+        }
+      },
+      "reversed random": {
+        "strict": {
+          "mean": 0.1758333333333333,
+          "lo": 0.15,
+          "hi": 0.2025,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.19833333333333333,
+          "lo": 0.1725,
+          "hi": 0.225,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.0225,
+          "lo": 0.014166666666666666,
+          "hi": 0.03166666666666667,
+          "n_clusters": 400
+        }
+      },
+      "reversed CF": {
+        "strict": {
+          "mean": 0.6425,
+          "lo": 0.595,
+          "hi": 0.69,
+          "n_clusters": 400
+        },
+        "lenient": {
+          "mean": 0.665,
+          "lo": 0.6175,
+          "hi": 0.7125,
+          "n_clusters": 400
+        },
+        "diff": {
+          "mean": 0.0225,
+          "lo": 0.01,
+          "hi": 0.0375,
+          "n_clusters": 400
+        }
+      }
+    }
   }
 }

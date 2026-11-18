@@ -18,8 +18,9 @@ GROUPS = ('L2R', 'R2L', 'random', 'CF')
 CLASSES = ('correct', 'parse_error', 'wrong_function', 'wrong_count', 'argument_error')
 
 
-def load(trace, model):
-    t, s = BASE / 'traces' / f'{trace}-{model}.jsonl', BASE / 'scores' / f'{trace}-{model}.jsonl'
+def load(trace, model, lenient=False):
+    t = BASE / 'traces' / f'{trace}-{model}.jsonl'
+    s = BASE / 'scores' / f"{trace}-{model}{'-lenient' if lenient else ''}.jsonl"
     if not t.exists():
         return []          # block not run: reported as such, never as partial results (PREREG)
     if not s.exists():
@@ -165,7 +166,49 @@ def fn_rank_models(rows):
     return '\n'.join(out)
 
 
-def run(traces, sanity):
+CLASSES_SHORT = (('Parse valid', lambda r: r['parse_valid']), ('AST accuracy', lambda r: r['ast_valid']),
+                 ('Wrong function', lambda r: r['error_class'] == 'wrong_function'),
+                 ('Argument error', lambda r: r['error_class'] == 'argument_error'),
+                 ('Wrong count', lambda r: r['error_class'] == 'wrong_count'))
+
+
+def lenient_table(strict, lenient):
+    """Strict vs lenient AST accuracy per schema x order, paired by item (secondary score, PREREG addendum)."""
+    sa, la = item_means(strict, lambda r: r['ast_valid']), item_means(lenient, lambda r: r['ast_valid'])
+    ch = item_means(lenient, lambda r: r['lenient_changed'])
+    lines = ['| Schema | Order | Strict AST | Lenient AST | Lenient − strict | Outputs changed by the rules |', '|---|---|---:|---:|---:|---:|']
+    out = {}
+    for schema in ('original', 'reversed'):
+        for g in GROUPS + ('AR',):
+            k = (schema, g)
+            if k not in sa or k not in la:
+                continue
+            keys = sorted(sa[k].keys() & la[k].keys())
+            d = stats.paired_bootstrap([la[k][i] for i in keys], [sa[k][i] for i in keys], keys)
+            out[f'{schema} {g}'] = dict(strict=ci(sa[k]), lenient=ci(la[k]), diff=d)
+            lines.append(f'| {schema} | {g} | {stats.fmt(ci(sa[k]))} | {stats.fmt(ci(la[k]))} | {stats.fmt(d)} | {stats.fmt(ci(ch[k]))} |')
+    return '\n'.join(lines), out
+
+
+def reference_table(rows):
+    """AR reference: one order ('AR'); metrics per schema and the reversed - original difference."""
+    lines = ['| Schema | ' + ' | '.join(n for n, _ in CLASSES_SHORT) + ' | Hit length limit |', '|---|' + '---:|' * (len(CLASSES_SHORT) + 1)]
+    for schema in ('original', 'reversed'):
+        sub = [r for r in rows if r['schema'] == schema]
+        if sub:
+            cells = [stats.fmt(ci(item_means(sub, f)[(schema, 'AR')])) for _, f in CLASSES_SHORT]
+            lim = stats.fmt(ci(item_means(sub, lambda r: r['hit_length_limit'])[(schema, 'AR')]))
+            lines.append(f'| {schema} | ' + ' | '.join(cells) + f' | {lim} |')
+    acc = item_means(rows, lambda r: r['ast_valid'])
+    o, rv = acc.get(('original', 'AR'), {}), acc.get(('reversed', 'AR'), {})
+    keys = sorted(o.keys() & rv.keys())
+    if keys:
+        d = stats.paired_bootstrap([rv[k] for k in keys], [o[k] for k in keys], keys)
+        lines.append(f'\nReversed − original schema, AST accuracy: {stats.fmt(d)} ({len(keys)} items).')
+    return '\n'.join(lines)
+
+
+def run(traces, sanity, ar=None, ar_sanity=None):
     sections, summary = {}, {}
     for m in MODELS:
         loaded = {t: load(t, m) for t in traces}
@@ -182,6 +225,13 @@ def run(traces, sanity):
         sections[f'{m}: by category'] = category_table(rows)
         sections[f'{m}: EOS commit rank by order'] = eos_table(rows)
         sections[f'{m}: function-name commit rank vs wrong-function errors'] = fn_rank_models(rows)
+        len_rows = [r for t in traces if loaded[t] for r in load(t, m, lenient=True)]
+        if len_rows:
+            tab, out = lenient_table(rows, len_rows)
+            summary[m]['lenient'] = out
+            sections[f'{m}: secondary lenient-parse score (strict vs lenient)'] = tab
+            sections[f'{m}: lenient-parse order and schema contrasts'] = contrasts(len_rows)
+            sections[f'{m}: lenient-parse error classes'] = metric_table(len_rows)
     if sanity:
         lines = []
         for m in MODELS:
@@ -192,6 +242,24 @@ def run(traces, sanity):
                 lines.append(f'- {m}, CF, 100 live_simple items, JSON format: AST accuracy {stats.fmt(a)}, parse valid {stats.fmt(p)} '
                              f'(team reference for Dream greedy: about 64%).')
         sections['Harness sanity check'] = '\n'.join(lines)
+    if ar:
+        rows = load(ar, 'qwen')
+        if rows:
+            sections['Autoregressive reference (Qwen2.5-7B-Instruct, greedy): strict'] = (
+                f'Rows: {len(rows)}; hosts/GPUs {sorted({(r["meta"]["hostname"], r["meta"]["gpu_name"]) for r in rows})}. '
+                'Descriptive reference only: a different model and tokenizer, no order manipulation.\n\n' + reference_table(rows))
+            lrows = load(ar, 'qwen', lenient=True)
+            if lrows:
+                tab, out = lenient_table(rows, lrows)
+                summary['qwen'] = dict(rows=len(rows), lenient=out)
+                sections['Autoregressive reference: strict vs lenient'] = tab
+        else:
+            sections['Autoregressive reference (Qwen2.5-7B-Instruct, greedy): strict'] = 'Not run.'
+    if ar_sanity:
+        rows = load(ar_sanity, 'qwen')
+        if rows:
+            a = ci(item_means(rows, lambda r: r['ast_valid'])[('original', 'AR')])
+            sections['Autoregressive reference: sanity set'] = f'- qwen, greedy, 100 live_simple items, JSON format: AST accuracy {stats.fmt(a)}.'
     sections['Interpretation limits'] = '\n'.join([
         '- One commit per forward pass on a 64-token canvas; results are not comparable to standard (multi-token-per-step) diffusion decoding.',
         '- Function-name rank analyses are associations, not effects of the rank.',
@@ -208,8 +276,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--traces', default='test-orig,test-rev')
     ap.add_argument('--sanity', default=None)
+    ap.add_argument('--ar', default=None, help='AR reference trace (qwen), e.g. test-ar')
+    ap.add_argument('--ar-sanity', default=None)
     a = ap.parse_args()
-    run(a.traces.split(','), a.sanity)
+    run(a.traces.split(','), a.sanity, a.ar, a.ar_sanity)
 
 
 if __name__ == '__main__':

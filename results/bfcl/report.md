@@ -70,6 +70,47 @@ Rows: 1876 (CF and random orders, parseable, called name identified); wrong-func
 Mixed logistic (VB, random intercept per item): fn_rank log-odds +4.276 [+3.770, +4.783] (posterior mean ± 1.96 sd).
 GEE logistic (exchangeable within item): fn_rank log-odds +4.937 [+3.312, +6.562], p = 2.59e-09.
 
+## llada: secondary lenient-parse score (strict vs lenient)
+
+| Schema | Order | Strict AST | Lenient AST | Lenient − strict | Outputs changed by the rules |
+|---|---|---:|---:|---:|---:|
+| original | L2R | 41.2 [36.5, 46.0] | 55.2 [50.2, 60.2] | 14.0 [10.8, 17.5] | 17.2 [13.5, 21.0] |
+| original | R2L | 7.2 [4.8, 9.8] | 25.0 [20.8, 29.5] | 17.8 [14.0, 21.5] | 37.5 [32.8, 42.2] |
+| original | random | 18.7 [16.1, 21.3] | 27.6 [24.8, 30.5] | 8.9 [7.2, 10.8] | 20.5 [17.9, 23.2] |
+| original | CF | 50.5 [45.5, 55.2] | 56.0 [51.0, 60.8] | 5.5 [3.2, 8.0] | 12.0 [9.0, 15.2] |
+| reversed | L2R | 40.0 [35.2, 44.8] | 53.5 [48.8, 58.2] | 13.5 [10.2, 17.0] | 17.8 [14.0, 21.5] |
+| reversed | R2L | 4.0 [2.2, 6.0] | 25.2 [21.0, 29.5] | 21.2 [17.2, 25.5] | 41.2 [36.2, 46.0] |
+| reversed | random | 17.1 [14.7, 19.7] | 23.7 [21.0, 26.4] | 6.6 [5.2, 8.1] | 19.4 [17.2, 21.8] |
+| reversed | CF | 47.8 [42.8, 52.5] | 52.2 [47.2, 57.2] | 4.5 [2.5, 6.8] | 14.2 [10.8, 17.8] |
+
+## llada: lenient-parse order and schema contrasts
+
+| Contrast | Items | AST accuracy difference [95% CI] |
+|---|---:|---:|
+| original: R2L − L2R | 400 | -30.2 [-36.2, -24.0] |
+| original: random − L2R | 400 | -27.7 [-32.9, -22.3] |
+| original: CF − L2R | 400 | 0.8 [-5.5, 7.0] |
+| reversed: R2L − L2R | 400 | -28.2 [-34.5, -21.8] |
+| reversed: random − L2R | 400 | -29.8 [-34.8, -24.8] |
+| reversed: CF − L2R | 400 | -1.2 [-7.5, 4.8] |
+| L2R: reversed − original schema | 400 | -1.8 [-6.8, 3.2] |
+| R2L: reversed − original schema | 400 | 0.2 [-4.2, 4.8] |
+| random: reversed − original schema | 400 | -3.9 [-6.8, -1.2] |
+| CF: reversed − original schema | 400 | -3.8 [-8.5, 1.0] |
+
+## llada: lenient-parse error classes
+
+| Schema | Order | Parse valid | AST accuracy | Wrong function | Argument error | Wrong count | AST among parseable | Hit length limit |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| original | L2R | 87.0 [83.5, 90.2] | 55.2 [50.2, 60.2] | 0.5 [0.0, 1.2] | 14.0 [10.8, 17.5] | 17.2 [13.8, 21.0] | 63.5 [58.3, 68.7] | 0.0 [0.0, 0.0] |
+| original | R2L | 64.5 [59.8, 69.2] | 25.0 [20.8, 29.5] | 1.0 [0.2, 2.0] | 10.8 [7.8, 14.0] | 27.8 [23.5, 32.2] | 38.8 [32.9, 44.6] | 0.0 [0.0, 0.0] |
+| original | random | 69.2 [66.4, 72.1] | 27.6 [24.8, 30.5] | 2.9 [2.0, 3.8] | 30.7 [27.9, 33.4] | 8.1 [6.3, 9.9] | 39.8 [36.3, 43.6] | 0.0 [0.0, 0.0] |
+| original | CF | 88.5 [85.2, 91.5] | 56.0 [51.0, 60.8] | 2.2 [1.0, 3.8] | 15.5 [12.0, 19.2] | 14.8 [11.5, 18.2] | 63.3 [58.2, 68.1] | 0.0 [0.0, 0.0] |
+| reversed | L2R | 83.5 [79.8, 87.0] | 53.5 [48.8, 58.2] | 0.5 [0.0, 1.2] | 14.5 [11.2, 18.0] | 15.0 [11.8, 18.5] | 64.1 [59.0, 69.2] | 0.0 [0.0, 0.0] |
+| reversed | R2L | 63.7 [59.0, 68.2] | 25.2 [21.0, 29.5] | 3.5 [1.8, 5.5] | 9.0 [6.2, 11.8] | 26.0 [21.8, 30.2] | 39.6 [33.7, 45.9] | 0.0 [0.0, 0.0] |
+| reversed | random | 69.8 [66.9, 72.7] | 23.7 [21.0, 26.4] | 2.0 [1.2, 2.8] | 33.5 [30.6, 36.5] | 10.6 [8.6, 12.7] | 33.9 [30.4, 37.5] | 0.0 [0.0, 0.0] |
+| reversed | CF | 87.0 [83.5, 90.2] | 52.2 [47.2, 57.2] | 3.2 [1.5, 5.0] | 17.2 [13.8, 21.0] | 14.2 [11.0, 17.8] | 60.1 [54.9, 65.2] | 0.0 [0.0, 0.0] |
+
 ## dream: metrics by schema and order
 
 Rows: 4800; schemas: ['original', 'reversed'].
@@ -139,6 +180,47 @@ Rows: 4800; schemas: ['original', 'reversed'].
 Rows: 1776 (CF and random orders, parseable, called name identified); wrong-function rate 0.021.
 Mixed logistic (VB, random intercept per item): fn_rank log-odds +2.575 [+1.906, +3.243] (posterior mean ± 1.96 sd).
 GEE logistic (exchangeable within item): fn_rank log-odds +3.224 [+1.262, +5.185], p = 0.00128.
+
+## dream: secondary lenient-parse score (strict vs lenient)
+
+| Schema | Order | Strict AST | Lenient AST | Lenient − strict | Outputs changed by the rules |
+|---|---|---:|---:|---:|---:|
+| original | L2R | 77.5 [73.5, 81.5] | 79.8 [75.8, 83.8] | 2.2 [0.8, 4.0] | 14.2 [11.0, 17.8] |
+| original | R2L | 6.2 [4.0, 8.8] | 12.2 [9.0, 15.5] | 6.0 [3.8, 8.2] | 16.0 [12.5, 19.5] |
+| original | random | 15.0 [12.8, 17.2] | 18.2 [15.8, 20.7] | 3.2 [2.1, 4.2] | 19.2 [16.8, 21.6] |
+| original | CF | 66.0 [61.3, 70.8] | 67.8 [63.0, 72.2] | 1.8 [0.5, 3.2] | 8.0 [5.5, 10.8] |
+| reversed | L2R | 78.8 [74.8, 82.8] | 80.2 [76.2, 84.0] | 1.5 [0.2, 3.0] | 11.8 [8.8, 15.0] |
+| reversed | R2L | 2.8 [1.2, 4.5] | 6.2 [4.0, 8.8] | 3.5 [1.8, 5.5] | 7.0 [4.5, 9.8] |
+| reversed | random | 17.6 [15.0, 20.2] | 19.8 [17.2, 22.5] | 2.2 [1.4, 3.2] | 17.4 [15.2, 19.6] |
+| reversed | CF | 64.2 [59.5, 69.0] | 66.5 [61.8, 71.2] | 2.2 [1.0, 3.8] | 5.8 [3.5, 8.2] |
+
+## dream: lenient-parse order and schema contrasts
+
+| Contrast | Items | AST accuracy difference [95% CI] |
+|---|---:|---:|
+| original: R2L − L2R | 400 | -67.5 [-72.2, -62.5] |
+| original: random − L2R | 400 | -61.6 [-66.1, -57.1] |
+| original: CF − L2R | 400 | -12.0 [-17.5, -6.5] |
+| reversed: R2L − L2R | 400 | -74.0 [-78.2, -69.2] |
+| reversed: random − L2R | 400 | -60.4 [-64.8, -56.0] |
+| reversed: CF − L2R | 400 | -13.8 [-19.5, -7.8] |
+| L2R: reversed − original schema | 400 | 0.5 [-2.5, 3.2] |
+| R2L: reversed − original schema | 400 | -6.0 [-9.0, -3.0] |
+| random: reversed − original schema | 400 | 1.7 [-1.0, 4.3] |
+| CF: reversed − original schema | 400 | -1.2 [-6.8, 4.2] |
+
+## dream: lenient-parse error classes
+
+| Schema | Order | Parse valid | AST accuracy | Wrong function | Argument error | Wrong count | AST among parseable | Hit length limit |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| original | L2R | 90.2 [87.2, 93.0] | 79.8 [75.8, 83.8] | 0.0 [0.0, 0.0] | 8.5 [6.0, 11.2] | 2.0 [0.8, 3.5] | 88.4 [84.8, 91.7] | 0.2 [0.0, 0.8] |
+| original | R2L | 68.0 [63.5, 72.5] | 12.2 [9.0, 15.5] | 1.5 [0.5, 2.8] | 3.0 [1.5, 4.8] | 51.2 [46.5, 56.2] | 18.0 [13.6, 22.8] | 0.0 [0.0, 0.0] |
+| original | random | 52.1 [49.2, 55.0] | 18.2 [15.8, 20.7] | 2.5 [1.6, 3.5] | 30.9 [28.3, 33.5] | 0.5 [0.2, 0.9] | 34.9 [30.8, 38.9] | 0.2 [0.0, 0.4] |
+| original | CF | 89.2 [86.2, 92.2] | 67.8 [63.0, 72.2] | 0.8 [0.0, 1.8] | 20.2 [16.2, 24.2] | 0.5 [0.0, 1.2] | 75.9 [71.4, 80.4] | 0.0 [0.0, 0.0] |
+| reversed | L2R | 91.2 [88.5, 94.0] | 80.2 [76.2, 84.0] | 0.0 [0.0, 0.0] | 9.8 [7.0, 12.8] | 1.2 [0.2, 2.5] | 87.9 [84.7, 91.2] | 0.0 [0.0, 0.0] |
+| reversed | R2L | 69.0 [64.5, 73.5] | 6.2 [4.0, 8.8] | 1.2 [0.2, 2.5] | 1.8 [0.5, 3.0] | 59.8 [55.0, 64.5] | 9.1 [5.8, 12.7] | 0.0 [0.0, 0.0] |
+| reversed | random | 53.4 [50.2, 56.7] | 19.8 [17.2, 22.5] | 1.9 [1.2, 2.7] | 31.2 [28.4, 34.2] | 0.4 [0.1, 0.8] | 37.1 [33.0, 41.3] | 0.0 [0.0, 0.0] |
+| reversed | CF | 92.0 [89.2, 94.5] | 66.5 [61.8, 71.2] | 0.5 [0.0, 1.2] | 24.5 [20.2, 28.7] | 0.5 [0.0, 1.2] | 72.3 [67.7, 76.9] | 0.0 [0.0, 0.0] |
 
 ## Harness sanity check
 
